@@ -1,3 +1,4 @@
+"use strict";
 /*
    Achtung - wichtige Hinweise:
    -----------------------------------------------------------------------------
@@ -15,7 +16,11 @@
 */
 // Settings:
 //hier muss jeder seinen eigenen path angeben
+<<<<<<< HEAD
 var restServer = "http://localhost:80/SS2021/Abschlussprojekt/Pr2/web/Backend/serviceHandler.php";
+=======
+var restServer = "http://localhost/SS2021/Abschlussprojekt/Pr2/web/Backend/serviceHandler.php";
+>>>>>>> 46bfff431e0d13e2663048acc05cc3418770002b
 $.getJSON(restServer, { 'method': 'queryPersons' }, function (data) {
     $('#mainpart').text(JSON.stringify(data));
 });
