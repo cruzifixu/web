@@ -19,11 +19,7 @@
 
 // Settings:
 //hier muss jeder seinen eigenen path angeben
-<<<<<<< HEAD
 let restServer: string = "http://localhost:80/SS2021/Abschlussprojekt/Pr2/web/Backend/serviceHandler.php";
-=======
-let restServer: string = "http://localhost/SS2021/Abschlussprojekt/Pr2/web/Backend/serviceHandler.php";
->>>>>>> 46bfff431e0d13e2663048acc05cc3418770002b
 $.getJSON(restServer,
           {'method':'queryPersons'},
           function( data:object ) {
