@@ -20,6 +20,7 @@
 // Settings:
 //hier muss jeder seinen eigenen path angeben
 let restServer: string = "http://localhost:80/SS2021/Abschlussprojekt/Pr2/web/Backend/serviceHandler.php";
+
 <<<<<<< HEAD
 =======
 
