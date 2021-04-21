@@ -7,6 +7,7 @@ body {
 
 
 /*Sind die */
+
 .appointmentListe {
     list-style-type: none; /*Remove Bullets*/
     background-color: rgb(245, 245, 245);
@@ -22,14 +23,14 @@ body {
     margin: auto;
     margin-top: 2em;
     width: 50%;
-    border: 3px solid rgb(0, 64, 128);
-    padding: 40px;
-
+    border: 3px solid green;
+    padding: 10px;
 }
 
 .hiddenInhalt {
     display: none;
 }
+
 
 /*.namensFeld {
     height: 50px;
