@@ -15,10 +15,11 @@
 */
 // Settings:
 //hier muss jeder seinen eigenen path angeben
-var restServer = "http://localhost:80/SS2021/Abschlussprojekt/Pr2/web/Backend/serviceHandler.php";
-$.getJSON(restServer, { 'method': 'queryPersons' }, function (data) {
+var restServer = "http://localhost/SS2021/Abschlussprojekt/Pr2/web/Backend/serviceHandler.php";
+$.getJSON(restServer, { 'method': 'queryPersons' }, function(data) {
     $('#mainpart').text(JSON.stringify(data));
 });
+
 function showAppointments() {
     //let node = document.getElementById('mainpart');
     var ul = document.getElementById("mainpart");
@@ -26,7 +27,7 @@ function showAppointments() {
     var text = $('#mainpart').text();
     //split the text
     var res = text.split("}");
-    var _loop_1 = function (i) {
+    var _loop_1 = function(i) {
         var id = i; //nur daweil
         //------------------LI OBJEKT ERSTELLEN------------------
         //für jedes Element aus i wird ein li objekt erstellt
@@ -37,8 +38,7 @@ function showAppointments() {
         var title = [];
         if (i == 0) {
             title = split[1].split(":");
-        }
-        else {
+        } else {
             title = split[2].split(":");
         }
         itemText = document.createTextNode(title[1]);
@@ -64,7 +64,7 @@ function showAppointments() {
         //-----------------------FUNCTIONALITY---------------------
         //onlick event für die Detailansicht
         item.appendChild(inhalt); //add the div
-        item.addEventListener("click", function () {
+        item.addEventListener("click", function() {
             viewDetails(id);
         });
         ul === null || ul === void 0 ? void 0 : ul.appendChild(item);
@@ -76,8 +76,11 @@ function showAppointments() {
     //after all that empty the mainpart
     //$('#mainpart').text(" ");
 }
+
 function viewDetails(id) {
     //does a toggle and adds every new detail
     //get the event target
     $("." + id).slideDown();
 }
+
+console.log("hello");
