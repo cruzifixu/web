@@ -33,7 +33,15 @@ function showAppointments() {
         var item = document.createElement("li");
         item.setAttribute("id", "" + i + "");
         item.setAttribute("class", "appointmentListe"); //Klasse für weitere Css anpassungen
-        itemText = document.createTextNode(res[i]);
+        var split = res[i].split(",");
+        var title = [];
+        if (i == 0) {
+            title = split[1].split(":");
+        }
+        else {
+            title = split[2].split(":");
+        }
+        itemText = document.createTextNode(title[1]);
         item.appendChild(itemText);
         //-----------------------HIDDEN DIV------------------------
         //create hidden element where the details are shown

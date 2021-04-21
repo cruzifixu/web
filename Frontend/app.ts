@@ -43,7 +43,15 @@ $.getJSON(restServer,
          let item = document.createElement("li") as HTMLElement;
          item.setAttribute("id", ""+i+"");
          item.setAttribute("class", "appointmentListe"); //Klasse für weitere Css anpassungen
-         var itemText = document.createTextNode(res[i]);
+         let split = res[i].split(",");
+         let title = [];
+         if(i == 0){
+            title = split[1].split(":");
+         } else {
+            title = split[2].split(":");
+         }
+         
+         var itemText = document.createTextNode(title[1]);
          item.appendChild(itemText);
 
 
