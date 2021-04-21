@@ -29,11 +29,18 @@ class DataHandler
     //get all Appointment
     public function queryPersons()
     {
-        $res =  $this->getDemoData();
-        return $res;
+        $sql = "SELECT * FROM appointments";
+        $stmt = $this->connect()->query($sql);
+        $row = $stmt->num_rows;
+        if ($row > 0) {
+            while ($row = $stmt->fetch_assoc()) {
+                $data[] = $row;
+            }
+            return $data;
+        }
     }
 
-
+    
     public function queryPersonById($id)
     {
         $result = array();
