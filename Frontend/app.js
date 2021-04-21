@@ -1,3 +1,4 @@
+"use strict";
 /*
    Achtung - wichtige Hinweise:
    -----------------------------------------------------------------------------
@@ -15,7 +16,7 @@
 */
 // Settings:
 //hier muss jeder seinen eigenen path angeben
-var restServer = "http://localhost:80/SS2021/Abschlussprojekt/Pr/Backend/serviceHandler.php";
+var restServer = "http://localhost/SS2021/Abschlussprojekt/Pr2/web/Backend/serviceHandler.php";
 $.getJSON(restServer, { 'method': 'queryPersons' }, function (data) {
     $('#mainpart').text(JSON.stringify(data));
 });
@@ -28,14 +29,37 @@ function showAppointments() {
     var res = text.split("]");
     var _loop_1 = function (i) {
         var id = i; //nur daweil
+        //------------------LI OBJEKT ERSTELLEN------------------
         //für jedes Element aus i wird ein li objekt erstellt
         var item = document.createElement("li");
         item.setAttribute("id", "" + i + "");
         item.setAttribute("class", "appointmentListe"); //Klasse für weitere Css anpassungen
         itemText = document.createTextNode(res[i]);
         item.appendChild(itemText);
+        //-----------------------HIDDEN DIV------------------------
+        //create hidden element where the details are shown
+        var inhalt = document.createElement("div");
+        //drinnen stehen alle termine und es ist nicht 
+        inhalt.setAttribute("class", "hiddenInhalt " + i); //hidden => not displayed
+        //was brauchen wir in dem div ??
+        //Input => für den Namen
+        var input = document.createElement("input");
+        input.setAttribute("class", "namensFeld");
+        //Termin Select
+        var selectDate = document.createElement("select");
+        //für jeden Termin wird jetzt eine option erstellt und an selectDate gehängt
+        /*for( ){
+           let option = document.createElement("option") as HTMLElement;
+           //Eigenschaften
+           selectDate.append(option);
+        }*/
+        inhalt.appendChild(input);
+        //-----------------------FUNCTIONALITY---------------------
         //onlick event für die Detailansicht
-        item.addEventListener("click", function () { viewDetails(id); });
+        item.appendChild(inhalt); //add the div
+        item.addEventListener("click", function () {
+            viewDetails(id);
+        });
         ul === null || ul === void 0 ? void 0 : ul.appendChild(item);
     };
     var itemText;
@@ -48,5 +72,5 @@ function showAppointments() {
 function viewDetails(id) {
     //does a toggle and adds every new detail
     //get the event target
-    $("#" + id).slideDown();
+    $("." + id).slideDown();
 }
