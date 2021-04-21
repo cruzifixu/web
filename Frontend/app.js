@@ -22,6 +22,7 @@ $.getJSON(restServer, { 'method': 'queryPersons' }, function(data) {
 
 function showAppointments() {
     //let node = document.getElementById('mainpart');
+    //alert("Hallo");
     var ul = document.getElementById("mainpart");
     //get the content from the mainpart and put it in there 
     var text = $('#mainpart').text();
@@ -52,6 +53,7 @@ function showAppointments() {
         //Input => für den Namen
         var input = document.createElement("input");
         input.setAttribute("class", "namensFeld");
+        input.setAttribute("placeholder", "Name...");
         //Termin Select
         var selectDate = document.createElement("select");
         //für jeden Termin wird jetzt eine option erstellt und an selectDate gehängt
