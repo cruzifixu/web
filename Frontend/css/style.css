@@ -5,3 +5,11 @@ body {
 .appointmentListe {
     background-color: azure;
 }
+
+.hiddenInhalt {
+    display: none;
+}
+
+/*.namensFeld {
+    height: 50px;
+}*/
