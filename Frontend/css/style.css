@@ -2,8 +2,17 @@ body {
     background-color: rgb(172, 153, 153);
 }
 
+
+/*Sind die */
 .appointmentListe {
     background-color: azure;
+    font-weight: bold;
+    /*Put in the Middle*/
+    margin: auto;
+    width: 50%;
+    border: 3px solid green;
+    padding: 10px;
+
 }
 
 .hiddenInhalt {

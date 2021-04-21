@@ -29,6 +29,7 @@ $.getJSON(restServer,
 
     function showAppointments(){
       //let node = document.getElementById('mainpart');
+      alert("Hallo");
       const ul = document.getElementById("mainpart");
       //get the content from the mainpart and put it in there 
       let text = $('#mainpart').text();
