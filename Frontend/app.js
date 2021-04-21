@@ -1,4 +1,3 @@
-"use strict";
 /*
    Achtung - wichtige Hinweise:
    -----------------------------------------------------------------------------
@@ -16,11 +15,7 @@
 */
 // Settings:
 //hier muss jeder seinen eigenen path angeben
-<<<<<<< HEAD
 var restServer = "http://localhost:80/SS2021/Abschlussprojekt/Pr2/web/Backend/serviceHandler.php";
-=======
-var restServer = "http://localhost/SS2021/Abschlussprojekt/Pr2/web/Backend/serviceHandler.php";
->>>>>>> 46bfff431e0d13e2663048acc05cc3418770002b
 $.getJSON(restServer, { 'method': 'queryPersons' }, function (data) {
     $('#mainpart').text(JSON.stringify(data));
 });
@@ -30,7 +25,7 @@ function showAppointments() {
     //get the content from the mainpart and put it in there 
     var text = $('#mainpart').text();
     //split the text
-    var res = text.split("]");
+    var res = text.split("}");
     var _loop_1 = function (i) {
         var id = i; //nur daweil
         //------------------LI OBJEKT ERSTELLEN------------------
@@ -67,7 +62,7 @@ function showAppointments() {
         ul === null || ul === void 0 ? void 0 : ul.appendChild(item);
     };
     var itemText;
-    for (var i = 0; i < res.length - 2; i++) {
+    for (var i = 0; i < res.length - 1; i++) {
         _loop_1(i);
     }
     //after all that empty the mainpart

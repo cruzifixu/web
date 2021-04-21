@@ -33,8 +33,8 @@ $.getJSON(restServer,
       //get the content from the mainpart and put it in there 
       let text = $('#mainpart').text();
       //split the text
-      let res = text.split("]");
-      for(let i = 0; i < res.length-2; i++){
+      let res = text.split("}");
+      for(let i = 0; i < res.length-1; i++){
          const id = i; //nur daweil
 
 

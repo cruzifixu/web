@@ -40,7 +40,7 @@ class DataHandler
         }
     }
 
-    
+
     public function queryPersonById($id)
     {
         $result = array();
@@ -56,7 +56,7 @@ class DataHandler
     {
         $result = array();
         foreach ($this->queryPersons() as $val) {
-            if ($val[0]->name == $name) {
+            if ($val[0]->title == $name) {
                 array_push($result, $val);
             }
         }
