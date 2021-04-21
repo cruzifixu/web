@@ -1,17 +1,29 @@
 body {
-    background-color: rgb(172, 153, 153);
+    background-color: rgb(171, 196, 231);
+    background-image: url(https://data.whicdn.com/images/260822101/original.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 
 /*Sind die */
 .appointmentListe {
-    background-color: azure;
+    list-style-type: none; /*Remove Bullets*/
+    background-color: rgb(245, 245, 245);
+    background-image: url(https://wallpaperaccess.com/full/705820.jpg);
+
+    /*FONT*/
     font-weight: bold;
+    text-align: center;
+    text-transform:uppercase;
+
+    
     /*Put in the Middle*/
     margin: auto;
+    margin-top: 2em;
     width: 50%;
-    border: 3px solid green;
-    padding: 10px;
+    border: 3px solid rgb(0, 64, 128);
+    padding: 40px;
 
 }
 
