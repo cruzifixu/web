@@ -5,9 +5,6 @@ body {
     background-size: cover;
 }
 
-
-/*Sind die */
-
 .appointmentListe {
     opacity: 0.8;
     list-style-type: none; /*Remove Bullets*/
@@ -37,6 +34,30 @@ body {
     display: none;
 }
 
+.plusButton {
+    background-color: rgb(79, 117, 171);
+    height: 4em; 
+    width: 4em; 
+    transition: width 0.4s ease-in-out;
+    border-radius: 50px;
+    margin-left: 2em;
+    margin-top: 2em;
+    margin-bottom: 2em;
+}
+
+.plusButton:hover {
+    width: 8em;
+    content-visibility: none;
+}
+
+.plusButton:hover span {
+    display:none
+}
+  
+.plusButton:hover:before {
+    content:"ADD!";
+    font-weight: bold;
+}
 
 .namensFeld {
     float: left;
@@ -46,6 +67,58 @@ body {
     border-bottom: 2px solid gray;
     outline: 0;
     font-size: 1.3rem;
-    padding: 7px 0;
     background: transparent;
+    text-transform:uppercase;
+}
+
+.formTitle {
+    font-weight: bold;
+    color: rgb(79, 117, 171);
+    -webkit-text-stroke: 1px rgb(14, 13, 13);
+}
+
+.createAttribute {
+    background: transparent;
+    width: 100%;
+    border: 0;
+    border-bottom: 2px solid gray;
+    height: 3em;
+    font-size: 1rem;
+    text-transform:uppercase;
+    outline: 0;
+}
+
+.createAttribute:focus
+{
+    border: rgb(79, 117, 171);
+}
+
+.divForm 
+{
+    background-color: rgb(245, 245, 245);
+    background-image: url(https://images.pngnice.com/download/2007/My-Neighbor-Totoro-PNG-File.png);
+    border: 5px solid rgb(79, 117, 171, 0.4);
+    opacity: 0.6;
+    border-radius: 15px;
+}
+
+.divForm:hover {
+    opacity: 0.8;
+    border: 5px solid rgb(79, 117, 171, 1);
+}
+
+.submit {
+    margin-top: 2em;
+    margin-bottom: 2em;
+    background-color: rgb(79, 117, 171);
+    height: 4em; 
+    width: 4em; 
+    border-radius: 50px;
+    transition: width 0.4s ease-in-out;
+}
+
+.submit:hover {
+    opacity: 1;
+    width: 5em;
+    font-weight: bold;
 }

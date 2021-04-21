@@ -1,3 +1,4 @@
+"use strict";
 /*
    Achtung - wichtige Hinweise:
    -----------------------------------------------------------------------------
@@ -19,12 +20,42 @@ var restServer = "http://localhost:80/SS2021/Abschlussprojekt/Pr2/web/Backend/se
 $.getJSON(restServer, { 'method': 'queryPersons' }, function (data) {
     $('#mainpart').text(JSON.stringify(data));
 });
+var form = document.createElement("form");
+form.setAttribute("id", "hiddenForm"); //thats how to get the form
 function showAppointments() {
     //let node = document.getElementById('mainpart');
     //alert("Hallo");
     var ul = document.getElementById("mainpart");
     //get the content from the mainpart and put it in there 
     var text = $('#mainpart').text();
+    $('#mainpart').text(" ");
+    var body = document.getElementById("mainpart");
+    //make a button => expands smth on click
+    var plusButton = document.createElement("button");
+    var span = document.createElement("span");
+    var buttonText = document.createTextNode("+");
+    span.appendChild(buttonText);
+    plusButton.addEventListener("click", showForm);
+    plusButton.setAttribute("class", "plusButton");
+    plusButton.appendChild(span);
+    body === null || body === void 0 ? void 0 : body.appendChild(plusButton);
+    //make appointment ist verbunden mit dem oben gebildeteten Button
+    var div = document.createElement("div");
+    div.setAttribute("class", "hiddenInhalt container divForm");
+    div.setAttribute("id", "divForm");
+    var title = document.createElement("h1");
+    var titleInhalt = document.createTextNode("Create Appointment");
+    title.setAttribute("class", "formTitle");
+    title.appendChild(titleInhalt);
+    //function to make the fields
+    createInputs("text", "Titel: ");
+    createInputs("text", "Ort: ");
+    createInputs("date", "Ablaufdatum: ");
+    createInputs("date", "Datum: ");
+    createInputs("submit", "Submit");
+    div.appendChild(title);
+    div === null || div === void 0 ? void 0 : div.appendChild(form);
+    body === null || body === void 0 ? void 0 : body.appendChild(div);
     //split the text
     var res = text.split("}");
     var _loop_1 = function (i) {
@@ -35,14 +66,14 @@ function showAppointments() {
         item.setAttribute("id", "" + i + "");
         item.setAttribute("class", "appointmentListe"); //Klasse für weitere Css anpassungen
         var split = res[i].split(",");
-        var title = [];
+        var title_1 = [];
         if (i == 0) {
-            title = split[1].split(":");
+            title_1 = split[1].split(":");
         }
         else {
-            title = split[2].split(":");
+            title_1 = split[2].split(":");
         }
-        itemText = document.createTextNode(title[1]);
+        itemText = document.createTextNode(title_1[1]);
         item.appendChild(itemText);
         //-----------------------HIDDEN DIV------------------------
         //create hidden element where the details are shown
@@ -50,19 +81,24 @@ function showAppointments() {
         //drinnen stehen alle termine und es ist nicht 
         inhalt.setAttribute("class", "hiddenInhalt " + i); //hidden => not displayed
         //was brauchen wir in dem div ??
+        //-------------------------FORMULAR------------------------
         //Input => für den Namen
+        var formular = document.createElement("form");
+        formular.setAttribute("class", "formTermine");
+        formular.setAttribute("method", "get");
+        //send this to some source
+        //formular.setAttribute("action", ".php");
         var input = document.createElement("input");
         input.setAttribute("class", "namensFeld");
         input.setAttribute("placeholder", "Name...");
-        //Termin Select
-        var selectDate = document.createElement("select");
         //für jeden Termin wird jetzt eine option erstellt und an selectDate gehängt
         /*for( ){
            let option = document.createElement("option") as HTMLElement;
            //Eigenschaften
            selectDate.append(option);
         }*/
-        inhalt.appendChild(input);
+        formular.appendChild(input);
+        inhalt.appendChild(formular);
         //-----------------------FUNCTIONALITY---------------------
         //onlick event für die Detailansicht
         item.appendChild(inhalt); //add the div
@@ -82,4 +118,28 @@ function viewDetails(id) {
     //does a toggle and adds every new detail
     //get the event target
     $("." + id).slideDown();
+}
+function showForm() {
+    $(".divForm").slideToggle();
+}
+function createInputs(type, labelName) {
+    //type => ... dame, date, checkbox etc. 
+    var input = document.createElement("input");
+    input.setAttribute("class", "createAttribute");
+    input.setAttribute("placeholder", labelName);
+    /*const label = document.createElement("label");
+    label.textContent = labelName;
+    label.setAttribute("class", "labelName");
+    form?.appendChild(label);*/
+    if (type == "text")
+        input.type = "text";
+    if (type == "date")
+        input.type = "date";
+    if (type == "submit") {
+        input.type = "submit";
+        input.classList.remove("createAttribute");
+        input.classList.add("submit");
+    }
+    //always appendChild at the end
+    form === null || form === void 0 ? void 0 : form.appendChild(input);
 }
