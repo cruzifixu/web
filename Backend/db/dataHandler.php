@@ -1,9 +1,33 @@
 <?php
 include("./models/person.php");
+
 class DataHandler
 {
 
-   public function queryPersons()
+    //unsere DB
+    private $servername;
+    private $serveruser;
+    private $serverpwd;
+    private $dbname;
+
+    private function connect()
+    {
+        $this->servername = "localhost";
+        $this->serveruser = "bif2webscriptinguser";
+        $this->serverpwd = "bif2021";
+        $this->dbname = "bif2webscriptinguser";
+
+        //Verbdingungsaufbau
+        $connection = new mysqli($this->servername, $this->serveruser, $this->serverpwd, $this->dbname);
+        //connection failed?
+        if (!$connection) {
+            die("Connection failed: " . mysqli_connect_error());
+        }
+        return $connection;
+    }
+
+    //get all Appointment
+    public function queryPersons()
     {
         $res =  $this->getDemoData();
         return $res;
