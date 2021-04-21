@@ -4,6 +4,7 @@ body {
 
 
 /*Sind die */
+
 .appointmentListe {
     background-color: azure;
     font-weight: bold;
@@ -12,12 +13,12 @@ body {
     width: 50%;
     border: 3px solid green;
     padding: 10px;
-
 }
 
 .hiddenInhalt {
     display: none;
 }
+
 
 /*.namensFeld {
     height: 50px;

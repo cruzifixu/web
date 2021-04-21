@@ -97,7 +97,3 @@ $.getJSON(restServer,
          $("."+id).slideDown();
       }
 
-
-
-   
-
