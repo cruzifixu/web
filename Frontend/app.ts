@@ -15,8 +15,6 @@
              Header set Access-Control-Allow-Origin "*"
 */
 
-
-
 // Settings:
 //hier muss jeder seinen eigenen path angeben
 let restServer: string = "http://localhost:80/SS2021/Abschlussprojekt/Pr2/web/Backend/serviceHandler.php";
@@ -131,7 +129,7 @@ $.getJSON(restServer,
    {'method':'queryTermine'},
    function( data:any ) {
          //create new div in body
-         $('#body').append("<div id='termine'></div>");
+         $('#body').append("<div id='termine'></div>"); //nur zwischen div für den text
 
          $('#termine').text(JSON.stringify(data));
          let text = $('#termine').text();
@@ -153,9 +151,32 @@ $.getJSON(restServer,
 
          //namensfeld hinzufügen
 
-
          //submit button hinzufügen => alles über ajax machen
    });
+
+//-------------------------------------COMPLETED FORM-----------------------------------------
+$.getJSON(restServer, 
+   {'method':'getAppointmentTitle'}, 
+   function( data:any )
+   {
+      $('#body').append("<div id='titel'></div>"); //nur zwischen div für den text
+
+      $('#titel').text(JSON.stringify(data));
+      let text = $('#titel').text();
+      $('#titel').text(" ");
+      //Termine werden als select dargestellte
+      //Jquery statt dom verwenden => weniger arbeit 
+      const res = text.split("}");
+      for(let i = 0; i < res.length; i++){
+         //einfügen von namensfeldern
+         $('#'+data[i].title+" > .formTermine").append("<input type='text' class='namensFeld' placeholder='Name...'>");
+         //einfügen von Kommentar Feld
+         
+         //einfügen von Submit Button
+         
+      }
+   }
+);
 
 
 //---------------------------------------FUNKTIONEN--------------------------------------------

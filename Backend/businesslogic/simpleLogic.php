@@ -27,6 +27,10 @@ class SimpleLogic
                 $res = $this->dh->queryTermine();
                 break;
 
+            case "getAppointmentTitle":
+                $res = $this->dh->queryTitles();
+                break;
+
             default:
                 $res = null;
                 break;

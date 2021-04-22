@@ -108,7 +108,7 @@ $.getJSON(restServer, { 'method': 'queryPersons' }, function (data) {
 //--------------------------------DISPLAY THE HIDDEN DETAILS----------------------------------
 $.getJSON(restServer, { 'method': 'queryTermine' }, function (data) {
     //create new div in body
-    $('#body').append("<div id='termine'></div>");
+    $('#body').append("<div id='termine'></div>"); //nur zwischen div für den text
     $('#termine').text(JSON.stringify(data));
     var text = $('#termine').text();
     $('#termine').text(" ");
@@ -129,6 +129,20 @@ $.getJSON(restServer, { 'method': 'queryTermine' }, function (data) {
     }
     //namensfeld hinzufügen
     //submit button hinzufügen => alles über ajax machen
+});
+//-------------------------------------COMPLETED FORM-----------------------------------------
+$.getJSON(restServer, { 'method': 'getAppointmentTitle' }, function (data) {
+    $('#body').append("<div id='titel'></div>"); //nur zwischen div für den text
+    $('#titel').text(JSON.stringify(data));
+    var text = $('#titel').text();
+    $('#titel').text(" ");
+    //Termine werden als select dargestellte
+    //Jquery statt dom verwenden => weniger arbeit 
+    var res = text.split("}");
+    for (var i = 0; i < res.length; i++) {
+        //einfügen von namensfeldern
+        $('#' + data[i].title + " > .formTermine").append("<input type='text' class='namensFeld' placeholder='Name...'>");
+    }
 });
 //---------------------------------------FUNKTIONEN--------------------------------------------
 var form = document.createElement("form");

@@ -53,6 +53,20 @@ class DataHandler
         }
     }
 
+    public function queryTitles()
+    {
+        //get all the Appointment Titles
+        $sql = "SELECT title FROM appointments";
+        $stmt = $this->connect()->query($sql);
+        $row = $stmt->num_rows;
+        if ($row > 0) {
+            while ($row = $stmt->fetch_assoc()) {
+                $data[] = $row;
+            }
+            return $data;
+        }
+    }
+
 
     public function queryPersonById($id)
     {
