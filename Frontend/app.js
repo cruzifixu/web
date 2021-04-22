@@ -17,12 +17,9 @@
 // Settings:
 //hier muss jeder seinen eigenen path angeben
 var restServer = "http://localhost:80/SS2021/Abschlussprojekt/Pr2/web/Backend/serviceHandler.php";
+//----------------------------------DISPLAY THE APPOINTMENTS---------------------------------
 $.getJSON(restServer, { 'method': 'queryPersons' }, function (data) {
     $('#mainpart').text(JSON.stringify(data));
-});
-var form = document.createElement("form");
-form.setAttribute("id", "hiddenForm"); //thats how to get the form
-function showAppointments() {
     //let node = document.getElementById('mainpart');
     //alert("Hallo");
     var ul = document.getElementById("mainpart");
@@ -57,47 +54,43 @@ function showAppointments() {
     div === null || div === void 0 ? void 0 : div.appendChild(form);
     body === null || body === void 0 ? void 0 : body.appendChild(div);
     //split the text
-    var res = text.split("}");
+    var res = text.split("}"); //nur um zu schauen wie viele objekte da sind
     var _loop_1 = function (i) {
-        var id = i; //nur daweil
+        var id = i.toString(); //nur daweil
         //------------------LI OBJEKT ERSTELLEN------------------
         //für jedes Element aus i wird ein li objekt erstellt
         var item = document.createElement("li");
-        item.setAttribute("id", "" + i + "");
+        item.setAttribute("id", id);
         item.setAttribute("class", "appointmentListe"); //Klasse für weitere Css anpassungen
-        var split = res[i].split(",");
-        var title_1 = [];
-        if (i == 0) {
-            title_1 = split[1].split(":");
-        }
-        else {
-            title_1 = split[2].split(":");
-        }
-        itemText = document.createTextNode(title_1[1]);
-        item.appendChild(itemText);
+        var title_1 = document.createElement("h1");
+        var titleInhalt_1 = document.createTextNode(data[i].title);
+        title_1.setAttribute("class", "appointmentTitle");
+        title_1.appendChild(titleInhalt_1);
+        item.appendChild(title_1);
         //-----------------------HIDDEN DIV------------------------
         //create hidden element where the details are shown
         var inhalt = document.createElement("div");
         //drinnen stehen alle termine und es ist nicht 
-        inhalt.setAttribute("class", "hiddenInhalt " + i); //hidden => not displayed
+        inhalt.setAttribute("class", "hiddenInhalt " + id); //hidden => not displayed
+        inhalt.setAttribute("id", data[i].title); //später für die Termine
+        Datum = document.createTextNode(" Datum: " + data[i].Datum);
+        Ablaufdatum = document.createTextNode(" Ablaufdatum: " + data[i].Ablaufdatum);
+        Ort = document.createTextNode("Ort: " + data[i].Ort);
         //was brauchen wir in dem div ??
         //-------------------------FORMULAR------------------------
         //Input => für den Namen
         var formular = document.createElement("form");
         formular.setAttribute("class", "formTermine");
         formular.setAttribute("method", "get");
-        //send this to some source
-        //formular.setAttribute("action", ".php");
-        var input = document.createElement("input");
+        //Options => get the Termine
+        /*let input = document.createElement("input") as HTMLElement;
         input.setAttribute("class", "namensFeld");
         input.setAttribute("placeholder", "Name...");
-        //für jeden Termin wird jetzt eine option erstellt und an selectDate gehängt
-        /*for( ){
-           let option = document.createElement("option") as HTMLElement;
-           //Eigenschaften
-           selectDate.append(option);
-        }*/
-        formular.appendChild(input);
+
+        formular.appendChild(input);*/
+        inhalt.appendChild(Ort);
+        inhalt.appendChild(Ablaufdatum);
+        inhalt.appendChild(Datum);
         inhalt.appendChild(formular);
         //-----------------------FUNCTIONALITY---------------------
         //onlick event für die Detailansicht
@@ -107,13 +100,39 @@ function showAppointments() {
         });
         ul === null || ul === void 0 ? void 0 : ul.appendChild(item);
     };
-    var itemText;
+    var Datum, Ablaufdatum, Ort;
     for (var i = 0; i < res.length - 1; i++) {
         _loop_1(i);
     }
-    //after all that empty the mainpart
-    //$('#mainpart').text(" ");
-}
+});
+//--------------------------------DISPLAY THE HIDDEN DETAILS----------------------------------
+$.getJSON(restServer, { 'method': 'queryTermine' }, function (data) {
+    //create new div in body
+    $('#body').append("<div id='termine'></div>");
+    $('#termine').text(JSON.stringify(data));
+    var text = $('#termine').text();
+    $('#termine').text(" ");
+    //Termine werden als select dargestellte
+    //Jquery statt dom verwenden => weniger arbeit 
+    var res = text.split("}");
+    //appointments hinzufügen
+    for (var i = 0; i < res.length; i++) {
+        //get the div with the fitting appointment
+        //check if there is a user set or not => if yes => make it unclickable
+        if (data[i].user != null) {
+            //add class => unclickable => "chosen" added 
+            $('#' + data[i].appointment + " > .formTermine").append("<div id='divtermin' class='terminDiv'><label for='" + data[i].uhrzeit + "'>" + data[i].uhrzeit + "</label><br><input type='radio' class='checkbox chosen' name='" + data[i].uhrzeit + "' id='" + data[i].uhrzeit + "'><br></div>");
+        }
+        else {
+            $('#' + data[i].appointment + " > .formTermine").append("<div id='divtermin' class='terminDiv'><label for='" + data[i].uhrzeit + "'>" + data[i].uhrzeit + "</label><br><input type='radio' class='checkbox' name='" + data[i].uhrzeit + "' id='" + data[i].uhrzeit + "'><br></div>");
+        }
+    }
+    //namensfeld hinzufügen
+    //submit button hinzufügen => alles über ajax machen
+});
+//---------------------------------------FUNKTIONEN--------------------------------------------
+var form = document.createElement("form");
+form.setAttribute("id", "hiddenForm"); //thats how to get the form
 function viewDetails(id) {
     //does a toggle and adds every new detail
     //get the event target
@@ -137,7 +156,7 @@ function createInputs(type, labelName) {
         input.type = "date";
     if (type == "submit") {
         input.type = "submit";
-        input.classList.remove("createAttribute");
+        input.classList.remove("createAttribute"); //submit button hat andere eigenschaften
         input.classList.add("submit");
     }
     //always appendChild at the end

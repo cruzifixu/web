@@ -23,13 +23,8 @@ class SimpleLogic
                 $res = $this->dh->queryPersonById($param);
                 break;
 
-            case "queryPersonByName":
-                $res = $this->dh->queryPersonByName($param);
-                break;
-
             case "queryTermine":
-                //alle Termine
-                $res = $this->dh->queryTermine(); 
+                $res = $this->dh->queryTermine();
                 break;
 
             default:

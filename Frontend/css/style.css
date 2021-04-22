@@ -122,3 +122,53 @@ body {
     width: 5em;
     font-weight: bold;
 }
+
+.checkbox {
+    width: 2em;
+    height: 2em;
+    background-color: white;
+    border-radius: 50%;
+    vertical-align: middle;
+    border: 1px solid #ddd;
+    -webkit-appearance: none;
+    outline: none; 
+    cursor: pointer;
+
+    margin-top: 1em;
+}
+
+.checkbox:checked {
+    background-color: rgb(169, 161, 58);
+}
+
+label {
+    margin-top: 1em;
+}
+
+#divtermin {
+    background-color: rgb(79, 117, 171);
+    height: 7em;
+    margin-top: 2em;
+    margin-bottom: 2em;
+    margin-right: 2em;
+    /*float: left;*/
+
+    /*alles zu den fonts*/
+    font-size: larger;
+    color: white; 
+    width: 5em;
+
+    /*Alles zum Border*/
+    border-radius: 15px;
+    border-color: cornflowerblue;
+}
+
+.appointmentTitle {
+    font-size: 2em;
+    font-weight: bold;
+}
+
+.chosen {
+    /*makes checkbox unclickable*/
+    pointer-events: none;
+}

@@ -42,7 +42,7 @@ class DataHandler
 
     public function queryTermine()
     {
-        $sql = "SELECT * FROM oneappointment";
+        $sql = "SELECT * FROM oneappointment ORDER BY uhrzeit asc";
         $stmt = $this->connect()->query($sql);
         $row = $stmt->num_rows;
         if ($row > 0) {
