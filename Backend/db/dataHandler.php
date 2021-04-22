@@ -40,6 +40,19 @@ class DataHandler
         }
     }
 
+    public function queryTermine()
+    {
+        $sql = "SELECT * FROM oneappointment";
+        $stmt = $this->connect()->query($sql);
+        $row = $stmt->num_rows;
+        if ($row > 0) {
+            while ($row = $stmt->fetch_assoc()) {
+                $data[] = $row;
+            }
+            return $data;
+        }
+    }
+
 
     public function queryPersonById($id)
     {
@@ -65,7 +78,7 @@ class DataHandler
 
 
 
-   private static function getDemoData()
+   /*private static function getDemoData()
    {
         
             $demodata=[
@@ -79,5 +92,5 @@ class DataHandler
 
         return $demodata;
         
-    }
+    }*/
 }

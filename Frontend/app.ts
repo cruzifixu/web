@@ -105,8 +105,8 @@ $.getJSON(restServer,
          const formular = document.createElement("form") as HTMLElement;
          formular.setAttribute("class", "formTermine");
          formular.setAttribute("method", "get");
-         //send this to some source
-         //formular.setAttribute("action", ".php");
+
+         //Options => get the Termine
 
          let input = document.createElement("input") as HTMLElement;
          input.setAttribute("class", "namensFeld");
@@ -134,6 +134,12 @@ $.getJSON(restServer,
       //after all that empty the mainpart
       //$('#mainpart').text(" ");
    }
+
+   $.getJSON(restServer,
+      {'method':'queryPersons'}, //ich brauche die Termine zu all dem 
+      function( data:object ) {
+          $('#mainpart').text(JSON.stringify(data));
+   });
 
       function viewDetails(id : number)
       {
