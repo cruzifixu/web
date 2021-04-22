@@ -13,8 +13,10 @@ class DataHandler
     private function connect()
     {
         $this->servername = "localhost";
-        $this->serveruser = "bif2webscriptinguser";
-        $this->serverpwd = "bif2021";
+        $this->serveruser = "root";
+        $this->serverpwd = "";
+        //$this->serveruser = "bif2webscriptinguser";
+        //$this->serverpwd = "bif2021";
         $this->dbname = "bif2webscriptinguser";
 
         //Verbdingungsaufbau
@@ -42,14 +44,21 @@ class DataHandler
 
     public function queryTermine()
     {
-        $sql = "SELECT * FROM oneappointment ORDER BY uhrzeit asc";
-        $stmt = $this->connect()->query($sql);
-        $row = $stmt->num_rows;
-        if ($row > 0) {
-            while ($row = $stmt->fetch_assoc()) {
-                $data[] = $row;
-            }
+        $sql = "SELECT * FROM appointments;";
+        $connection = $this->connect();
+        $stmt = $connection->prepare($sql);
+        $stmt->execute();
+        $row = $stmt->get_result(); //es sind mehrere resultate also schau ich mir die row an
+        while ($result = $row->fetch_assoc()) {
+            $data[] = $result; //speichere die resultate in einem array
+        }
+
+        //nur wenn das array voll ist soll es zu einem return wert kommen
+        if (!empty($data)) {
             return $data;
+        }
+        else {
+            return "no appointments";
         }
     }
 

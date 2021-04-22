@@ -1,4 +1,3 @@
-"use strict";
 /*
    Achtung - wichtige Hinweise:
    -----------------------------------------------------------------------------
@@ -142,6 +141,8 @@ $.getJSON(restServer, { 'method': 'getAppointmentTitle' }, function (data) {
     for (var i = 0; i < res.length; i++) {
         //einfügen von namensfeldern
         $('#' + data[i].title + " > .formTermine").append("<input type='text' class='namensFeld' placeholder='Name...'>");
+        //einfügen von Kommentar Feld
+        //einfügen von Submit Button
     }
 });
 //---------------------------------------FUNKTIONEN--------------------------------------------
