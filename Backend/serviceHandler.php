@@ -10,7 +10,7 @@ isset($_GET["param"]) ? $param = $_GET["param"] : false;
 isset($_GET["param2"]) ? $param2 = $_GET["param2"] : false;
 
 $logic = new SimpleLogic();
-$result = $logic->handleRequest($method, $param);
+$result = $logic->handleRequest($method, $param, $param2);
 if ($result == null) {
     response("GET", 400, null);
 } else{

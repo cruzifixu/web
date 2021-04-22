@@ -164,13 +164,12 @@ $.getJSON(restServer,
 
    });
    //daten in die db speicherns
-   $("sendButton").click();
    let userX = $("#username").val();
    $.ajax({
       type: "GET",
       url: restServer,
       cache: false,
-      data: {method: "addUserSelect", param: 1},
+      data: {method: "addUserSelect", param: userX, param2: 1},
       success: function(response) {
          console.log(response);
       }
