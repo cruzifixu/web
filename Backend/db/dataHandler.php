@@ -100,13 +100,23 @@ class DataHandler
     }
 
 
-    public function addUserSelect($user, $title) {
-        $sql = "UPDATE oneappointment SET user = ? WHERE ?;";
+    public function addUserSelect($id) {
+        $sql = "UPDATE oneappointment SET user = ? WHERE id = ?;";
         $stmt = $this->connect()->prepare($sql);
-        $stmt->bind_param($user, $title);
+        $stmt->bind_param($id, $id);
         $stmt->execute();
+    }
 
-        return true;
+    public function getOneAppointment($id) {
+        $sql = "SELECT * FROM oneappointment WHERE id = ?";
+        $connection = $this->connect();
+        $stmt = $connection->prepare($sql);
+        $stmt->bind_param("s", $id);
+        $stmt->execute();
+        $stmt->store_result();
+        $stmt->bind_result($termin);
+        $stmt->fetch();
+        return $termin;
     }
 
    /*private static function getDemoData()

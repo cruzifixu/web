@@ -104,10 +104,10 @@ $.getJSON(restServer, { 'method': 'queryPersons' }, function (data) {
         _loop_1(i);
     }
 });
-$.getJSON(restServer, { 'method': 'queryTermine' }, function (data) {
+$.getJSON(restServer, { 'method': 'queryTermine' }, function (daten) {
     //create new div in body
     $('#body').append("<div id='termine'></div>"); //nur zwischen div für den text
-    $('#termine').text(JSON.stringify(data));
+    $('#termine').text(JSON.stringify(daten));
     var text = $('#termine').text();
     $('#termine').text(" ");
     //Termine werden als select dargestellte
@@ -117,20 +117,30 @@ $.getJSON(restServer, { 'method': 'queryTermine' }, function (data) {
     for (var i = 0; i < res.length; i++) {
         //get the div with the fitting appointment
         //check if there is a user set or not => if yes => make it unclickable
-        if (data[i].user != null) {
+        if (daten[i].user != null) {
             //add class => unclickable => "chosen" added 
-            $('#' + data[i].appointment + " > .formTermine").append("<div id='divtermin' class='terminDiv'><label for='" + data[i].uhrzeit + "'>" + data[i].uhrzeit + "</label><br><input type='radio' id='" + data[i].uhrzeit + "' class='checkbox chosen' name='" + data[i].uhrzeit + "' value='" + data[i].uhrzeit + "'><br></div>");
+            $('#' + daten[i].appointment + " > .formTermine").append("<div id='divtermin' class='terminDiv'><label for='" + daten[i].uhrzeit + "'>" + daten[i].uhrzeit + "</label><br><input type='radio' id='" + daten[i].uhrzeit + "' class='checkbox chosen' name='" + daten[i].uhrzeit + "' value='" + daten[i].uhrzeit + "'><br></div>");
         }
         else {
-            $('#' + data[i].appointment + " > .formTermine").append("<div id='divtermin' class='terminDiv'><label for='" + data[i].uhrzeit + "'>" + data[i].uhrzeit + "</label><br><input type='radio' id='" + data[i].uhrzeit + "' class='checkbox' name='" + data[i].uhrzeit + "' value='" + data[i].uhrzeit + "'><br></div>");
+            $('#' + daten[i].appointment + " > .formTermine").append("<div id='divtermin' class='terminDiv'><label for='" + daten[i].uhrzeit + "'>" + daten[i].uhrzeit + "</label><br><input type='radio' id='" + daten[i].uhrzeit + "' class='checkbox' name='" + daten[i].uhrzeit + "' value='" + daten[i].uhrzeit + "'><br></div>");
         }
     }
     //namensfeld hinzufügen
-    $("#termine").append('<input type="text" required placeholder="username" id="user" name="user"/>');
+    //$("#termine").append('<input type="text" required placeholder="username" id="user" name="user"/>');
     //submit button hinzufügen => alles über ajax machen
 });
-//daten in die db speichern
-//-------------------------------------COMPLETED FORM-----------------------------------------
+//daten in die db speicherns
+$("sendButton").click();
+var userX = $("#username").val();
+$.ajax({
+    type: "GET",
+    url: restServer,
+    cache: false,
+    data: { method: "addUserSelect", param: 0 },
+    success: function (response) {
+        console.log(response);
+    }
+});
 $.getJSON(restServer, { 'method': 'getAppointmentTitle' }, function (data) {
     $('#body').append("<div id='titel'></div>"); //nur zwischen div für den text
     $('#titel').text(JSON.stringify(data));
@@ -141,7 +151,7 @@ $.getJSON(restServer, { 'method': 'getAppointmentTitle' }, function (data) {
     var res = text.split("}");
     for (var i = 0; i < res.length; i++) {
         //einfügen von namensfeldern
-        $('#' + data[i].title + " > .formTermine").append("<input type='text' class='namensFeld' placeholder='Name...'>");
+        $('#' + data[i].title + " > .formTermine").append("<input type='text' id='username' class='namensFeld' placeholder='Name...'><button id='sendButton'class='btn btn-dark'>send</button>");
         //einfügen von Kommentar Feld
         //einfügen von Submit Button
     }
@@ -177,6 +187,4 @@ function createInputs(type, labelName) {
     }
     //always appendChild at the end
     form === null || form === void 0 ? void 0 : form.appendChild(input);
-}
-function formresp() {
 }

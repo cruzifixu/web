@@ -26,8 +26,14 @@ class SimpleLogic
             case "queryPersonByName":
                 $res = $this->dh->queryPersonByName($param);
                 break;
-            case "process":
+            case "addUserSelect":
                 $res = $this->dh->addUserSelect($param);
+                break;
+            case "getAppointmentTitle":
+                $res = $this->dh->queryTitles();
+                break;
+            case "queryTermine":
+                $res = $this->dh->queryTermine();
                 break;
             default:
                 $res = null;
