@@ -7,16 +7,14 @@ body {
 
 .appointmentListe {
     opacity: 0.8;
-    list-style-type: none; /*Remove Bullets*/
+    list-style-type: none;
+    /*Remove Bullets*/
     background-color: rgb(245, 245, 245);
     background-image: url(https://images.pngnice.com/download/2007/My-Neighbor-Totoro-PNG-File.png);
-
     /*FONT*/
     font-weight: bold;
     text-align: center;
-    text-transform:uppercase;
-
-    
+    text-transform: uppercase;
     /*Put in the Middle*/
     margin: auto;
     margin-top: 2em;
@@ -27,7 +25,7 @@ body {
 }
 
 .appointmentListe:hover {
-    opacity: 1; 
+    opacity: 1;
 }
 
 .hiddenInhalt {
@@ -36,8 +34,8 @@ body {
 
 .plusButton {
     background-color: rgb(79, 117, 171);
-    height: 4em; 
-    width: 4em; 
+    height: 4em;
+    width: 4em;
     transition: width 0.4s ease-in-out;
     border-radius: 50px;
     margin-left: 2em;
@@ -51,11 +49,11 @@ body {
 }
 
 .plusButton:hover span {
-    display:none
+    display: none
 }
-  
+
 .plusButton:hover:before {
-    content:"ADD!";
+    content: "ADD!";
     font-weight: bold;
 }
 
@@ -68,7 +66,7 @@ body {
     outline: 0;
     font-size: 1.3rem;
     background: transparent;
-    text-transform:uppercase;
+    text-transform: uppercase;
 }
 
 .formTitle {
@@ -84,17 +82,15 @@ body {
     border-bottom: 2px solid gray;
     height: 3em;
     font-size: 1rem;
-    text-transform:uppercase;
+    text-transform: uppercase;
     outline: 0;
 }
 
-.createAttribute:focus
-{
+.createAttribute:focus {
     border: rgb(79, 117, 171);
 }
 
-.divForm 
-{
+.divForm {
     background-color: rgb(245, 245, 245);
     background-image: url(https://images.pngnice.com/download/2007/My-Neighbor-Totoro-PNG-File.png);
     border: 5px solid rgb(79, 117, 171, 0.4);
@@ -111,8 +107,8 @@ body {
     margin-top: 2em;
     margin-bottom: 2em;
     background-color: rgb(79, 117, 171);
-    height: 4em; 
-    width: 4em; 
+    height: 4em;
+    width: 4em;
     border-radius: 50px;
     transition: width 0.4s ease-in-out;
 }
@@ -131,9 +127,8 @@ body {
     vertical-align: middle;
     border: 1px solid #ddd;
     -webkit-appearance: none;
-    outline: none; 
+    outline: none;
     cursor: pointer;
-
     margin-top: 1em;
 }
 
@@ -152,12 +147,10 @@ label {
     margin-bottom: 2em;
     margin-right: 2em;
     /*float: left;*/
-
     /*alles zu den fonts*/
     font-size: larger;
-    color: white; 
+    color: white;
     width: 5em;
-
     /*Alles zum Border*/
     border-radius: 15px;
     border-color: cornflowerblue;

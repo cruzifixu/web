@@ -19,11 +19,16 @@
 //hier muss jeder seinen eigenen path angeben
 let restServer: string = "http://localhost:80/SS2021/Abschlussprojekt/Pr2/web/Backend/serviceHandler.php";
 
-
+interface data {
+   title: string;
+   Datum: string;
+   Ablaufdatum: string;
+   Ort: string;
+}
 //----------------------------------DISPLAY THE APPOINTMENTS---------------------------------
 $.getJSON(restServer,
           {'method':'queryPersons'},
-          function( data:any ) {
+          function( data: Array<data> ) {
 
                 $('#mainpart').text(JSON.stringify(data));
           
@@ -82,7 +87,10 @@ $.getJSON(restServer,
                    title.setAttribute("class", "appointmentTitle");
                    title.appendChild(titleInhalt);
                    item.appendChild(title);
-          
+                   title.addEventListener("click", 
+                      function(){ //anonyme Funktion 
+                         viewDetails(id)
+                      });
           
                    //-----------------------HIDDEN DIV------------------------
                    //create hidden element where the details are shown
@@ -116,18 +124,19 @@ $.getJSON(restServer,
                    //-----------------------FUNCTIONALITY---------------------
                    //onlick event für die Detailansicht
                    item.appendChild(inhalt); //add the div
-                   item.addEventListener("click", 
-                      function(){ //anonyme Funktion 
-                         viewDetails(id)
-                      });
                    ul?.appendChild(item);
                 }
     });
 
 //--------------------------------DISPLAY THE HIDDEN DETAILS----------------------------------
+interface data {
+   user: string;
+   appointment: string;
+   uhrzeit: string;
+}
 $.getJSON(restServer,
    {'method':'queryTermine'},
-   function( data:any ) {
+   function( data:Array<data> ) {
          //create new div in body
          $('#body').append("<div id='termine'></div>"); //nur zwischen div für den text
 
@@ -143,16 +152,18 @@ $.getJSON(restServer,
             //check if there is a user set or not => if yes => make it unclickable
             if(data[i].user != null){
                //add class => unclickable => "chosen" added 
-               $('#'+data[i].appointment+" > .formTermine").append("<div id='divtermin' class='terminDiv'><label for='"+data[i].uhrzeit+"'>"+data[i].uhrzeit+"</label><br><input type='radio' class='checkbox chosen' name='"+data[i].uhrzeit+"' id='"+data[i].uhrzeit+"'><br></div>");
+               $('#'+data[i].appointment+" > .formTermine").append("<div id='divtermin' class='terminDiv'><label for='"+data[i].uhrzeit+"'>"+data[i].uhrzeit+"</label><br><input type='radio' id='"+data[i].uhrzeit+"' class='checkbox chosen' name='"+data[i].uhrzeit+"' value='"+data[i].uhrzeit+"'><br></div>");
             } else {
-               $('#'+data[i].appointment+" > .formTermine").append("<div id='divtermin' class='terminDiv'><label for='"+data[i].uhrzeit+"'>"+data[i].uhrzeit+"</label><br><input type='radio' class='checkbox' name='"+data[i].uhrzeit+"' id='"+data[i].uhrzeit+"'><br></div>");
+               $('#'+data[i].appointment+" > .formTermine").append("<div id='divtermin' class='terminDiv'><label for='"+data[i].uhrzeit+"'>"+data[i].uhrzeit+"</label><br><input type='radio' id='"+data[i].uhrzeit+"' class='checkbox' name='"+data[i].uhrzeit+"' value='"+data[i].uhrzeit+"'><br></div>");
             }
          }
 
          //namensfeld hinzufügen
-
+         $("#termine").append('<input type="text" required placeholder="username" id="user" name="user"/>');
          //submit button hinzufügen => alles über ajax machen
+
    });
+   //daten in die db speichern
 
 //-------------------------------------COMPLETED FORM-----------------------------------------
 $.getJSON(restServer, 
@@ -188,7 +199,7 @@ $.getJSON(restServer,
       {
          //does a toggle and adds every new detail
          //get the event target
-         $("."+id).slideDown();
+         $("."+id).slideToggle();
       }
 
       function showForm()
@@ -220,5 +231,3 @@ $.getJSON(restServer,
          //always appendChild at the end
          form?.appendChild(input);
       }
-
-

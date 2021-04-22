@@ -44,7 +44,7 @@ class DataHandler
 
     public function queryTermine()
     {
-        $sql = "SELECT * FROM appointments;";
+        $sql = "SELECT * FROM oneappointment;";
         $connection = $this->connect();
         $stmt = $connection->prepare($sql);
         $stmt->execute();
@@ -100,6 +100,14 @@ class DataHandler
     }
 
 
+    public function addUserSelect($user, $title) {
+        $sql = "UPDATE oneappointment SET user = ? WHERE ?;";
+        $stmt = $this->connect()->prepare($sql);
+        $stmt->bind_param($user, $title);
+        $stmt->execute();
+
+        return true;
+    }
 
    /*private static function getDemoData()
    {

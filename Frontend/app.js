@@ -66,6 +66,9 @@ $.getJSON(restServer, { 'method': 'queryPersons' }, function (data) {
         title_1.setAttribute("class", "appointmentTitle");
         title_1.appendChild(titleInhalt_1);
         item.appendChild(title_1);
+        title_1.addEventListener("click", function () {
+            viewDetails(id);
+        });
         //-----------------------HIDDEN DIV------------------------
         //create hidden element where the details are shown
         var inhalt = document.createElement("div");
@@ -94,9 +97,6 @@ $.getJSON(restServer, { 'method': 'queryPersons' }, function (data) {
         //-----------------------FUNCTIONALITY---------------------
         //onlick event für die Detailansicht
         item.appendChild(inhalt); //add the div
-        item.addEventListener("click", function () {
-            viewDetails(id);
-        });
         ul === null || ul === void 0 ? void 0 : ul.appendChild(item);
     };
     var Datum, Ablaufdatum, Ort;
@@ -104,7 +104,6 @@ $.getJSON(restServer, { 'method': 'queryPersons' }, function (data) {
         _loop_1(i);
     }
 });
-//--------------------------------DISPLAY THE HIDDEN DETAILS----------------------------------
 $.getJSON(restServer, { 'method': 'queryTermine' }, function (data) {
     //create new div in body
     $('#body').append("<div id='termine'></div>"); //nur zwischen div für den text
@@ -120,15 +119,17 @@ $.getJSON(restServer, { 'method': 'queryTermine' }, function (data) {
         //check if there is a user set or not => if yes => make it unclickable
         if (data[i].user != null) {
             //add class => unclickable => "chosen" added 
-            $('#' + data[i].appointment + " > .formTermine").append("<div id='divtermin' class='terminDiv'><label for='" + data[i].uhrzeit + "'>" + data[i].uhrzeit + "</label><br><input type='radio' class='checkbox chosen' name='" + data[i].uhrzeit + "' id='" + data[i].uhrzeit + "'><br></div>");
+            $('#' + data[i].appointment + " > .formTermine").append("<div id='divtermin' class='terminDiv'><label for='" + data[i].uhrzeit + "'>" + data[i].uhrzeit + "</label><br><input type='radio' id='" + data[i].uhrzeit + "' class='checkbox chosen' name='" + data[i].uhrzeit + "' value='" + data[i].uhrzeit + "'><br></div>");
         }
         else {
-            $('#' + data[i].appointment + " > .formTermine").append("<div id='divtermin' class='terminDiv'><label for='" + data[i].uhrzeit + "'>" + data[i].uhrzeit + "</label><br><input type='radio' class='checkbox' name='" + data[i].uhrzeit + "' id='" + data[i].uhrzeit + "'><br></div>");
+            $('#' + data[i].appointment + " > .formTermine").append("<div id='divtermin' class='terminDiv'><label for='" + data[i].uhrzeit + "'>" + data[i].uhrzeit + "</label><br><input type='radio' id='" + data[i].uhrzeit + "' class='checkbox' name='" + data[i].uhrzeit + "' value='" + data[i].uhrzeit + "'><br></div>");
         }
     }
     //namensfeld hinzufügen
+    $("#termine").append('<input type="text" required placeholder="username" id="user" name="user"/>');
     //submit button hinzufügen => alles über ajax machen
 });
+//daten in die db speichern
 //-------------------------------------COMPLETED FORM-----------------------------------------
 $.getJSON(restServer, { 'method': 'getAppointmentTitle' }, function (data) {
     $('#body').append("<div id='titel'></div>"); //nur zwischen div für den text
@@ -151,7 +152,7 @@ form.setAttribute("id", "hiddenForm"); //thats how to get the form
 function viewDetails(id) {
     //does a toggle and adds every new detail
     //get the event target
-    $("." + id).slideDown();
+    $("." + id).slideToggle();
 }
 function showForm() {
     $(".divForm").slideToggle();
@@ -176,4 +177,6 @@ function createInputs(type, labelName) {
     }
     //always appendChild at the end
     form === null || form === void 0 ? void 0 : form.appendChild(input);
+}
+function formresp() {
 }

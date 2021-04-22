@@ -23,14 +23,12 @@ class SimpleLogic
                 $res = $this->dh->queryPersonById($param);
                 break;
 
-            case "queryTermine":
-                $res = $this->dh->queryTermine();
+            case "queryPersonByName":
+                $res = $this->dh->queryPersonByName($param);
                 break;
-
-            case "getAppointmentTitle":
-                $res = $this->dh->queryTitles();
+            case "process":
+                $res = $this->dh->addUserSelect($param);
                 break;
-
             default:
                 $res = null;
                 break;
