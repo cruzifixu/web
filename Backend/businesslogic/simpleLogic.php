@@ -11,7 +11,7 @@ class SimpleLogic
         $this->dh = new DataHandler();
     }
 
-    function handleRequest($method, $param, $param2)
+    function handleRequest($method, $user, $param)
     {
         switch ($method) {
 
@@ -27,7 +27,7 @@ class SimpleLogic
                 $res = $this->dh->queryPersonByName($param);
                 break;
             case "addUserSelect":
-                $res = $this->dh->addUserSelect($param, $param2);
+                $res = $this->dh->addUserSelect($user, $param);
                 break;
             case "getAppointmentTitle":
                 $res = $this->dh->queryTitles();

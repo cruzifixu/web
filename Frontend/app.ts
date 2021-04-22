@@ -129,18 +129,18 @@ $.getJSON(restServer,
     });
 
 //--------------------------------DISPLAY THE HIDDEN DETAILS----------------------------------
-interface daten {
+interface data {
    user: string;
    appointment: string;
    uhrzeit: string;
 }
 $.getJSON(restServer,
    {'method':'queryTermine'},
-   function( daten:Array<daten> ) {
+   function( data:Array<data> ) {
          //create new div in body
          $('#body').append("<div id='termine'></div>"); //nur zwischen div für den text
 
-         $('#termine').text(JSON.stringify(daten));
+         $('#termine').text(JSON.stringify(data));
          let text = $('#termine').text();
          $('#termine').text(" ");
          //Termine werden als select dargestellte
@@ -150,11 +150,11 @@ $.getJSON(restServer,
          for(let i = 0; i < res.length; i++){
             //get the div with the fitting appointment
             //check if there is a user set or not => if yes => make it unclickable
-            if(daten[i].user != null){
+            if(data[i].user != null){
                //add class => unclickable => "chosen" added 
-               $('#'+daten[i].appointment+" > .formTermine").append("<div id='divtermin' class='terminDiv'><label for='"+daten[i].uhrzeit+"'>"+daten[i].uhrzeit+"</label><br><input type='radio' id='"+daten[i].uhrzeit+"' class='checkbox chosen' name='"+daten[i].uhrzeit+"' value='"+daten[i].uhrzeit+"'><br></div>");
+               $('#'+data[i].appointment+" > .formTermine").append("<div id='divtermin' class='terminDiv'><label for='"+data[i].uhrzeit+"'>"+data[i].uhrzeit+"</label><br><input type='radio' id='"+data[i].uhrzeit+"' class='checkbox chosen' name='"+data[i].uhrzeit+"' value='"+data[i].uhrzeit+"'><br></div>");
             } else {
-               $('#'+daten[i].appointment+" > .formTermine").append("<div id='divtermin' class='terminDiv'><label for='"+daten[i].uhrzeit+"'>"+daten[i].uhrzeit+"</label><br><input type='radio' id='"+daten[i].uhrzeit+"' class='checkbox' name='"+daten[i].uhrzeit+"' value='"+daten[i].uhrzeit+"'><br></div>");
+               $('#'+data[i].appointment+" > .formTermine").append("<div id='divtermin' class='terminDiv'><label for='"+data[i].uhrzeit+"'>"+data[i].uhrzeit+"</label><br><input type='radio' id='"+data[i].uhrzeit+"' class='checkbox' name='"+data[i].uhrzeit+"' value='"+data[i].uhrzeit+"'><br></div>");
             }
          }
 
@@ -162,17 +162,6 @@ $.getJSON(restServer,
          //$("#termine").append('<input type="text" required placeholder="username" id="user" name="user"/>');
          //submit button hinzufügen => alles über ajax machen
 
-   });
-   //daten in die db speicherns
-   let userX = $("#username").val();
-   $.ajax({
-      type: "GET",
-      url: restServer,
-      cache: false,
-      data: {method: "addUserSelect", param: userX, param2: 1},
-      success: function(response) {
-         console.log(response);
-      }
    });
 
 //-------------------------------------COMPLETED FORM-----------------------------------------
@@ -194,7 +183,7 @@ $.getJSON(restServer,
       const res = text.split("}");
       for(let i = 0; i < res.length; i++){
          //einfügen von namensfeldern
-         $('#'+data[i].title+" > .formTermine").append("<input type='text' id='username' class='namensFeld' placeholder='Name...'><button id='sendButton'class='btn btn-dark'>send</button>");
+         $('#'+data[i].title+" > .formTermine").append("<input type='text' id='username' class='namensFeld' placeholder='Name...'><button id='sendButton' onclick='UserSelect(this.id)' value='" + data[i].title + "' class='btn btn-dark'>send</button>");
          //einfügen von Kommentar Feld
          
          //einfügen von Submit Button
@@ -202,6 +191,20 @@ $.getJSON(restServer,
       }
    }
 );
+
+function UserSelect(id: any) {
+      //daten in die db speicherns
+   let userX = $("#username").val();
+   $.ajax({
+      type: "GET",
+      url: restServer,
+      cache: false,
+      data: {method: "addUserSelect", param: id, user: userX},
+      success: function(response) {
+         console.log(response);
+      }
+   });
+}
 
 
 //---------------------------------------FUNKTIONEN--------------------------------------------

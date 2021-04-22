@@ -102,7 +102,8 @@ class DataHandler
 
     public function addUserSelect($user, $id) {
         $sql = "UPDATE oneappointment SET user = ? WHERE id = ?;";
-        $stmt = $this->connect()->prepare($sql);
+        $connection = $this->connect();
+        $stmt = $connection->prepare($sql);
         $stmt->bind_param($user, $id);
         $stmt->execute();
     }

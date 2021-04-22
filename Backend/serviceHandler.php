@@ -3,14 +3,14 @@ include("businesslogic/simpleLogic.php");
 
 $param = "";
 $method = "";
-$param2 = "";
+$user = "";
 
 isset($_GET["method"]) ? $method = $_GET["method"] : false;
 isset($_GET["param"]) ? $param = $_GET["param"] : false;
-isset($_GET["param2"]) ? $param2 = $_GET["param2"] : false;
+isset($_GET["user"]) ? $user = $_GET["user"] : false;
 
 $logic = new SimpleLogic();
-$result = $logic->handleRequest($method, $param, $param2);
+$result = $logic->handleRequest($method, $user, $param);
 if ($result == null) {
     response("GET", 400, null);
 } else{
