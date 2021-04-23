@@ -180,3 +180,16 @@ label {
     margin: 0 auto;
     white-space: nowrap
 }
+
+.abgelaufen {
+    pointer-events: none;
+}
+
+.abgelaufen:hover {
+    opacity: 0.4;
+}
+
+.abgelaufenerTermin{
+    background-color: rgb(167, 103, 103);   
+    border: 5px solid rgb(238, 0, 0);
+}

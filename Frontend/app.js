@@ -70,6 +70,22 @@ $.getJSON(restServer, { 'method': 'queryPersons' }, function (data) {
         title_1.addEventListener("click", function () {
             viewDetails(id);
         });
+        //Check if Appointment ist abgelaufen
+        var d = new Date();
+        //get the current date
+        var curMonth = d.getMonth() + 1;
+        var curDay = d.getDate();
+        var curYear = d.getFullYear();
+        var datum = data[i].Ablaufdatum.split("-");
+        var month = datum[1];
+        var day = datum[2];
+        var year = datum[0];
+        //is current date == data[i].Ablaufdatum?
+        if (parseFloat(month) == curMonth && curDay == parseFloat(day) && curYear == parseFloat(year)) {
+            title_1.removeEventListener("click", function () { viewDetails(id); });
+            title_1.classList.add("abgelaufen");
+            item.classList.add("abgelaufenerTermin");
+        }
         //-----------------------HIDDEN DIV------------------------
         //create hidden element where the details are shown
         var inhalt = document.createElement("div");

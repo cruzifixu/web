@@ -91,7 +91,25 @@ $.getJSON(restServer,
                       function(){ //anonyme Funktion 
                          viewDetails(id)
                       });
-          
+
+                  //Check if Appointment ist abgelaufen
+                  let d = new Date();
+                  //get the current date
+                  let curMonth = d.getMonth()+1;
+                  let curDay = d.getDate();
+                  let curYear = d.getFullYear();
+
+                  let datum = data[i].Ablaufdatum.split("-");
+                  let month = datum[1];
+                  let day = datum[2];
+                  let year = datum[0];
+                  //is current date == data[i].Ablaufdatum?
+                  if(parseFloat(month) == curMonth && curDay == parseFloat(day) && curYear == parseFloat(year)){
+                     title.removeEventListener("click", function(){viewDetails(id)});
+                     title.classList.add("abgelaufen");
+                     item.classList.add("abgelaufenerTermin");
+                  }
+
                    //-----------------------HIDDEN DIV------------------------
                    //create hidden element where the details are shown
                    let inhalt = document.createElement("div") as HTMLElement;
