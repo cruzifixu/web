@@ -13,8 +13,8 @@ class DataHandler
     private function connect()
     {
         $this->servername = "localhost";
-        $this->serveruser = "root";
-        $this->serverpwd = "";
+        $this->serveruser = "bif2webscriptinguser";
+        $this->serverpwd = "bif2021";
         //$this->serveruser = "bif2webscriptinguser";
         //$this->serverpwd = "bif2021";
         $this->dbname = "bif2webscriptinguser";
@@ -100,12 +100,13 @@ class DataHandler
     }
 
 
-    public function addUserSelect($user, $id) {
-        $sql = "UPDATE oneappointment SET user = ? WHERE id = ?;";
+    public function addUserSelect($kommentar, $user, $id, $appointment) {
+        $sql = "UPDATE oneappointment SET user = ?, kommentar = ? WHERE appointment = ? AND uhrzeit = ?;";
         $connection = $this->connect();
         $stmt = $connection->prepare($sql);
-        $stmt->bind_param($user, $id);
+        $stmt->bind_param("ssss", $user, $kommentar, $id, $appointment);
         $stmt->execute();
+        var_dump($stmt);
     }
 
     public function getOneAppointment($id) {
@@ -121,16 +122,10 @@ class DataHandler
     }
 
     public function saveAppointment($title, $ort) {
-        console.log($title);
-        var_dump("Hallo");
-
-        $sql = "INSERT INTO appointments (title, Ort, Datum, Ablaufdatum) VALUES (?, ?, ?, ?)";
-        $conn = $this->connect();
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("ssss", "hallo", null , null , "hallo");
+        $sql = "INSERT INTO appointments (title, Datum, Ablaufdatum, Ort) VALUE (?, ?, ?, ?);";
+        $connection = $this->connect();
+        $stmt = $connection->prepare($sql);
+        $stmt->bind_param($user, $kommentar ,$id);
         $stmt->execute();
-        exit();
-
-        $stmt->close();
     }
 }

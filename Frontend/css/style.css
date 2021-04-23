@@ -164,6 +164,7 @@ label {
 .chosen {
     /*makes checkbox unclickable*/
     pointer-events: none;
+    background-color: rgb(145, 75, 75);
 }
 
 #username,

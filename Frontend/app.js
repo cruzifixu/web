@@ -84,7 +84,6 @@ $.getJSON(restServer, { 'method': 'queryPersons' }, function (data) {
         //Input => für den Namen
         var formular = document.createElement("form");
         formular.setAttribute("class", "formTermine");
-        formular.setAttribute("method", "post");
         //für das submit der Daten
         //Options => get the Termine
         //Termine in einem Div zum scrollen eingelegt 
@@ -148,21 +147,40 @@ $.getJSON(restServer, { 'method': 'getAppointmentTitle' }, function (data) {
         //einfügen von Kommentar Feld
         $('#' + ((_b = data[i]) === null || _b === void 0 ? void 0 : _b.title) + " > .formTermine").append("<input type='text' id='kommentar' class='namensFeld' placeholder='Kommentar...'>");
         //einfügen von Submit Button
-        $('#' + ((_c = data[i]) === null || _c === void 0 ? void 0 : _c.title) + " > .formTermine").append("<button type='submit' id='sendButton' onclick='UserSelect(this.id)' value='" + ((_d = data[i]) === null || _d === void 0 ? void 0 : _d.title) + "' class='btn btn-dark submit'>send</button>");
+        $('#' + ((_c = data[i]) === null || _c === void 0 ? void 0 : _c.title) + " > .formTermine").append("<button type='submit' id='sendButton' onclick='UserSelect(this.val)' value='" + ((_d = data[i]) === null || _d === void 0 ? void 0 : _d.title) + "' class='btn btn-dark submit'>send</button>");
     }
 });
 //----------FORM GETS SUBMITTED-----------------
+var appointment = "";
 //------BUTTON FUNCTION--------
 function UserSelect(id) {
     //daten in die db speicherns
-    var userX = $("#username").val();
+    var button = document.getElementById("sendButton");
+    button === null || button === void 0 ? void 0 : button.addEventListener("click", function (event) { event.preventDefault(); });
+    $('.terminDiv').children('input').each(function () {
+        if ($(this).is(':checked')) {
+            appointment = "" + $(this).val() + "";
+        }
+    });
+    var data = {
+        //Methode
+        method: "addUserSelect",
+        //Argumente
+        kommentar: $("#kommentar").val(),
+        user: $("#username").val(),
+        id: $("#sendButton").val(),
+        appointment: appointment
+    };
     $.ajax({
-        type: "GET",
         url: restServer,
-        cache: false,
-        data: { method: "addUserSelect", param: id, user: userX },
-        success: function (response) {
-            console.log(response);
+        method: "POST",
+        dataType: 'json',
+        data: data,
+        success: function () {
+            //alert("success"); //schöne success msg machen
+        },
+        error: function () {
+            //alert("error"); //schöne error message
         }
     });
 }
@@ -208,9 +226,11 @@ function send() {
         method: "saveAppointment",
         //Argumente
         title: $("#titel").val(),
-        ort: $("#ort").val()
+        ort: $("#ort").val(),
         //Ablaufdatum
+        ablaufdatum: $("#ablaufdatum").val(),
         //Datum
+        datum: $("#datum").val(),
     };
     $.ajax({
         url: restServer,

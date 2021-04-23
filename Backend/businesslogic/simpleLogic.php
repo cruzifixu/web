@@ -11,28 +11,27 @@ class SimpleLogic
         $this->dh = new DataHandler();
     }
 
+    //------------------------FÜR POST REQUESTS-----------------------------
+    function handleChanges($method, $user, $kommentar, $id, $title, $ort, $appointment){
+        switch($method){
+            case "saveAppointment": 
+                $this->dh->saveAppointment($title, $ort);
+                break;
+
+            case "addUserSelect":
+                $this->dh->addUserSelect($kommentar, $user, $id, $appointment);
+                break;
+        }
+    }
+
+    //------------------------FÜR GET REQUESTS------------------------------ 
     function handleRequest($method, $user, $param)
     {
 
         switch ($method) {
-            case "saveAppointment":
-                $this->dh->saveAppointment($title, $ort);
-                break;
 
             case "queryPersons":
                 $res = $this->dh->queryPersons();
-                break;
-
-            case "queryPersonById":
-                $res = $this->dh->queryPersonById($param);
-                break;
-
-            case "queryPersonByName":
-                $res = $this->dh->queryPersonByName($param);
-                break;
-
-            case "addUserSelect":
-                $res = $this->dh->addUserSelect($user, $param);
                 break;
 
             case "getAppointmentTitle":

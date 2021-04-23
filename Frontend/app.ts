@@ -108,7 +108,6 @@ $.getJSON(restServer,
                    //Input => für den Namen
                    const formular = document.createElement("form") as HTMLElement;
                    formular.setAttribute("class", "formTermine");
-                   formular.setAttribute("method", "post");
                   //für das submit der Daten
           
                    //Options => get the Termine
@@ -192,26 +191,50 @@ $.getJSON(restServer,
          //einfügen von Kommentar Feld
          $('#'+data[i]?.title+" > .formTermine").append("<input type='text' id='kommentar' class='namensFeld' placeholder='Kommentar...'>");
          //einfügen von Submit Button
-         $('#'+data[i]?.title+" > .formTermine").append("<button type='submit' id='sendButton' onclick='UserSelect(this.id)' value='" + data[i]?.title + "' class='btn btn-dark submit'>send</button>");
+         $('#'+data[i]?.title+" > .formTermine").append("<button type='submit' id='sendButton' onclick='UserSelect(this.val)' value='"+data[i]?.title+"' class='btn btn-dark submit'>send</button>");
       }
    }
 );
 
 //----------FORM GETS SUBMITTED-----------------
 
+let appointment : string = "";
+
 
 
 //------BUTTON FUNCTION--------
 function UserSelect(id: any) {
    //daten in die db speicherns
-   let userX = $("#username").val();
+   let button = document.getElementById("sendButton");
+   button?.addEventListener("click", function(event){event.preventDefault()});
+
+   $('.terminDiv').children('input').each(function(){
+      if($(this).is(':checked')){
+         appointment = ""+$(this).val()+"";
+      }
+   });
+
+   var data = {
+      //Methode
+      method : "addUserSelect",
+
+      //Argumente
+      kommentar: $("#kommentar").val(),
+      user : $("#username").val(),
+      id: $("#sendButton").val(), //Title des Appointments
+      appointment: appointment
+   }
+
    $.ajax({
-      type: "GET",
       url: restServer,
-      cache: false,
-      data: {method: "addUserSelect", param: id, user: userX},
-      success: function(response) {
-         console.log(response);
+      method: "POST",
+      dataType: 'json',
+      data: data,
+      success: function () {
+        //alert("success"); //schöne success msg machen
+      },
+      error: function () {
+         //alert("error"); //schöne error message
       }
    });
 }
@@ -277,6 +300,7 @@ function UserSelect(id: any) {
                ablaufdatum: $("#ablaufdatum").val(),
 
                //Datum
+               datum: $("#datum").val(),
             }
 
             $.ajax({

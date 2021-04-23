@@ -4,26 +4,34 @@ include("businesslogic/simpleLogic.php");
 $param = "";
 $method = "";
 $user = "";
+$kommentar = "";
+$id = "";
 
 isset($_GET["method"]) ? $method = $_GET["method"] : false;
 isset($_GET["param"]) ? $param = $_GET["param"] : false;
 isset($_GET["user"]) ? $user = $_GET["user"] : false;
 
+//POST VARIABLEN
+isset($_POST["method"]) ? $method = $_POST["method"] : false;
+isset($_POST["title"]) ? $title = $_POST["title"] : false;
+isset($_POST["ort"]) ? $ort = $_POST["ort"] : false;
+isset($_POST["user"]) ? $user = $_POST["user"] : false;
+isset($_POST["kommentar"]) ? $kommentar = $_POST["kommentar"] : false;
+isset($_POST["id"]) ? $id = $_POST["id"] : false;
+isset($_POST["appointment"]) ? $appointment = $_POST["appointment"] : false;
+
 $logic = new SimpleLogic();
 $result = $logic->handleRequest($method, $user, $param);
 
-if(isset($_POST["method"])){
-    response("POST", 200, $result);
-} else {
+if(isset($_GET["method"])){
     if ($result == null) {
         response("GET", 400, null);
     } else {
         response("GET", 200, $result);
     }
+} else if (isset($_POST["method"])) {
+    $logic->handleChanges($method, $user, $kommentar, $id, $title, $ort, $appointment);
 }
-
-
-
 
 function response($method, $httpStatus, $data)
 {
