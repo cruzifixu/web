@@ -1,3 +1,4 @@
+"use strict";
 /*
    Achtung - wichtige Hinweise:
    -----------------------------------------------------------------------------
@@ -44,12 +45,12 @@ $.getJSON(restServer, { 'method': 'queryPersons' }, function (data) {
     title.setAttribute("class", "formTitle");
     title.appendChild(titleInhalt);
     //function to make the fields
-    createInputs("text", "Titel: ");
-    createInputs("text", "Ort: ");
-    createInputs("date", "Ablaufdatum: ");
-    createInputs("date", "Datum: ");
-    createInputs("submit", "Submit");
-    div.appendChild(title);
+    createInputs("text", "Titel: ", "titel");
+    createInputs("text", "Ort: ", "ort");
+    createInputs("date", "Ablaufdatum: ", "ablaufdatum");
+    createInputs("date", "Datum: ", "datum");
+    createInputs("submit", "Submit", "submit");
+    div === null || div === void 0 ? void 0 : div.appendChild(title);
     div === null || div === void 0 ? void 0 : div.appendChild(form);
     body === null || body === void 0 ? void 0 : body.appendChild(div);
     //split the text
@@ -83,8 +84,13 @@ $.getJSON(restServer, { 'method': 'queryPersons' }, function (data) {
         //Input => für den Namen
         var formular = document.createElement("form");
         formular.setAttribute("class", "formTermine");
-        formular.setAttribute("method", "get");
+        formular.setAttribute("method", "post");
+        formular.setAttribute("action", "Backend/forms/termin.php"); //für das submit der Daten
         //Options => get the Termine
+        //Termine in einem Div zum scrollen eingelegt 
+        var formDiv = document.createElement("div");
+        formDiv.setAttribute("class", "container formDiv");
+        formular.appendChild(formDiv);
         /*let input = document.createElement("input") as HTMLElement;
         input.setAttribute("class", "namensFeld");
         input.setAttribute("placeholder", "Name...");
@@ -105,6 +111,7 @@ $.getJSON(restServer, { 'method': 'queryPersons' }, function (data) {
     }
 });
 $.getJSON(restServer, { 'method': 'queryTermine' }, function (data) {
+    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o;
     //create new div in body
     $('#body').append("<div id='termine'></div>"); //nur zwischen div für den text
     $('#termine').text(JSON.stringify(data));
@@ -117,19 +124,17 @@ $.getJSON(restServer, { 'method': 'queryTermine' }, function (data) {
     for (var i = 0; i < res.length; i++) {
         //get the div with the fitting appointment
         //check if there is a user set or not => if yes => make it unclickable
-        if (data[i].user != null) {
+        if (((_a = data[i]) === null || _a === void 0 ? void 0 : _a.user) != null) {
             //add class => unclickable => "chosen" added 
-            $('#' + data[i].appointment + " > .formTermine").append("<div id='divtermin' class='terminDiv'><label for='" + data[i].uhrzeit + "'>" + data[i].uhrzeit + "</label><br><input type='radio' id='" + data[i].uhrzeit + "' class='checkbox chosen' name='" + data[i].uhrzeit + "' value='" + data[i].uhrzeit + "'><br></div>");
+            $('#' + ((_b = data[i]) === null || _b === void 0 ? void 0 : _b.appointment) + " > .formTermine > .formDiv").append("<div id='divtermin' class='terminDiv'><label for='" + ((_c = data[i]) === null || _c === void 0 ? void 0 : _c.uhrzeit) + "'>" + ((_d = data[i]) === null || _d === void 0 ? void 0 : _d.uhrzeit) + "</label><br><input type='radio' id='" + ((_e = data[i]) === null || _e === void 0 ? void 0 : _e.uhrzeit) + "' class='checkbox chosen' name='" + ((_f = data[i]) === null || _f === void 0 ? void 0 : _f.uhrzeit) + "' value='" + ((_g = data[i]) === null || _g === void 0 ? void 0 : _g.uhrzeit) + "'><br></div>");
         }
         else {
-            $('#' + data[i].appointment + " > .formTermine").append("<div id='divtermin' class='terminDiv'><label for='" + data[i].uhrzeit + "'>" + data[i].uhrzeit + "</label><br><input type='radio' id='" + data[i].uhrzeit + "' class='checkbox' name='" + data[i].uhrzeit + "' value='" + data[i].uhrzeit + "'><br></div>");
+            $('#' + ((_h = data[i]) === null || _h === void 0 ? void 0 : _h.appointment) + " > .formTermine > .formDiv").append("<div id='divtermin' class='terminDiv'><label for='" + ((_j = data[i]) === null || _j === void 0 ? void 0 : _j.uhrzeit) + "'>" + ((_k = data[i]) === null || _k === void 0 ? void 0 : _k.uhrzeit) + "</label><br><input type='radio' id='" + ((_l = data[i]) === null || _l === void 0 ? void 0 : _l.uhrzeit) + "' class='checkbox' name='" + ((_m = data[i]) === null || _m === void 0 ? void 0 : _m.uhrzeit) + "' value='" + ((_o = data[i]) === null || _o === void 0 ? void 0 : _o.uhrzeit) + "'><br></div>");
         }
     }
-    //namensfeld hinzufügen
-    //$("#termine").append('<input type="text" required placeholder="username" id="user" name="user"/>');
-    //submit button hinzufügen => alles über ajax machen
 });
 $.getJSON(restServer, { 'method': 'getAppointmentTitle' }, function (data) {
+    var _a, _b, _c, _d;
     $('#body').append("<div id='titel'></div>"); //nur zwischen div für den text
     $('#titel').text(JSON.stringify(data));
     var text = $('#titel').text();
@@ -139,11 +144,15 @@ $.getJSON(restServer, { 'method': 'getAppointmentTitle' }, function (data) {
     var res = text.split("}");
     for (var i = 0; i < res.length; i++) {
         //einfügen von namensfeldern
-        $('#' + data[i].title + " > .formTermine").append("<input type='text' id='username' class='namensFeld' placeholder='Name...'><button id='sendButton' onclick='UserSelect(this.id)' value='" + data[i].title + "' class='btn btn-dark'>send</button>");
+        $('#' + ((_a = data[i]) === null || _a === void 0 ? void 0 : _a.title) + " > .formTermine").append("<input type='text' id='username' class='namensFeld' placeholder='Name...'><br>");
         //einfügen von Kommentar Feld
+        $('#' + ((_b = data[i]) === null || _b === void 0 ? void 0 : _b.title) + " > .formTermine").append("<input type='text' id='kommentar' class='namensFeld' placeholder='Kommentar...'>");
         //einfügen von Submit Button
+        $('#' + ((_c = data[i]) === null || _c === void 0 ? void 0 : _c.title) + " > .formTermine").append("<button type='submit' id='sendButton' onclick='UserSelect(this.id)' value='" + ((_d = data[i]) === null || _d === void 0 ? void 0 : _d.title) + "' class='btn btn-dark submit'>send</button>");
     }
 });
+//----------FORM GETS SUBMITTED-----------------
+//------BUTTON FUNCTION--------
 function UserSelect(id) {
     //daten in die db speicherns
     var userX = $("#username").val();
@@ -168,11 +177,12 @@ function viewDetails(id) {
 function showForm() {
     $(".divForm").slideToggle();
 }
-function createInputs(type, labelName) {
+function createInputs(type, labelName, id) {
     //type => ... dame, date, checkbox etc. 
     var input = document.createElement("input");
     input.setAttribute("class", "createAttribute");
     input.setAttribute("placeholder", labelName);
+    input.setAttribute("id", id);
     /*const label = document.createElement("label");
     label.textContent = labelName;
     label.setAttribute("class", "labelName");
@@ -185,7 +195,31 @@ function createInputs(type, labelName) {
         input.type = "submit";
         input.classList.remove("createAttribute"); //submit button hat andere eigenschaften
         input.classList.add("submit");
+        input.classList.add("hiddenSubmit");
+        input.addEventListener("click", send);
+        input.addEventListener("click", function (event) { event.preventDefault(); });
     }
     //always appendChild at the end
     form === null || form === void 0 ? void 0 : form.appendChild(input);
+}
+function send() {
+    var data = {
+        //Methode
+        method: "saveAppointment",
+        //Argumente
+        title: $("#title").val(),
+        ort: $("#ort").val()
+    };
+    $.ajax({
+        url: restServer,
+        method: "POST",
+        dataType: 'json',
+        data: data,
+        success: function (data) {
+            $("#hiddenForm").html('<div class="alert alert-success" role="alert"> Appointment was created </div>');
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            $("#hiddenForm").html('<div class="alert alert-success" role="alert"> There was a Problem! Please try again </div>');
+        }
+    });
 }

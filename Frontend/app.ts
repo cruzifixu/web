@@ -60,13 +60,13 @@ $.getJSON(restServer,
                 title.appendChild(titleInhalt);
           
                 //function to make the fields
-                createInputs("text", "Titel: ");
-                createInputs("text", "Ort: ");
-                createInputs("date", "Ablaufdatum: ");
-                createInputs("date", "Datum: ");
-                createInputs("submit", "Submit");
-          
-                div.appendChild(title);
+                createInputs("text", "Titel: ", "titel");
+                createInputs("text", "Ort: ", "ort");
+                createInputs("date", "Ablaufdatum: ", "ablaufdatum");
+                createInputs("date", "Datum: ", "datum");
+                createInputs("submit", "Submit", "submit");
+
+                div?.appendChild(title);
                 div?.appendChild(form);
                 body?.appendChild(div);
           
@@ -108,9 +108,15 @@ $.getJSON(restServer,
                    //Input => für den Namen
                    const formular = document.createElement("form") as HTMLElement;
                    formular.setAttribute("class", "formTermine");
-                   formular.setAttribute("method", "get");
+                   formular.setAttribute("method", "post");
+                   formular.setAttribute("action", "Backend/forms/termin.php"); //für das submit der Daten
           
                    //Options => get the Termine
+                   //Termine in einem Div zum scrollen eingelegt 
+                   const formDiv = document.createElement("div");
+                   formDiv.setAttribute("class", "container formDiv");
+
+                   formular.appendChild(formDiv);
           
                    /*let input = document.createElement("input") as HTMLElement;
                    input.setAttribute("class", "namensFeld");
@@ -134,6 +140,7 @@ interface data {
    appointment: string;
    uhrzeit: string;
 }
+
 $.getJSON(restServer,
    {'method':'queryTermine'},
    function( data:Array<data> ) {
@@ -150,25 +157,23 @@ $.getJSON(restServer,
          for(let i = 0; i < res.length; i++){
             //get the div with the fitting appointment
             //check if there is a user set or not => if yes => make it unclickable
-            if(data[i].user != null){
+            if(data[i]?.user != null){
                //add class => unclickable => "chosen" added 
-               $('#'+data[i].appointment+" > .formTermine").append("<div id='divtermin' class='terminDiv'><label for='"+data[i].uhrzeit+"'>"+data[i].uhrzeit+"</label><br><input type='radio' id='"+data[i].uhrzeit+"' class='checkbox chosen' name='"+data[i].uhrzeit+"' value='"+data[i].uhrzeit+"'><br></div>");
+               $('#'+data[i]?.appointment+" > .formTermine > .formDiv").append("<div id='divtermin' class='terminDiv'><label for='"+data[i]?.uhrzeit+"'>"+data[i]?.uhrzeit+"</label><br><input type='radio' id='"+data[i]?.uhrzeit+"' class='checkbox chosen' name='"+data[i]?.uhrzeit+"' value='"+data[i]?.uhrzeit+"'><br></div>");
             } else {
-               $('#'+data[i].appointment+" > .formTermine").append("<div id='divtermin' class='terminDiv'><label for='"+data[i].uhrzeit+"'>"+data[i].uhrzeit+"</label><br><input type='radio' id='"+data[i].uhrzeit+"' class='checkbox' name='"+data[i].uhrzeit+"' value='"+data[i].uhrzeit+"'><br></div>");
+               $('#'+data[i]?.appointment+" > .formTermine > .formDiv").append("<div id='divtermin' class='terminDiv'><label for='"+data[i]?.uhrzeit+"'>"+data[i]?.uhrzeit+"</label><br><input type='radio' id='"+data[i]?.uhrzeit+"' class='checkbox' name='"+data[i]?.uhrzeit+"' value='"+data[i]?.uhrzeit+"'><br></div>");
             }
          }
-
-         //namensfeld hinzufügen
-         //$("#termine").append('<input type="text" required placeholder="username" id="user" name="user"/>');
-         //submit button hinzufügen => alles über ajax machen
-
    });
 
 //-------------------------------------COMPLETED FORM-----------------------------------------
+
 interface data {
    title: string;
    id: string;
 }
+
+
 $.getJSON(restServer, 
    {'method':'getAppointmentTitle'}, 
    function( data:Array<data> )
@@ -183,17 +188,22 @@ $.getJSON(restServer,
       const res = text.split("}");
       for(let i = 0; i < res.length; i++){
          //einfügen von namensfeldern
-         $('#'+data[i].title+" > .formTermine").append("<input type='text' id='username' class='namensFeld' placeholder='Name...'><button id='sendButton' onclick='UserSelect(this.id)' value='" + data[i].title + "' class='btn btn-dark'>send</button>");
+         $('#'+data[i]?.title+" > .formTermine").append("<input type='text' id='username' class='namensFeld' placeholder='Name...'><br>");
          //einfügen von Kommentar Feld
-         
+         $('#'+data[i]?.title+" > .formTermine").append("<input type='text' id='kommentar' class='namensFeld' placeholder='Kommentar...'>");
          //einfügen von Submit Button
-         
+         $('#'+data[i]?.title+" > .formTermine").append("<button type='submit' id='sendButton' onclick='UserSelect(this.id)' value='" + data[i]?.title + "' class='btn btn-dark submit'>send</button>");
       }
    }
 );
 
+//----------FORM GETS SUBMITTED-----------------
+
+
+
+//------BUTTON FUNCTION--------
 function UserSelect(id: any) {
-      //daten in die db speicherns
+   //daten in die db speicherns
    let userX = $("#username").val();
    $.ajax({
       type: "GET",
@@ -224,12 +234,13 @@ function UserSelect(id: any) {
          $(".divForm").slideToggle();
       }
 
-      function createInputs(type: any, labelName: any)
+      function createInputs(type: any, labelName: any, id: any)
       {
          //type => ... dame, date, checkbox etc. 
          const input = document.createElement("input");
          input.setAttribute("class", "createAttribute");
          input.setAttribute("placeholder", labelName);
+         input.setAttribute("id", id);
 
          /*const label = document.createElement("label");
          label.textContent = labelName;
@@ -242,9 +253,37 @@ function UserSelect(id: any) {
             input.type = "submit";
             input.classList.remove("createAttribute"); //submit button hat andere eigenschaften
             input.classList.add("submit");
+            input.classList.add("hiddenSubmit");
+            input.addEventListener("click", send);
+            input.addEventListener("click", function(event){event.preventDefault()});
          }
 
 
          //always appendChild at the end
          form?.appendChild(input);
+      }
+
+
+      function send(){
+            var data = {
+               //Methode
+               method : "saveAppointment",
+
+               //Argumente
+               title : $("#title").val(),
+               ort : $("#ort").val()
+            };
+            
+            $.ajax({
+               url: restServer,
+               method: "POST",
+               dataType: 'json',
+               data: data,
+               success: function (data) {
+                  $("#hiddenForm").html('<div class="alert alert-success" role="alert"> Appointment was created </div>');
+               },
+               error: function (xhr, ajaxOptions, thrownError) {
+                  $("#hiddenForm").html('<div class="alert alert-success" role="alert"> There was a Problem! Please try again </div>');
+               }
+            });
       }

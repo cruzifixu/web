@@ -146,14 +146,14 @@ label {
     margin-top: 2em;
     margin-bottom: 2em;
     margin-right: 2em;
-    /*float: left;*/
+    float: left;
     /*alles zu den fonts*/
     font-size: larger;
     color: white;
     width: 5em;
     /*Alles zum Border*/
     border-radius: 15px;
-    border-color: cornflowerblue;
+    border: 2px solid rgb(48, 89, 164); 
 }
 
 .appointmentTitle {
@@ -164,4 +164,18 @@ label {
 .chosen {
     /*makes checkbox unclickable*/
     pointer-events: none;
+}
+
+#username,
+#kommentar {
+    margin-top: 1em;
+}
+
+.formDiv {
+    width: 1000px;
+    height: 190px;
+    overflow: auto;
+    overflow-y: hidden;
+    margin: 0 auto;
+    white-space: nowrap
 }

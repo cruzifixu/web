@@ -11,11 +11,17 @@ isset($_GET["user"]) ? $user = $_GET["user"] : false;
 
 $logic = new SimpleLogic();
 $result = $logic->handleRequest($method, $user, $param);
-if ($result == null) {
-    response("GET", 400, null);
-} else{
-    response("GET", 200, $result);
+
+if(isset($_POST["method"])){
+    response("POST", 200, $result);
+} else {
+    if ($result == null) {
+        response("GET", 400, null);
+    } else {
+        response("GET", 200, $result);
+    }
 }
+
 
 
 
@@ -24,6 +30,10 @@ function response($method, $httpStatus, $data)
     header('Content-Type: application/json');
     switch ($method) {
         case "GET":
+            http_response_code($httpStatus);
+            echo (json_encode($data));
+            break;
+        case "POST":
             http_response_code($httpStatus);
             echo (json_encode($data));
             break;
