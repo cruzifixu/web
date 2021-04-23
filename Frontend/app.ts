@@ -109,7 +109,7 @@ $.getJSON(restServer,
                    const formular = document.createElement("form") as HTMLElement;
                    formular.setAttribute("class", "formTermine");
                    formular.setAttribute("method", "post");
-                   formular.setAttribute("action", "Backend/forms/termin.php"); //für das submit der Daten
+                  //für das submit der Daten
           
                    //Options => get the Termine
                    //Termine in einem Div zum scrollen eingelegt 
@@ -270,10 +270,15 @@ function UserSelect(id: any) {
                method : "saveAppointment",
 
                //Argumente
-               title : $("#title").val(),
-               ort : $("#ort").val()
-            };
-            
+               title : $("#titel").val(),
+               ort : $("#ort").val(),
+
+               //Ablaufdatum
+               ablaufdatum: $("#ablaufdatum").val(),
+
+               //Datum
+            }
+
             $.ajax({
                url: restServer,
                method: "POST",
@@ -283,7 +288,7 @@ function UserSelect(id: any) {
                   $("#hiddenForm").html('<div class="alert alert-success" role="alert"> Appointment was created </div>');
                },
                error: function (xhr, ajaxOptions, thrownError) {
-                  $("#hiddenForm").html('<div class="alert alert-success" role="alert"> There was a Problem! Please try again </div>');
+                  $("#hiddenForm").html('<div class="alert alert-danger" role="alert"> There was a Problem! Please try again </div>');
                }
             });
       }

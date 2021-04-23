@@ -13,7 +13,11 @@ class SimpleLogic
 
     function handleRequest($method, $user, $param)
     {
+
         switch ($method) {
+            case "saveAppointment":
+                $this->dh->saveAppointment($title, $ort);
+                break;
 
             case "queryPersons":
                 $res = $this->dh->queryPersons();
@@ -33,10 +37,6 @@ class SimpleLogic
 
             case "getAppointmentTitle":
                 $res = $this->dh->queryTitles();
-                break;
-
-            case "saveAppointment":
-                $res = $this->dh->saveAppointment($title, $ort);
                 break;
 
             case "queryTermine":

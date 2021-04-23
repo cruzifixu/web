@@ -122,6 +122,15 @@ class DataHandler
 
     public function saveAppointment($title, $ort) {
         console.log($title);
-        
+        var_dump("Hallo");
+
+        $sql = "INSERT INTO appointments (title, Ort, Datum, Ablaufdatum) VALUES (?, ?, ?, ?)";
+        $conn = $this->connect();
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("ssss", "hallo", null , null , "hallo");
+        $stmt->execute();
+        exit();
+
+        $stmt->close();
     }
 }

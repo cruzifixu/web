@@ -85,7 +85,7 @@ $.getJSON(restServer, { 'method': 'queryPersons' }, function (data) {
         var formular = document.createElement("form");
         formular.setAttribute("class", "formTermine");
         formular.setAttribute("method", "post");
-        formular.setAttribute("action", "Backend/forms/termin.php"); //für das submit der Daten
+        //für das submit der Daten
         //Options => get the Termine
         //Termine in einem Div zum scrollen eingelegt 
         var formDiv = document.createElement("div");
@@ -207,8 +207,10 @@ function send() {
         //Methode
         method: "saveAppointment",
         //Argumente
-        title: $("#title").val(),
+        title: $("#titel").val(),
         ort: $("#ort").val()
+        //Ablaufdatum
+        //Datum
     };
     $.ajax({
         url: restServer,
@@ -219,7 +221,7 @@ function send() {
             $("#hiddenForm").html('<div class="alert alert-success" role="alert"> Appointment was created </div>');
         },
         error: function (xhr, ajaxOptions, thrownError) {
-            $("#hiddenForm").html('<div class="alert alert-success" role="alert"> There was a Problem! Please try again </div>');
+            $("#hiddenForm").html('<div class="alert alert-danger" role="alert"> There was a Problem! Please try again </div>');
         }
     });
 }
