@@ -6,6 +6,8 @@ $method = "";
 $user = "";
 $kommentar = "";
 $id = "";
+$appointment = "";
+$datetime = "";
 
 isset($_GET["method"]) ? $method = $_GET["method"] : false;
 isset($_GET["param"]) ? $param = $_GET["param"] : false;
@@ -14,7 +16,6 @@ isset($_GET["user"]) ? $user = $_GET["user"] : false;
 //POST VARIABLEN
 isset($_POST["method"]) ? $method = $_POST["method"] : false;
 isset($_POST["title"]) ? $title = $_POST["title"] : false;
-isset($_POST["datum"]) ? $datum = $_POST["datum"] : false;
 isset($_POST["ablaufdatum"]) ? $ablaufdatum = $_POST["ablaufdatum"] : false;
 isset($_POST["datetime"]) ? $datetime = $_POST["datetime"] : false;
 isset($_POST["ort"]) ? $ort = $_POST["ort"] : false;
@@ -33,7 +34,7 @@ if(isset($_GET["method"])){
         response("GET", 200, $result);
     }
 } else if (isset($_POST["method"])) {
-    $logic->handleChanges($method, $user, $kommentar, $id, $title, $ort, $appointment, $datum, $ablaufdatum, $datetime);
+    $logic->handleChanges($method, $user, $kommentar, $id, $title, $ort, $appointment, $ablaufdatum, $datetime);
 }
 
 function response($method, $httpStatus, $data)

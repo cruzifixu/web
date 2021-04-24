@@ -88,7 +88,7 @@ $.getJSON(restServer, { 'method': 'queryPersons' }, function (data) {
         var day = datum[2];
         var year = datum[0];
         //is current date == data[i].Ablaufdatum?
-        if (parseFloat(month) >= curMonth && curDay >= parseFloat(day) && curYear >= parseFloat(year)) {
+        if (parseFloat(month) >= curMonth && curDay <= parseFloat(day) && curYear <= parseFloat(year)) {
             title_1.removeEventListener("click", function () { viewDetails(id); });
             title_1.classList.add("abgelaufen");
             item.classList.add("abgelaufenerTermin");
@@ -131,7 +131,7 @@ $.getJSON(restServer, { 'method': 'queryPersons' }, function (data) {
     }
 });
 $.getJSON(restServer, { 'method': 'queryTermine' }, function (data) {
-    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q;
+    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o;
     //create new div in body
     $('#body').append("<div id='termine'></div>"); //nur zwischen div für den text
     $('#termine').text(JSON.stringify(data));
@@ -146,10 +146,10 @@ $.getJSON(restServer, { 'method': 'queryTermine' }, function (data) {
         //check if there is a user set or not => if yes => make it unclickable
         if (((_a = data[i]) === null || _a === void 0 ? void 0 : _a.user) != null) {
             //add class => unclickable => "chosen" added 
-            $('#' + ((_b = data[i]) === null || _b === void 0 ? void 0 : _b.appointment) + " > .formTermine > .formDiv").append("<div id='divtermin' class='terminDiv'><label for='" + ((_c = data[i]) === null || _c === void 0 ? void 0 : _c.uhrzeit) + "'>" + ((_d = data[i]) === null || _d === void 0 ? void 0 : _d.uhrzeit) + "\r\n/" + ((_e = data[i]) === null || _e === void 0 ? void 0 : _e.Datum) + "</label><br><input type='radio' id='" + ((_f = data[i]) === null || _f === void 0 ? void 0 : _f.uhrzeit) + "' class='checkbox chosen' name='" + ((_g = data[i]) === null || _g === void 0 ? void 0 : _g.uhrzeit) + "' value='" + ((_h = data[i]) === null || _h === void 0 ? void 0 : _h.uhrzeit) + "'><br></div>");
+            $('#' + ((_b = data[i]) === null || _b === void 0 ? void 0 : _b.appointment) + " > .formTermine > .formDiv").append("<div id='divtermin' class='terminDiv'><label for='" + ((_c = data[i]) === null || _c === void 0 ? void 0 : _c.Datum) + "'>" + ((_d = data[i]) === null || _d === void 0 ? void 0 : _d.Datum) + "</label><br><input type='radio' id='" + ((_e = data[i]) === null || _e === void 0 ? void 0 : _e.Datum) + "' class='checkbox chosen' name='" + ((_f = data[i]) === null || _f === void 0 ? void 0 : _f.Datum) + "' value='" + ((_g = data[i]) === null || _g === void 0 ? void 0 : _g.Datum) + "'><br></div>");
         }
         else {
-            $('#' + ((_j = data[i]) === null || _j === void 0 ? void 0 : _j.appointment) + " > .formTermine > .formDiv").append("<div id='divtermin' class='terminDiv'><label for='" + ((_k = data[i]) === null || _k === void 0 ? void 0 : _k.uhrzeit) + "'>" + ((_l = data[i]) === null || _l === void 0 ? void 0 : _l.uhrzeit) + "\r\n/" + ((_m = data[i]) === null || _m === void 0 ? void 0 : _m.Datum) + "</label><br><input type='radio' id='" + ((_o = data[i]) === null || _o === void 0 ? void 0 : _o.uhrzeit) + "' class='checkbox' name='" + ((_p = data[i]) === null || _p === void 0 ? void 0 : _p.uhrzeit) + "' value='" + ((_q = data[i]) === null || _q === void 0 ? void 0 : _q.uhrzeit) + "'><br></div>");
+            $('#' + ((_h = data[i]) === null || _h === void 0 ? void 0 : _h.appointment) + " > .formTermine > .formDiv").append("<div id='divtermin' class='terminDiv'><label for='" + ((_j = data[i]) === null || _j === void 0 ? void 0 : _j.Datum) + "'>" + ((_k = data[i]) === null || _k === void 0 ? void 0 : _k.Datum) + "</label><br><input type='radio' id='" + ((_l = data[i]) === null || _l === void 0 ? void 0 : _l.Datum) + "' class='checkbox' name='" + ((_m = data[i]) === null || _m === void 0 ? void 0 : _m.Datum) + "' value='" + ((_o = data[i]) === null || _o === void 0 ? void 0 : _o.Datum) + "'><br></div>");
         }
     }
 });
@@ -251,11 +251,12 @@ function createInputs(type, labelName, id) {
     form === null || form === void 0 ? void 0 : form.appendChild(input);
 }
 function send() {
-    var data = {
+    var oneTitle = $("#titel").val();
+    var daten = {
         //Methode
         method: "saveAppointment",
         //Argumente
-        title: $("#titel").val(),
+        title: oneTitle,
         ort: $("#ort").val(),
         //Ablaufdatum
         ablaufdatum: $("#ablaufdatum").val()
@@ -264,22 +265,23 @@ function send() {
         url: restServer,
         method: "POST",
         dataType: 'json',
-        data: data,
+        data: daten,
         success: function (data) {
             console.log(data);
             $("#hiddenForm").html('<div class="alert alert-success" role="alert"> Appointment was created </div>');
         },
         error: function (xhr, ajaxOptions, thrownError) {
-            console.log(data);
+            console.warn(xhr.responseText);
+            console.log(daten);
             console.log(thrownError);
             $("#hiddenForm").html('<div class="alert alert-danger" role="alert"> There was a Problem! Please try again </div>');
         }
     });
-    var inputs = document.getElementsByTagName('input .addOne');
-    var _loop_2 = function (i) {
+    var inputs = document.getElementsByClassName('addOne');
+    $('#hiddenForm').children('.addOne').each(function () {
         var inputdata = {
-            datetime: inputs[i].nodeValue,
-            title: $("#titel").val(),
+            datetime: $(this).val(),
+            title: oneTitle,
             method: "saveOneTime"
         };
         $.ajax({
@@ -289,12 +291,10 @@ function send() {
             success: function () {
                 console.log(inputdata);
             },
-            error: function () {
-                console.log("not working for " + i);
+            error: function (xhr, ajaxOptions, thrownError) {
+                console.warn(xhr.responseText);
+                console.log("not working");
             }
         });
-    };
-    for (var i = 0; i < inputs.length; i += 1) {
-        _loop_2(i);
-    }
+    });
 }

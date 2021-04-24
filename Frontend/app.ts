@@ -112,7 +112,7 @@ $.getJSON(restServer,
                   let day = datum[2];
                   let year = datum[0];
                   //is current date == data[i].Ablaufdatum?
-                  if(parseFloat(month) >= curMonth && curDay >= parseFloat(day) && curYear >= parseFloat(year)){
+                  if(parseFloat(month) >= curMonth && curDay <= parseFloat(day) && curYear <= parseFloat(year)){
                      title.removeEventListener("click", function(){viewDetails(id)});
                      title.classList.add("abgelaufen");
                      item.classList.add("abgelaufenerTermin");
@@ -183,9 +183,9 @@ $.getJSON(restServer,
             //check if there is a user set or not => if yes => make it unclickable
             if(data[i]?.user != null){
                //add class => unclickable => "chosen" added 
-               $('#'+data[i]?.appointment+" > .formTermine > .formDiv").append("<div id='divtermin' class='terminDiv'><label for='"+data[i]?.uhrzeit+"'>"+data[i]?.uhrzeit+"\r\n/"+data[i]?.Datum+"</label><br><input type='radio' id='"+data[i]?.uhrzeit+"' class='checkbox chosen' name='"+data[i]?.uhrzeit+"' value='"+data[i]?.uhrzeit+"'><br></div>");
+               $('#'+data[i]?.appointment+" > .formTermine > .formDiv").append("<div id='divtermin' class='terminDiv'><label for='"+data[i]?.Datum+"'>"+data[i]?.Datum+"</label><br><input type='radio' id='"+data[i]?.Datum+"' class='checkbox chosen' name='"+data[i]?.Datum+"' value='"+data[i]?.Datum+"'><br></div>");
             } else {
-               $('#'+data[i]?.appointment+" > .formTermine > .formDiv").append("<div id='divtermin' class='terminDiv'><label for='"+data[i]?.uhrzeit+"'>"+data[i]?.uhrzeit+"\r\n/"+data[i]?.Datum+"</label><br><input type='radio' id='"+data[i]?.uhrzeit+"' class='checkbox' name='"+data[i]?.uhrzeit+"' value='"+data[i]?.uhrzeit+"'><br></div>");
+               $('#'+data[i]?.appointment+" > .formTermine > .formDiv").append("<div id='divtermin' class='terminDiv'><label for='"+data[i]?.Datum+"'>"+data[i]?.Datum+"</label><br><input type='radio' id='"+data[i]?.Datum+"' class='checkbox' name='"+data[i]?.Datum+"' value='"+data[i]?.Datum+"'><br></div>");
             }
          }
    });
@@ -324,12 +324,13 @@ function UserSelect(id: any) {
 
 
       function send(){
-            var data = {
+         let oneTitle = $("#titel").val();
+            let daten = {
                //Methode
                method : "saveAppointment",
 
                //Argumente
-               title : $("#titel").val(),
+               title : oneTitle,
                ort : $("#ort").val(),
 
                //Ablaufdatum
@@ -340,34 +341,37 @@ function UserSelect(id: any) {
                url: restServer,
                method: "POST",
                dataType: 'json',
-               data: data,
+               data: daten,
                success: function (data) {
                   console.log(data);
                   $("#hiddenForm").html('<div class="alert alert-success" role="alert"> Appointment was created </div>');
                },
                error: function (xhr, ajaxOptions, thrownError) {
-                  console.log(data);
+                  console.warn(xhr.responseText);
+                  console.log(daten);
                   console.log(thrownError);
                   $("#hiddenForm").html('<div class="alert alert-danger" role="alert"> There was a Problem! Please try again </div>');
                }
             });
-            let inputs = document.getElementsByTagName('input .addOne');
-            for (let i = 0; i < inputs.length; i += 1) {
-               let inputdata = {
-                  datetime: inputs[i].nodeValue,
-                  title: $("#titel").val(),
-                  method: "saveOneTime",
-               }
-               $.ajax({
-                  url: restServer,
-                  method: "POST",
-                  data: inputdata, 
-                  success: function() {
-                     console.log(inputdata);
-                  },
-                  error: function() {
-                     console.log("not working for "+ i);
+
+            let inputs = document.getElementsByClassName('addOne');
+               $('#hiddenForm').children('.addOne').each(function(){
+                  let inputdata = {
+                     datetime: $(this).val(),
+                     title: oneTitle,
+                     method: "saveOneTime",
                   }
+                  $.ajax({
+                     url: restServer,
+                     method: "POST",
+                     data: inputdata, 
+                     success: function() {
+                        console.log(inputdata);
+                     },
+                     error: function(xhr, ajaxOptions, thrownError) {
+                        console.warn(xhr.responseText);
+                        console.log("not working");
+                     }
+                  })
                })
-            }​​​​
       }

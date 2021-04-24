@@ -121,21 +121,21 @@ class DataHandler
         return $termin;
     }
 
-    public function saveAppointment($title, $ort, $ablauf, $datum) {
+    public function saveAppointment($title, $ort, $ablauf) {
         $ts = time();
         $erstelldatum = date("Y-m-d H:i:s", $ts);
         $sql = "INSERT INTO appointments (title, Erstelldatum, Ablaufdatum, Ort) VALUE (?, ?, ?, ?);";
         $connection = $this->connect();
         $stmt = $connection->prepare($sql);
-        $stmt->bind_param($title, $erstelldatum, $ablauf, $ort);
+        $stmt->bind_param("ssss", $title, $erstelldatum, $ablauf, $ort);
         $stmt->execute();
     }
 
     public function saveOneTime($date, $title) {
-        $sql = "UPDATE oneappointment SET Datum = ? WHERE appointment = ?;";
+        $sql = "INSERT INTO oneappointment (appointment, Datum) VALUES (?, ?);";
         $connection = $this->connect();
         $stmt = $connection->prepare($sql);
-        $stmt->bind_param("ss", $date, $title);
+        $stmt->bind_param("ss", $title, $date);
         $stmt->execute();
 
         $stmt->close();
