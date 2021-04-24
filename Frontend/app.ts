@@ -23,6 +23,7 @@ interface data {
    title: string;
    Datum: string;
    Ablaufdatum: string;
+   Erstelldatum: string;
    Ort: string;
 }
 //----------------------------------DISPLAY THE APPOINTMENTS---------------------------------
@@ -112,7 +113,7 @@ $.getJSON(restServer,
                   let day = datum[2];
                   let year = datum[0];
                   //is current date == data[i].Ablaufdatum?
-                  if(parseFloat(month) >= curMonth && curDay <= parseFloat(day) && curYear <= parseFloat(year)){
+                  if(parseFloat(month) <= curMonth && curDay >= parseFloat(day) && curYear >= parseFloat(year)){
                      title.removeEventListener("click", function(){viewDetails(id)});
                      title.classList.add("abgelaufen");
                      item.classList.add("abgelaufenerTermin");
@@ -125,6 +126,7 @@ $.getJSON(restServer,
                    inhalt.setAttribute("class", "hiddenInhalt " + id); //hidden => not displayed
                    inhalt.setAttribute("id", data[i].title); //später für die Termine
 
+                   var Erstelldatum = document.createTextNode(" Erstelldatum: "+data[i].Erstelldatum);
                    var Ablaufdatum = document.createTextNode(" Ablaufdatum: "+data[i].Ablaufdatum);
                    var Ort = document.createTextNode("Ort: "+data[i].Ort);
           
@@ -148,6 +150,7 @@ $.getJSON(restServer,
           
                    formular.appendChild(input);*/
                    inhalt.appendChild(Ort);
+                   inhalt.appendChild(Erstelldatum);
                    inhalt.appendChild(Ablaufdatum);
                    inhalt.appendChild(formular);
                    //-----------------------FUNCTIONALITY---------------------
@@ -161,8 +164,9 @@ $.getJSON(restServer,
 interface data {
    user: string;
    appointment: string;
-   uhrzeit: string;
    Datum: string;
+   uhrzeit: string;
+   kommentar: string;
 }
 
 $.getJSON(restServer,
@@ -183,7 +187,7 @@ $.getJSON(restServer,
             //check if there is a user set or not => if yes => make it unclickable
             if(data[i]?.user != null){
                //add class => unclickable => "chosen" added 
-               $('#'+data[i]?.appointment+" > .formTermine > .formDiv").append("<div id='divtermin' class='terminDiv'><label for='"+data[i]?.Datum+"'>"+data[i]?.Datum+"</label><br><input type='radio' id='"+data[i]?.Datum+"' class='checkbox chosen' name='"+data[i]?.Datum+"' value='"+data[i]?.Datum+"'><br></div>");
+               $('#'+data[i]?.appointment+" > .formTermine > .formDiv").append("<div id='divtermin' class='terminDiv'><label for='"+data[i]?.Datum+"'>"+data[i]?.Datum+"</label><br><input type='radio' id='"+data[i]?.Datum+"' class='checkbox chosen' name='"+data[i]?.Datum+"' value='"+data[i]?.Datum+"'><br><p>user("+data[i]?.user+"): "+data[i]?.kommentar+"</p></div>");
             } else {
                $('#'+data[i]?.appointment+" > .formTermine > .formDiv").append("<div id='divtermin' class='terminDiv'><label for='"+data[i]?.Datum+"'>"+data[i]?.Datum+"</label><br><input type='radio' id='"+data[i]?.Datum+"' class='checkbox' name='"+data[i]?.Datum+"' value='"+data[i]?.Datum+"'><br></div>");
             }
@@ -211,12 +215,13 @@ $.getJSON(restServer,
       //Jquery statt dom verwenden => weniger arbeit 
       const res = text.split("}");
       for(let i = 0; i < res.length; i++){
+         //let funcc = "UserSelect(" + data[i]?.title + ")";
          //einfügen von namensfeldern
-         $('#'+data[i]?.title+" > .formTermine").append("<input type='text' id='username' class='namensFeld' placeholder='Name...'><br>");
+         $('#'+data[i]?.title+" > .formTermine").append("<input type='text' id='entereduser' class='namensFeld' placeholder='Name...'><br>");
          //einfügen von Kommentar Feld
          $('#'+data[i]?.title+" > .formTermine").append("<input type='text' id='kommentar' class='namensFeld' placeholder='Kommentar...'>");
          //einfügen von Submit Button
-         $('#'+data[i]?.title+" > .formTermine").append("<button type='submit' id='sendButton' onclick='UserSelect(this.val)' value='"+data[i]?.title+"' class='btn btn-dark submit'>send</button>");
+         $('#'+data[i]?.title+" > .formTermine").append("<button type='submit' id='sendButton' onclick='UserSelect(this.value)' value='"+data[i]?.title+"' class='btn btn-dark submit'>send</button>");
       }
    }
 );
@@ -230,6 +235,8 @@ let appointment : string = "";
 //------BUTTON FUNCTION--------
 function UserSelect(id: any) {
    //daten in die db speicherns
+   let username = $("#entereduser").val();
+   let kommi = $("#kommentar").val();
    let button = document.getElementById("sendButton");
    button?.addEventListener("click", function(event){event.preventDefault()});
 
@@ -238,15 +245,17 @@ function UserSelect(id: any) {
          appointment = ""+$(this).val()+"";
       }
    });
+   alert(username);
+   alert(kommi);
 
    var data = {
       //Methode
       method : "addUserSelect",
 
       //Argumente
-      kommentar: $("#kommentar").val(),
-      user : $("#username").val(),
-      id: $("#sendButton").val(), //Title des Appointments
+      kommentar: kommi,
+      user : username,
+      id: id, //Title des Appointments
       appointment: appointment
    }
 
@@ -353,8 +362,6 @@ function UserSelect(id: any) {
                   $("#hiddenForm").html('<div class="alert alert-danger" role="alert"> There was a Problem! Please try again </div>');
                }
             });
-
-            let inputs = document.getElementsByClassName('addOne');
                $('#hiddenForm').children('.addOne').each(function(){
                   let inputdata = {
                      datetime: $(this).val(),

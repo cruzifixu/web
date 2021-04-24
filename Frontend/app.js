@@ -88,7 +88,7 @@ $.getJSON(restServer, { 'method': 'queryPersons' }, function (data) {
         var day = datum[2];
         var year = datum[0];
         //is current date == data[i].Ablaufdatum?
-        if (parseFloat(month) >= curMonth && curDay <= parseFloat(day) && curYear <= parseFloat(year)) {
+        if (parseFloat(month) <= curMonth && curDay >= parseFloat(day) && curYear >= parseFloat(year)) {
             title_1.removeEventListener("click", function () { viewDetails(id); });
             title_1.classList.add("abgelaufen");
             item.classList.add("abgelaufenerTermin");
@@ -99,6 +99,7 @@ $.getJSON(restServer, { 'method': 'queryPersons' }, function (data) {
         //drinnen stehen alle termine und es ist nicht 
         inhalt.setAttribute("class", "hiddenInhalt " + id); //hidden => not displayed
         inhalt.setAttribute("id", data[i].title); //später für die Termine
+        Erstelldatum = document.createTextNode(" Erstelldatum: " + data[i].Erstelldatum);
         Ablaufdatum = document.createTextNode(" Ablaufdatum: " + data[i].Ablaufdatum);
         Ort = document.createTextNode("Ort: " + data[i].Ort);
         //was brauchen wir in dem div ??
@@ -118,6 +119,7 @@ $.getJSON(restServer, { 'method': 'queryPersons' }, function (data) {
 
         formular.appendChild(input);*/
         inhalt.appendChild(Ort);
+        inhalt.appendChild(Erstelldatum);
         inhalt.appendChild(Ablaufdatum);
         inhalt.appendChild(formular);
         //-----------------------FUNCTIONALITY---------------------
@@ -125,13 +127,13 @@ $.getJSON(restServer, { 'method': 'queryPersons' }, function (data) {
         item.appendChild(inhalt); //add the div
         ul === null || ul === void 0 ? void 0 : ul.appendChild(item);
     };
-    var Ablaufdatum, Ort;
+    var Erstelldatum, Ablaufdatum, Ort;
     for (var i = 0; i < res.length - 1; i++) {
         _loop_1(i);
     }
 });
 $.getJSON(restServer, { 'method': 'queryTermine' }, function (data) {
-    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o;
+    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q;
     //create new div in body
     $('#body').append("<div id='termine'></div>"); //nur zwischen div für den text
     $('#termine').text(JSON.stringify(data));
@@ -146,10 +148,10 @@ $.getJSON(restServer, { 'method': 'queryTermine' }, function (data) {
         //check if there is a user set or not => if yes => make it unclickable
         if (((_a = data[i]) === null || _a === void 0 ? void 0 : _a.user) != null) {
             //add class => unclickable => "chosen" added 
-            $('#' + ((_b = data[i]) === null || _b === void 0 ? void 0 : _b.appointment) + " > .formTermine > .formDiv").append("<div id='divtermin' class='terminDiv'><label for='" + ((_c = data[i]) === null || _c === void 0 ? void 0 : _c.Datum) + "'>" + ((_d = data[i]) === null || _d === void 0 ? void 0 : _d.Datum) + "</label><br><input type='radio' id='" + ((_e = data[i]) === null || _e === void 0 ? void 0 : _e.Datum) + "' class='checkbox chosen' name='" + ((_f = data[i]) === null || _f === void 0 ? void 0 : _f.Datum) + "' value='" + ((_g = data[i]) === null || _g === void 0 ? void 0 : _g.Datum) + "'><br></div>");
+            $('#' + ((_b = data[i]) === null || _b === void 0 ? void 0 : _b.appointment) + " > .formTermine > .formDiv").append("<div id='divtermin' class='terminDiv'><label for='" + ((_c = data[i]) === null || _c === void 0 ? void 0 : _c.Datum) + "'>" + ((_d = data[i]) === null || _d === void 0 ? void 0 : _d.Datum) + "</label><br><input type='radio' id='" + ((_e = data[i]) === null || _e === void 0 ? void 0 : _e.Datum) + "' class='checkbox chosen' name='" + ((_f = data[i]) === null || _f === void 0 ? void 0 : _f.Datum) + "' value='" + ((_g = data[i]) === null || _g === void 0 ? void 0 : _g.Datum) + "'><br><p>user(" + ((_h = data[i]) === null || _h === void 0 ? void 0 : _h.user) + "): " + ((_j = data[i]) === null || _j === void 0 ? void 0 : _j.kommentar) + "</p></div>");
         }
         else {
-            $('#' + ((_h = data[i]) === null || _h === void 0 ? void 0 : _h.appointment) + " > .formTermine > .formDiv").append("<div id='divtermin' class='terminDiv'><label for='" + ((_j = data[i]) === null || _j === void 0 ? void 0 : _j.Datum) + "'>" + ((_k = data[i]) === null || _k === void 0 ? void 0 : _k.Datum) + "</label><br><input type='radio' id='" + ((_l = data[i]) === null || _l === void 0 ? void 0 : _l.Datum) + "' class='checkbox' name='" + ((_m = data[i]) === null || _m === void 0 ? void 0 : _m.Datum) + "' value='" + ((_o = data[i]) === null || _o === void 0 ? void 0 : _o.Datum) + "'><br></div>");
+            $('#' + ((_k = data[i]) === null || _k === void 0 ? void 0 : _k.appointment) + " > .formTermine > .formDiv").append("<div id='divtermin' class='terminDiv'><label for='" + ((_l = data[i]) === null || _l === void 0 ? void 0 : _l.Datum) + "'>" + ((_m = data[i]) === null || _m === void 0 ? void 0 : _m.Datum) + "</label><br><input type='radio' id='" + ((_o = data[i]) === null || _o === void 0 ? void 0 : _o.Datum) + "' class='checkbox' name='" + ((_p = data[i]) === null || _p === void 0 ? void 0 : _p.Datum) + "' value='" + ((_q = data[i]) === null || _q === void 0 ? void 0 : _q.Datum) + "'><br></div>");
         }
     }
 });
@@ -163,12 +165,13 @@ $.getJSON(restServer, { 'method': 'getAppointmentTitle' }, function (data) {
     //Jquery statt dom verwenden => weniger arbeit 
     var res = text.split("}");
     for (var i = 0; i < res.length; i++) {
+        //let funcc = "UserSelect(" + data[i]?.title + ")";
         //einfügen von namensfeldern
-        $('#' + ((_a = data[i]) === null || _a === void 0 ? void 0 : _a.title) + " > .formTermine").append("<input type='text' id='username' class='namensFeld' placeholder='Name...'><br>");
+        $('#' + ((_a = data[i]) === null || _a === void 0 ? void 0 : _a.title) + " > .formTermine").append("<input type='text' id='entereduser' class='namensFeld' placeholder='Name...'><br>");
         //einfügen von Kommentar Feld
         $('#' + ((_b = data[i]) === null || _b === void 0 ? void 0 : _b.title) + " > .formTermine").append("<input type='text' id='kommentar' class='namensFeld' placeholder='Kommentar...'>");
         //einfügen von Submit Button
-        $('#' + ((_c = data[i]) === null || _c === void 0 ? void 0 : _c.title) + " > .formTermine").append("<button type='submit' id='sendButton' onclick='UserSelect(this.val)' value='" + ((_d = data[i]) === null || _d === void 0 ? void 0 : _d.title) + "' class='btn btn-dark submit'>send</button>");
+        $('#' + ((_c = data[i]) === null || _c === void 0 ? void 0 : _c.title) + " > .formTermine").append("<button type='submit' id='sendButton' onclick='UserSelect(this.value)' value='" + ((_d = data[i]) === null || _d === void 0 ? void 0 : _d.title) + "' class='btn btn-dark submit'>send</button>");
     }
 });
 //----------FORM GETS SUBMITTED-----------------
@@ -176,6 +179,8 @@ var appointment = "";
 //------BUTTON FUNCTION--------
 function UserSelect(id) {
     //daten in die db speicherns
+    var username = $("#entereduser").val();
+    var kommi = $("#kommentar").val();
     var button = document.getElementById("sendButton");
     button === null || button === void 0 ? void 0 : button.addEventListener("click", function (event) { event.preventDefault(); });
     $('.terminDiv').children('input').each(function () {
@@ -183,13 +188,15 @@ function UserSelect(id) {
             appointment = "" + $(this).val() + "";
         }
     });
+    alert(username);
+    alert(kommi);
     var data = {
         //Methode
         method: "addUserSelect",
         //Argumente
-        kommentar: $("#kommentar").val(),
-        user: $("#username").val(),
-        id: $("#sendButton").val(),
+        kommentar: kommi,
+        user: username,
+        id: id,
         appointment: appointment
     };
     $.ajax({
@@ -277,7 +284,6 @@ function send() {
             $("#hiddenForm").html('<div class="alert alert-danger" role="alert"> There was a Problem! Please try again </div>');
         }
     });
-    var inputs = document.getElementsByClassName('addOne');
     $('#hiddenForm').children('.addOne').each(function () {
         var inputdata = {
             datetime: $(this).val(),

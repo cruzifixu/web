@@ -101,7 +101,7 @@ class DataHandler
 
 
     public function addUserSelect($kommentar, $user, $id, $appointment) {
-        $sql = "UPDATE oneappointment SET user = ?, kommentar = ? WHERE appointment = ? AND uhrzeit = ?;";
+        $sql = "UPDATE oneappointment SET user = ?, kommentar = ? WHERE appointment = ? AND Datum = ?;";
         $connection = $this->connect();
         $stmt = $connection->prepare($sql);
         $stmt->bind_param("ssss", $user, $kommentar, $id, $appointment);
@@ -139,5 +139,9 @@ class DataHandler
         $stmt->execute();
 
         $stmt->close();
+    }
+
+    public function getComments() {
+        
     }
 }
