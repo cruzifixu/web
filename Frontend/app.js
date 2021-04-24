@@ -1,4 +1,3 @@
-"use strict";
 /*
    Achtung - wichtige Hinweise:
    -----------------------------------------------------------------------------
@@ -48,9 +47,17 @@ $.getJSON(restServer, { 'method': 'queryPersons' }, function (data) {
     createInputs("text", "Titel: ", "titel");
     createInputs("text", "Ort: ", "ort");
     createInputs("date", "Ablaufdatum: ", "ablaufdatum");
-    createInputs("date", "Datum: ", "datum");
     createInputs("submit", "Submit", "submit");
     div === null || div === void 0 ? void 0 : div.appendChild(title);
+    //add button to add single appointments
+    var addApp = document.createElement("button");
+    var sp = document.createElement("span");
+    var Btext = document.createTextNode("+");
+    sp.appendChild(Btext);
+    addApp.addEventListener("click", addOneAppo);
+    addApp.setAttribute("class", "plusButton");
+    addApp.appendChild(sp);
+    div === null || div === void 0 ? void 0 : div.appendChild(addApp);
     div === null || div === void 0 ? void 0 : div.appendChild(form);
     body === null || body === void 0 ? void 0 : body.appendChild(div);
     //split the text
@@ -81,7 +88,7 @@ $.getJSON(restServer, { 'method': 'queryPersons' }, function (data) {
         var day = datum[2];
         var year = datum[0];
         //is current date == data[i].Ablaufdatum?
-        if (parseFloat(month) == curMonth && curDay == parseFloat(day) && curYear == parseFloat(year)) {
+        if (parseFloat(month) >= curMonth && curDay >= parseFloat(day) && curYear >= parseFloat(year)) {
             title_1.removeEventListener("click", function () { viewDetails(id); });
             title_1.classList.add("abgelaufen");
             item.classList.add("abgelaufenerTermin");
@@ -92,7 +99,6 @@ $.getJSON(restServer, { 'method': 'queryPersons' }, function (data) {
         //drinnen stehen alle termine und es ist nicht 
         inhalt.setAttribute("class", "hiddenInhalt " + id); //hidden => not displayed
         inhalt.setAttribute("id", data[i].title); //später für die Termine
-        Datum = document.createTextNode(" Datum: " + data[i].Datum);
         Ablaufdatum = document.createTextNode(" Ablaufdatum: " + data[i].Ablaufdatum);
         Ort = document.createTextNode("Ort: " + data[i].Ort);
         //was brauchen wir in dem div ??
@@ -113,20 +119,19 @@ $.getJSON(restServer, { 'method': 'queryPersons' }, function (data) {
         formular.appendChild(input);*/
         inhalt.appendChild(Ort);
         inhalt.appendChild(Ablaufdatum);
-        inhalt.appendChild(Datum);
         inhalt.appendChild(formular);
         //-----------------------FUNCTIONALITY---------------------
         //onlick event für die Detailansicht
         item.appendChild(inhalt); //add the div
         ul === null || ul === void 0 ? void 0 : ul.appendChild(item);
     };
-    var Datum, Ablaufdatum, Ort;
+    var Ablaufdatum, Ort;
     for (var i = 0; i < res.length - 1; i++) {
         _loop_1(i);
     }
 });
 $.getJSON(restServer, { 'method': 'queryTermine' }, function (data) {
-    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o;
+    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q;
     //create new div in body
     $('#body').append("<div id='termine'></div>"); //nur zwischen div für den text
     $('#termine').text(JSON.stringify(data));
@@ -141,10 +146,10 @@ $.getJSON(restServer, { 'method': 'queryTermine' }, function (data) {
         //check if there is a user set or not => if yes => make it unclickable
         if (((_a = data[i]) === null || _a === void 0 ? void 0 : _a.user) != null) {
             //add class => unclickable => "chosen" added 
-            $('#' + ((_b = data[i]) === null || _b === void 0 ? void 0 : _b.appointment) + " > .formTermine > .formDiv").append("<div id='divtermin' class='terminDiv'><label for='" + ((_c = data[i]) === null || _c === void 0 ? void 0 : _c.uhrzeit) + "'>" + ((_d = data[i]) === null || _d === void 0 ? void 0 : _d.uhrzeit) + "</label><br><input type='radio' id='" + ((_e = data[i]) === null || _e === void 0 ? void 0 : _e.uhrzeit) + "' class='checkbox chosen' name='" + ((_f = data[i]) === null || _f === void 0 ? void 0 : _f.uhrzeit) + "' value='" + ((_g = data[i]) === null || _g === void 0 ? void 0 : _g.uhrzeit) + "'><br></div>");
+            $('#' + ((_b = data[i]) === null || _b === void 0 ? void 0 : _b.appointment) + " > .formTermine > .formDiv").append("<div id='divtermin' class='terminDiv'><label for='" + ((_c = data[i]) === null || _c === void 0 ? void 0 : _c.uhrzeit) + "'>" + ((_d = data[i]) === null || _d === void 0 ? void 0 : _d.uhrzeit) + "\r\n/" + ((_e = data[i]) === null || _e === void 0 ? void 0 : _e.Datum) + "</label><br><input type='radio' id='" + ((_f = data[i]) === null || _f === void 0 ? void 0 : _f.uhrzeit) + "' class='checkbox chosen' name='" + ((_g = data[i]) === null || _g === void 0 ? void 0 : _g.uhrzeit) + "' value='" + ((_h = data[i]) === null || _h === void 0 ? void 0 : _h.uhrzeit) + "'><br></div>");
         }
         else {
-            $('#' + ((_h = data[i]) === null || _h === void 0 ? void 0 : _h.appointment) + " > .formTermine > .formDiv").append("<div id='divtermin' class='terminDiv'><label for='" + ((_j = data[i]) === null || _j === void 0 ? void 0 : _j.uhrzeit) + "'>" + ((_k = data[i]) === null || _k === void 0 ? void 0 : _k.uhrzeit) + "</label><br><input type='radio' id='" + ((_l = data[i]) === null || _l === void 0 ? void 0 : _l.uhrzeit) + "' class='checkbox' name='" + ((_m = data[i]) === null || _m === void 0 ? void 0 : _m.uhrzeit) + "' value='" + ((_o = data[i]) === null || _o === void 0 ? void 0 : _o.uhrzeit) + "'><br></div>");
+            $('#' + ((_j = data[i]) === null || _j === void 0 ? void 0 : _j.appointment) + " > .formTermine > .formDiv").append("<div id='divtermin' class='terminDiv'><label for='" + ((_k = data[i]) === null || _k === void 0 ? void 0 : _k.uhrzeit) + "'>" + ((_l = data[i]) === null || _l === void 0 ? void 0 : _l.uhrzeit) + "\r\n/" + ((_m = data[i]) === null || _m === void 0 ? void 0 : _m.Datum) + "</label><br><input type='radio' id='" + ((_o = data[i]) === null || _o === void 0 ? void 0 : _o.uhrzeit) + "' class='checkbox' name='" + ((_p = data[i]) === null || _p === void 0 ? void 0 : _p.uhrzeit) + "' value='" + ((_q = data[i]) === null || _q === void 0 ? void 0 : _q.uhrzeit) + "'><br></div>");
         }
     }
 });
@@ -194,9 +199,11 @@ function UserSelect(id) {
         data: data,
         success: function () {
             //alert("success"); //schöne success msg machen
+            $("#divform").html('<div class="alert alert-success" role="alert"> Appointment was created </div>');
         },
         error: function () {
             //alert("error"); //schöne error message
+            $("#divform").html('<div class="alert alert-danger" role="alert"> There was a problem. Please try again </div>');
         }
     });
 }
@@ -210,6 +217,13 @@ function viewDetails(id) {
 }
 function showForm() {
     $(".divForm").slideToggle();
+}
+function addOneAppo() {
+    var inputDatetime = document.createElement("input");
+    inputDatetime.setAttribute("class", "addOne");
+    inputDatetime.setAttribute("placeholder", "DD.MM.YY H:M");
+    inputDatetime.type = "datetime-local";
+    form === null || form === void 0 ? void 0 : form.appendChild(inputDatetime);
 }
 function createInputs(type, labelName, id) {
     //type => ... dame, date, checkbox etc. 
@@ -244,9 +258,7 @@ function send() {
         title: $("#titel").val(),
         ort: $("#ort").val(),
         //Ablaufdatum
-        ablaufdatum: $("#ablaufdatum").val(),
-        //Datum
-        datum: $("#datum").val(),
+        ablaufdatum: $("#ablaufdatum").val()
     };
     $.ajax({
         url: restServer,
@@ -254,10 +266,35 @@ function send() {
         dataType: 'json',
         data: data,
         success: function (data) {
+            console.log(data);
             $("#hiddenForm").html('<div class="alert alert-success" role="alert"> Appointment was created </div>');
         },
         error: function (xhr, ajaxOptions, thrownError) {
+            console.log(data);
+            console.log(thrownError);
             $("#hiddenForm").html('<div class="alert alert-danger" role="alert"> There was a Problem! Please try again </div>');
         }
     });
+    var inputs = document.getElementsByTagName('input .addOne');
+    var _loop_2 = function (i) {
+        var inputdata = {
+            datetime: inputs[i].nodeValue,
+            title: $("#titel").val(),
+            method: "saveOneTime"
+        };
+        $.ajax({
+            url: restServer,
+            method: "POST",
+            data: inputdata,
+            success: function () {
+                console.log(inputdata);
+            },
+            error: function () {
+                console.log("not working for " + i);
+            }
+        });
+    };
+    for (var i = 0; i < inputs.length; i += 1) {
+        _loop_2(i);
+    }
 }

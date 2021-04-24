@@ -12,15 +12,16 @@ class SimpleLogic
     }
 
     //------------------------FÜR POST REQUESTS-----------------------------
-    function handleChanges($method, $user, $kommentar, $id, $title, $ort, $appointment){
+    function handleChanges($method, $user, $kommentar, $id, $title, $ort, $appointment, $datum, $ablaufdatum, $datetime){
         switch($method){
             case "saveAppointment": 
-                $this->dh->saveAppointment($title, $ort);
+                $this->dh->saveAppointment($title, $ort, $ablaufdatum, $datum);
                 break;
-
             case "addUserSelect":
                 $this->dh->addUserSelect($kommentar, $user, $id, $appointment);
                 break;
+            case "saveOneTime":
+                $this->dh->saveOneTime($datetime, $title);
         }
     }
 

@@ -13,8 +13,8 @@ class DataHandler
     private function connect()
     {
         $this->servername = "localhost";
-        $this->serveruser = "bif2webscriptinguser";
-        $this->serverpwd = "bif2021";
+        $this->serveruser = "root";
+        $this->serverpwd = "";
         //$this->serveruser = "bif2webscriptinguser";
         //$this->serverpwd = "bif2021";
         $this->dbname = "bif2webscriptinguser";
@@ -121,11 +121,23 @@ class DataHandler
         return $termin;
     }
 
-    public function saveAppointment($title, $ort) {
-        $sql = "INSERT INTO appointments (title, Datum, Ablaufdatum, Ort) VALUE (?, ?, ?, ?);";
+    public function saveAppointment($title, $ort, $ablauf, $datum) {
+        $ts = time();
+        $erstelldatum = date("Y-m-d H:i:s", $ts);
+        $sql = "INSERT INTO appointments (title, Erstelldatum, Ablaufdatum, Ort) VALUE (?, ?, ?, ?);";
         $connection = $this->connect();
         $stmt = $connection->prepare($sql);
-        $stmt->bind_param($user, $kommentar ,$id);
+        $stmt->bind_param($title, $erstelldatum, $ablauf, $ort);
         $stmt->execute();
+    }
+
+    public function saveOneTime($date, $title) {
+        $sql = "UPDATE oneappointment SET Datum = ? WHERE appointment = ?;";
+        $connection = $this->connect();
+        $stmt = $connection->prepare($sql);
+        $stmt->bind_param("ss", $date, $title);
+        $stmt->execute();
+
+        $stmt->close();
     }
 }
