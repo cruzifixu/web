@@ -22,6 +22,10 @@ class SimpleLogic
                 break;
             case "saveOneTime":
                 $this->dh->saveOneTime($datetime, $title);
+                break;
+            case "deleteAppointment":
+                $this->dh->deleteAppointment($title);
+                break;
         }
     }
 
@@ -41,6 +45,10 @@ class SimpleLogic
 
             case "queryTermine":
                 $res = $this->dh->queryTermine();
+                break;
+
+            case "queryKommentare":
+                $res = $this->dh->queryKommentare();
                 break;
 
             default:

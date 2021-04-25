@@ -141,7 +141,42 @@ class DataHandler
         $stmt->close();
     }
 
-    public function getComments() {
-        
+    public function queryKommentare() {
+        $sql = "SELECT kommentar FROM oneappointment;";
+        $connection = $this->connect();
+        $stmt = $connection->prepare($sql);
+        $stmt->execute();
+        $row = $stmt->get_result(); //es sind mehrere resultate also schau ich mir die row an
+        while ($result = $row->fetch_assoc()) {
+            $data[] = $result; //speichere die resultate in einem array
+        }
+
+        //nur wenn das array voll ist soll es zu einem return wert kommen
+        if (!empty($data)) {
+            return $data;
+        }
+        else {
+            return "no appointments";
+        }
+    }
+
+    public function deleteAppointment($title)
+    {
+        $sql = "DELETE FROM oneappointment WHERE appointment = ?";
+        $connection = $this->connect();
+        $stmt = $connection->prepare($sql);
+        $stmt->bind_param("s", $title);
+        $stmt->execute();
+
+        $stmt->close();
+
+
+        $sql = "DELETE FROM appointments WHERE title = ?";
+        $connection = $this->connect();
+        $stmt = $connection->prepare($sql);
+        $stmt->bind_param("s", $title);
+        $stmt->execute();
+
+        $stmt->close();
     }
 }

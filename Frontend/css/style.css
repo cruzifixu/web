@@ -11,10 +11,13 @@ body {
     /*Remove Bullets*/
     background-color: rgb(245, 245, 245);
     background-image: url(https://images.pngnice.com/download/2007/My-Neighbor-Totoro-PNG-File.png);
+    background-repeat: no-repeat;
+    background-size: cover;
     /*FONT*/
     font-weight: bold;
     text-align: center;
     text-transform: uppercase;
+    text-decoration: overline;
     /*Put in the Middle*/
     margin: auto;
     margin-top: 2em;
@@ -30,6 +33,50 @@ body {
 
 .hiddenInhalt {
     display: none;
+}
+
+.spanText {
+    background-color: white;
+}
+
+.addOne {
+    margin-top: 1em;
+    margin-bottom: 1em;
+    width: 100%;
+
+    border: 0;
+    border-bottom: 2px solid gray;
+    outline: 0;
+    font-size: 1rem;
+    background: transparent;
+    text-transform: uppercase;
+
+    background-color: white;
+}
+
+.addApp {
+    background-color: rgb(79, 117, 171);
+    height: 4em;
+    width: 4em;
+    transition: width 0.4s ease-in-out;
+    border-radius: 50px;
+    margin-left: 2em;
+    margin-top: 2em;
+    margin-bottom: 2em;
+}
+
+.addApp:hover {
+    width: 8em;
+    content-visibility: none;
+}
+
+.addApp:hover span {
+    display: none
+}
+
+.addApp:hover:before {
+    content: "ADD TERMIN!";
+    font-weight: bold;
 }
 
 .plusButton {
@@ -67,6 +114,7 @@ body {
     font-size: 1.3rem;
     background: transparent;
     text-transform: uppercase;
+    margin-top: 1em;
 }
 
 .formTitle {
@@ -129,7 +177,6 @@ body {
     -webkit-appearance: none;
     outline: none;
     cursor: pointer;
-    margin-top: 1em;
 }
 
 .checkbox:checked {
@@ -140,17 +187,17 @@ label {
     margin-top: 1em;
 }
 
-#divtermin {
+.terminDiv {
     background-color: rgb(79, 117, 171);
-    height: 7em;
+    height: 9em;
     margin-top: 2em;
-    margin-bottom: 2em;
+    margin-bottom: 4em;
     margin-right: 2em;
     float: left;
     /*alles zu den fonts*/
     font-size: larger;
     color: white;
-    width: 5em;
+    width: 7em;
     /*Alles zum Border*/
     border-radius: 15px;
     border: 2px solid rgb(48, 89, 164); 
@@ -174,7 +221,7 @@ label {
 
 .formDiv {
     width: 1000px;
-    height: 190px;
+    height: 15em;
     overflow: auto;
     overflow-y: hidden;
     margin: 0 auto;
@@ -192,4 +239,46 @@ label {
 .abgelaufenerTermin{
     background-color: rgb(167, 103, 103);   
     border: 5px solid rgb(238, 0, 0);
+}
+
+.deleteButton {
+    float: right;
+    margin-bottom: 3em;
+    background-color: rgb(79, 117, 171);
+    height: 3em;
+    width: 3em;
+    border-radius: 50px;
+}
+
+i {
+    color: white;
+}
+
+.popup-overlay {
+    visibility:hidden;
+    }
+    
+.popup-content {
+    visibility:hidden;
+    }
+.popup-overlay.active{
+        visibility:visible;
+        }
+        
+.popup-content.active {
+        visibility:visible;
+        }
+.popup-content{
+    background-color: white;
+    border: 5px solid rgb(79, 117, 171);
+    border-radius: 15px;
+}
+.popup-overlay {
+    background-color: white;
+    margin: auto;
+    margin-top: 2em;
+    width: 50%;
+    border: 5px solid rgb(79, 117, 171);
+    border-radius: 15px;
+    padding: 40px;
 }
