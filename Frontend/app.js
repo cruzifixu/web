@@ -38,7 +38,7 @@ $.getJSON(restServer, { 'method': 'queryPersons' }, function (data) {
     body === null || body === void 0 ? void 0 : body.appendChild(plusButton);
     //make appointment ist verbunden mit dem oben gebildeteten Button
     var div = document.createElement("div");
-    div.setAttribute("class", "hiddenInhalt container divForm");
+    div.setAttribute("class", "hiddenInhalt container divForm col-md-12 col-lg-12 col-sm-12");
     div.setAttribute("id", "divForm");
     var title = document.createElement("h1");
     var titleInhalt = document.createTextNode("Create Appointment");
@@ -73,7 +73,7 @@ $.getJSON(restServer, { 'method': 'queryPersons' }, function (data) {
         //für jedes Element aus i wird ein li objekt erstellt
         var item = document.createElement("li");
         item.setAttribute("id", id);
-        item.setAttribute("class", "appointmentListe " + data[i].title); //Klasse für weitere Css anpassungen
+        item.setAttribute("class", "appointmentListe col-md-12 col-lg-12 col-sm-12 " + data[i].title); //Klasse für weitere Css anpassungen
         //span zum title
         var spanTitle = document.createElement("span");
         var title_1 = document.createElement("h1");
@@ -118,7 +118,7 @@ $.getJSON(restServer, { 'method': 'queryPersons' }, function (data) {
         //create hidden element where the details are shown
         var inhalt = document.createElement("div");
         //drinnen stehen alle termine und es ist nicht 
-        inhalt.setAttribute("class", "hiddenInhalt " + id); //hidden => not displayed
+        inhalt.setAttribute("class", "hiddenInhalt col-md-12 col-lg-12 col-sm-12 " + id); //hidden => not displayed
         inhalt.setAttribute("id", data[i].title); //später für die Termine
         var spanText = document.createElement("span");
         spanText.setAttribute("class", "spanText");
@@ -137,7 +137,7 @@ $.getJSON(restServer, { 'method': 'queryPersons' }, function (data) {
         //Options => get the Termine
         //Termine in einem Div zum scrollen eingelegt 
         var formDiv = document.createElement("div");
-        formDiv.setAttribute("class", "container formDiv");
+        formDiv.setAttribute("class", "container formDiv col-md-12 col-lg-12 col-sm-12");
         formDiv.addEventListener("click", openAppointmentDetails);
         formular.appendChild(formDiv);
         /*let input = document.createElement("input") as HTMLElement;
@@ -158,7 +158,7 @@ $.getJSON(restServer, { 'method': 'queryPersons' }, function (data) {
     }
 });
 $.getJSON(restServer, { 'method': 'queryTermine' }, function (data) {
-    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m;
+    var _a, _b, _c, _d, _e, _f, _g;
     //create new div in body
     $('#body').append("<div id='termine'></div>"); //nur zwischen div für den text
     $('#termine').text(JSON.stringify(data));
@@ -168,23 +168,53 @@ $.getJSON(restServer, { 'method': 'queryTermine' }, function (data) {
     //Jquery statt dom verwenden => weniger arbeit 
     var res = text.split("}");
     //appointments hinzufügen
-    for (var i = 0; i < res.length; i++) {
+    for (var i = 0; i < (res === null || res === void 0 ? void 0 : res.length); i++) {
         //get the div with the fitting appointment
         //check if there is a user set or not => if yes => make it unclickable
         //split datum 
         var date = (_a = data[i]) === null || _a === void 0 ? void 0 : _a.Datum.split(" ");
-        if (((_b = data[i]) === null || _b === void 0 ? void 0 : _b.user) != null) {
-            //add class => unclickable => "chosen" added 
-            $('#' + ((_c = data[i]) === null || _c === void 0 ? void 0 : _c.appointment) + " > .formTermine > .formDiv").append("<div class='terminDiv'><label for='" + ((_d = data[i]) === null || _d === void 0 ? void 0 : _d.Datum) + "'>" + date[0] + "</label><br><p>" + date[1] + "</p><input type='radio' id='" + ((_e = data[i]) === null || _e === void 0 ? void 0 : _e.Datum) + "' class='checkbox chosen' name='" + ((_f = data[i]) === null || _f === void 0 ? void 0 : _f.Datum) + "' value='" + ((_g = data[i]) === null || _g === void 0 ? void 0 : _g.Datum) + "'><br><button class='open'>Open</button><br></div>");
-        }
-        else {
-            $('#' + ((_h = data[i]) === null || _h === void 0 ? void 0 : _h.appointment) + " > .formTermine > .formDiv").append("<div class='terminDiv'><label for='" + ((_j = data[i]) === null || _j === void 0 ? void 0 : _j.Datum) + "'>" + date[0] + "</label><br><p>" + date[1] + "</p><input type='radio' id='" + ((_k = data[i]) === null || _k === void 0 ? void 0 : _k.Datum) + "' class='checkbox' name='" + ((_l = data[i]) === null || _l === void 0 ? void 0 : _l.Datum) + "' value='" + ((_m = data[i]) === null || _m === void 0 ? void 0 : _m.Datum) + "'><br><button class='open'>Open</button><br></div>");
-        }
+        //alle user können sich anmelden
+        $('#' + ((_b = data[i]) === null || _b === void 0 ? void 0 : _b.appointment) + " > .formTermine > .formDiv").append("<div class='terminDiv'><label for='" + ((_c = data[i]) === null || _c === void 0 ? void 0 : _c.Datum) + "'>" + date[0] + "</label><br><p>" + date[1] + "</p><input type='radio' id='" + ((_d = data[i]) === null || _d === void 0 ? void 0 : _d.Datum) + "' class='checkbox' name='" + ((_e = data[i]) === null || _e === void 0 ? void 0 : _e.Datum) + "' value='" + ((_f = data[i]) === null || _f === void 0 ? void 0 : _f.Datum) + "'><br><button value='" + ((_g = data[i]) === null || _g === void 0 ? void 0 : _g.uhrzeit) + "' class='open'><i class='fa fa-info-circle' aria-hidden='true'></i></button><br></div>");
     }
 });
 //-------------------------------------COMPLETED FORM-----------------------------------------
 $.getJSON(restServer, { 'method': 'queryTermine' }, function (data) {
+    var _a, _b, _c;
     //create new div in body
+    $('#body').append("<div id='termine'></div>"); //nur zwischen div für den text
+    $('#termine').text(JSON.stringify(data));
+    var text = $('#termine').text();
+    $('#termine').text(" ");
+    //Termine werden als select dargestellte
+    //Jquery statt dom verwenden => weniger arbeit 
+    var res = text.split("}");
+    var _loop_2 = function (i) {
+        //jeder termin bekommt ein pop up
+        $("body").append('<div class="popup-overlay ' + ((_a = data[i]) === null || _a === void 0 ? void 0 : _a.uhrzeit) + ' col-md-12 col-lg-12 col-sm-12"><div class="col-md-12 col-lg-12 col-sm-12 popup-content ' + ((_b = data[i]) === null || _b === void 0 ? void 0 : _b.uhrzeit) + '"><h2>Termin Information</h2><div class="terminUser col-md-12 col-lg-12 col-sm-12"><h3>User:</h3></div><div class="terminKommis col-md-12 col-lg-12 col-sm-12"><h3>Kommentar(e):</h3><p class="userK">:</p><p class="kommentare"></p></div><button value="' + ((_c = data[i]) === null || _c === void 0 ? void 0 : _c.uhrzeit) + '" class="close">Close</button></div></div>');
+        $(".open").on("click", function (event) {
+            var _a;
+            var id = $(this).val();
+            $(".popup, .popup-content ,." + id).show();
+            event.preventDefault();
+            //neu
+            $("#" + ((_a = data[i]) === null || _a === void 0 ? void 0 : _a.appointment)).hide();
+        });
+        $(".close, .popup").on("click", function (event) {
+            var _a;
+            var id = $(this).val();
+            $(".popup, .popup-content ,." + id).hide();
+            //event.preventDefault();
+            //neu
+            $("#" + ((_a = data[i]) === null || _a === void 0 ? void 0 : _a.appointment)).show();
+        });
+    };
+    //appointments hinzufügen
+    for (var i = 0; i < res.length; i++) {
+        _loop_2(i);
+    }
+});
+//fill the pop up
+$.getJSON(restServer, { 'method': 'queryTermine' }, function (data) {
     $('#body').append("<div id='termine'></div>"); //nur zwischen div für den text
     $('#termine').text(JSON.stringify(data));
     var text = $('#termine').text();
@@ -194,16 +224,11 @@ $.getJSON(restServer, { 'method': 'queryTermine' }, function (data) {
     var res = text.split("}");
     //appointments hinzufügen
     for (var i = 0; i < res.length; i++) {
-        //jeder termin bekommt ein pop up
-        $("body").append('<div class="popup-overlay"><div class="popup-content"><h2>Pop-Up</h2><p>User:</p><p>' + data[i].user + '</p><p>' + data[i].kommentar + '</p><button class="close">Close</button></div></div>');
-        $(".open").on("click", function (event) {
-            $(".popup, .popup-content").addClass("active");
-            event.preventDefault();
-        });
-        $(".close, .popup").on("click", function (event) {
-            $(".popup, .popup-content").removeClass("active");
-            event.preventDefault();
-        });
+        //only append the div with the right Date
+        //USERS:
+        $(".popup-overlay > ." + data[i].Datum + " > .terminUser").append("<p>" + data[i].username + "</p>");
+        //KOMMENTARE:
+        $("." + data[i].Datum + " > .terminKommis").append("<p>" + data[i].kommentar + "</p>");
     }
 });
 $.getJSON(restServer, { 'method': 'getAppointmentTitle' }, function (data) {

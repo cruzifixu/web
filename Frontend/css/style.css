@@ -189,7 +189,7 @@ label {
 
 .terminDiv {
     background-color: rgb(79, 117, 171);
-    height: 9em;
+    height: 10em;
     margin-top: 2em;
     margin-bottom: 4em;
     margin-right: 2em;
@@ -255,30 +255,60 @@ i {
 }
 
 .popup-overlay {
-    visibility:hidden;
+    display:none;
     }
     
 .popup-content {
-    visibility:hidden;
+    display: none;
     }
-.popup-overlay.active{
-        visibility:visible;
-        }
-        
-.popup-content.active {
-        visibility:visible;
-        }
+
 .popup-content{
     background-color: white;
     border: 5px solid rgb(79, 117, 171);
     border-radius: 15px;
+    margin: auto;
+    margin-top: 2em;
+    width: 100%;
+    border-radius: 15px;
+    padding: 40px;
 }
+
+.popup-content p {
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
 .popup-overlay {
-    background-color: white;
     margin: auto;
     margin-top: 2em;
     width: 50%;
-    border: 5px solid rgb(79, 117, 171);
     border-radius: 15px;
     padding: 40px;
+}
+
+.popup-content > h2 {
+    font-weight: bold;
+    text-align: center;
+    text-transform: uppercase;
+    text-decoration: overline;
+}
+
+.popup-content > h3 {
+    font-weight: bold;
+    text-transform: uppercase;
+    text-decoration: overline;
+}
+
+.kommentare {
+    margin-left: 1em;
+}
+
+.userK {
+    text-decoration: underline;   
+}
+
+.open {
+    float: right;
+    background: transparent;
+    border: none;
 }

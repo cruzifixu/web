@@ -101,12 +101,12 @@ class DataHandler
 
 
     public function addUserSelect($kommentar, $user, $id, $appointment) {
-        $sql = "UPDATE oneappointment SET user = ?, kommentar = ? WHERE appointment = ? AND Datum = ?;";
+        $sql = "INSERT INTO users (username, kommentar, appointment, Datum) VALUES (?, ?, ?, ?);";
         $connection = $this->connect();
         $stmt = $connection->prepare($sql);
         $stmt->bind_param("ssss", $user, $kommentar, $id, $appointment);
         $stmt->execute();
-        var_dump($stmt);
+        //var_dump($stmt);
     }
 
     public function getOneAppointment($id) {
@@ -142,7 +142,7 @@ class DataHandler
     }
 
     public function queryKommentare() {
-        $sql = "SELECT kommentar FROM oneappointment;";
+        $sql = "SELECT kommentar FROM users;";
         $connection = $this->connect();
         $stmt = $connection->prepare($sql);
         $stmt->execute();
