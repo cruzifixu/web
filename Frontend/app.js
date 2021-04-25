@@ -1,4 +1,3 @@
-"use strict";
 /*
    Achtung - wichtige Hinweise:
    -----------------------------------------------------------------------------
@@ -22,7 +21,6 @@ $.getJSON(restServer, { 'method': 'queryPersons' }, function (data) {
     $('#mainpart').text(JSON.stringify(data));
     //let node = document.getElementById('mainpart');
     //alert("Hallo");
-    var ul = document.getElementById("mainpart");
     //get the content from the mainpart and put it in there 
     var text = $('#mainpart').text();
     $('#mainpart').text(" ");
@@ -36,6 +34,8 @@ $.getJSON(restServer, { 'method': 'queryPersons' }, function (data) {
     plusButton.setAttribute("class", "plusButton");
     plusButton.appendChild(span);
     body === null || body === void 0 ? void 0 : body.appendChild(plusButton);
+    //<input type="text" placeholder="Search.." name="search">
+    //<button type="submit">Submit</button>
     //make appointment ist verbunden mit dem oben gebildeteten Button
     var div = document.createElement("div");
     div.setAttribute("class", "hiddenInhalt container divForm col-md-12 col-lg-12 col-sm-12");
@@ -71,6 +71,7 @@ $.getJSON(restServer, { 'method': 'queryPersons' }, function (data) {
         var id = i.toString(); //nur daweil
         //------------------LI OBJEKT ERSTELLEN------------------
         //für jedes Element aus i wird ein li objekt erstellt
+        var ul = document.getElementById("mainpart");
         var item = document.createElement("li");
         item.setAttribute("id", id);
         item.setAttribute("class", "appointmentListe col-md-12 col-lg-12 col-sm-12 " + data[i].title); //Klasse für weitere Css anpassungen
@@ -138,7 +139,7 @@ $.getJSON(restServer, { 'method': 'queryPersons' }, function (data) {
         //Termine in einem Div zum scrollen eingelegt 
         var formDiv = document.createElement("div");
         formDiv.setAttribute("class", "container formDiv col-md-12 col-lg-12 col-sm-12");
-        formDiv.addEventListener("click", openAppointmentDetails);
+        formDiv.addEventListener("click", showForm);
         formular.appendChild(formDiv);
         /*let input = document.createElement("input") as HTMLElement;
         input.setAttribute("class", "namensFeld");
@@ -178,8 +179,8 @@ $.getJSON(restServer, { 'method': 'queryTermine' }, function (data) {
     }
 });
 //-------------------------------------COMPLETED FORM-----------------------------------------
-$.getJSON(restServer, { 'method': 'queryTermine' }, function (data) {
-    var _a, _b, _c;
+$.getJSON(restServer, { 'method': 'getUserComments' }, function (data) {
+    var _a, _b, _c, _d, _e;
     //create new div in body
     $('#body').append("<div id='termine'></div>"); //nur zwischen div für den text
     $('#termine').text(JSON.stringify(data));
@@ -188,29 +189,31 @@ $.getJSON(restServer, { 'method': 'queryTermine' }, function (data) {
     //Termine werden als select dargestellte
     //Jquery statt dom verwenden => weniger arbeit 
     var res = text.split("}");
-    var _loop_2 = function (i) {
-        //jeder termin bekommt ein pop up
-        $("body").append('<div class="popup-overlay ' + ((_a = data[i]) === null || _a === void 0 ? void 0 : _a.uhrzeit) + ' col-md-12 col-lg-12 col-sm-12"><div class="col-md-12 col-lg-12 col-sm-12 popup-content ' + ((_b = data[i]) === null || _b === void 0 ? void 0 : _b.uhrzeit) + '"><h2>Termin Information</h2><div class="terminUser col-md-12 col-lg-12 col-sm-12"><h3>User:</h3></div><div class="terminKommis col-md-12 col-lg-12 col-sm-12"><h3>Kommentar(e):</h3><p class="userK">:</p><p class="kommentare"></p></div><button value="' + ((_c = data[i]) === null || _c === void 0 ? void 0 : _c.uhrzeit) + '" class="close">Close</button></div></div>');
-        $(".open").on("click", function (event) {
-            var _a;
-            var id = $(this).val();
-            $(".popup, .popup-content ,." + id).show();
-            event.preventDefault();
-            //neu
-            $("#" + ((_a = data[i]) === null || _a === void 0 ? void 0 : _a.appointment)).hide();
-        });
-        $(".close, .popup").on("click", function (event) {
-            var _a;
-            var id = $(this).val();
-            $(".popup, .popup-content ,." + id).hide();
-            //event.preventDefault();
-            //neu
-            $("#" + ((_a = data[i]) === null || _a === void 0 ? void 0 : _a.appointment)).show();
-        });
-    };
     //appointments hinzufügen
-    for (var i = 0; i < res.length; i++) {
-        _loop_2(i);
+    if (data != null) {
+        var _loop_2 = function (i) {
+            //jeder termin bekommt ein pop up
+            $("body").append('<div class="popup-overlay ' + ((_a = data[i]) === null || _a === void 0 ? void 0 : _a.Datum) + ' col-md-12 col-lg-12 col-sm-12"><div class="col-md-12 col-lg-12 col-sm-12 popup-content ' + ((_b = data[i]) === null || _b === void 0 ? void 0 : _b.Datum) + '"><h2>Termin Information</h2><div class="terminUser col-md-12 col-lg-12 col-sm-12"><h3>User: ' + ((_c = data[i]) === null || _c === void 0 ? void 0 : _c.username) + '</h3></div><div class="terminKommis col-md-12 col-lg-12 col-sm-12"><h3>Kommentar(e): ' + ((_d = data[i]) === null || _d === void 0 ? void 0 : _d.kommentar) + '</h3><p class="userK"></p><p class="kommentare"></p></div><button value="' + ((_e = data[i]) === null || _e === void 0 ? void 0 : _e.Datum) + '" class="close">Close</button></div></div>');
+            $(".open").on("click", function (event) {
+                var _a;
+                var id = $(this).val();
+                $(".popup, .popup-content ,." + id).show();
+                event.preventDefault();
+                //neu
+                $("#" + ((_a = data[i]) === null || _a === void 0 ? void 0 : _a.appointment)).hide();
+            });
+            $(".close, .popup").on("click", function (event) {
+                var _a;
+                var id = $(this).val();
+                $(".popup, .popup-content ,." + id).hide();
+                //event.preventDefault();
+                //neu
+                $("#" + ((_a = data[i]) === null || _a === void 0 ? void 0 : _a.appointment)).show();
+            });
+        };
+        for (var i = 0; i < res.length; i++) {
+            _loop_2(i);
+        }
     }
 });
 //fill the pop up
@@ -263,33 +266,33 @@ function UserSelect(id) {
     $('.terminDiv').children('input').each(function () {
         if ($(this).is(':checked')) {
             appointment = "" + $(this).val() + "";
+            var data = {
+                //Methode
+                method: "addUserSelect",
+                //Argumente
+                kommentar: kommi,
+                user: username,
+                id: id,
+                appointment: appointment
+            };
+            $.ajax({
+                url: restServer,
+                method: "POST",
+                dataType: 'json',
+                data: data,
+                success: function () {
+                    //alert("success"); //schöne success msg machen
+                    $("#divform").html('<div class="alert alert-success" role="alert"> Appointment was created </div>');
+                },
+                error: function () {
+                    //alert("error"); //schöne error message
+                    $("#divform").html('<div class="alert alert-danger" role="alert"> There was a problem. Please try again </div>');
+                }
+            });
         }
     });
     alert(username);
     alert(kommi);
-    var data = {
-        //Methode
-        method: "addUserSelect",
-        //Argumente
-        kommentar: kommi,
-        user: username,
-        id: $("#sendButton").val(),
-        appointment: appointment
-    };
-    $.ajax({
-        url: restServer,
-        method: "POST",
-        dataType: 'json',
-        data: data,
-        success: function () {
-            //alert("success"); //schöne success msg machen
-            $("#divform").html('<div class="alert alert-success" role="alert"> Appointment was created </div>');
-        },
-        error: function () {
-            //alert("error"); //schöne error message
-            $("#divform").html('<div class="alert alert-danger" role="alert"> There was a problem. Please try again </div>');
-        }
-    });
 }
 //---------------------------------------FUNKTIONEN--------------------------------------------
 var form = document.createElement("form");
@@ -364,7 +367,7 @@ function send() {
         title: oneTitle,
         ort: $("#ort").val(),
         //Ablaufdatum
-        ablaufdatum: $("#ablaufdatum").val(),
+        ablaufdatum: $("#ablaufdatum").val()
     };
     $.ajax({
         url: restServer,
@@ -376,17 +379,18 @@ function send() {
             //$("#hiddenForm").html('<div class="alert alert-success" role="alert"> Appointment was created </div>');
         },
         error: function (xhr, ajaxOptions, thrownError) {
-            console.warn(xhr.responseText);
+            console.warn(xhr);
             console.log(daten);
             console.log(thrownError);
             //$("#hiddenForm").html('<div class="alert alert-danger" role="alert"> There was a Problem! Please try again </div>');
         }
     });
+    var inputdata = {};
     $('#hiddenForm').children('.addOne').each(function () {
-        var inputdata = {
+        inputdata = {
             datetime: $(this).val(),
             title: oneTitle,
-            method: "saveOneTime",
+            method: "saveOneTime"
         };
         $.ajax({
             url: restServer,
@@ -401,6 +405,33 @@ function send() {
             }
         });
     });
+    //schließen und clear  
+    showForm();
+    $("#titel").val("");
+    $("#ort").val("");
+    $("#ablaufdatum").val("");
+    $('#hiddenForm').children('.addOne').each(function () {
+        $(this).val("");
+    });
 }
-function openAppointmentDetails() {
+function searchApp() {
+    var searched = $("#searchfield").val();
+    searched = searched === null || searched === void 0 ? void 0 : searched.toString();
+    var searchTerm = {
+        method: "toAddOneApp",
+        param: searched
+    };
+    $.ajax({
+        url: restServer,
+        method: "GET",
+        dataType: 'json',
+        data: searchTerm,
+        success: function (res) {
+            console.log(res);
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            console.warn(xhr);
+        }
+    });
+    console.log(searchTerm);
 }

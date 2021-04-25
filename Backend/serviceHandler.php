@@ -8,8 +8,9 @@ $kommentar = "";
 $id = "";
 $appointment = "";
 $datetime = "";
+$getmethod = "";
 
-isset($_GET["method"]) ? $method = $_GET["method"] : false;
+isset($_GET["method"]) ? $getmethod = $_GET["method"] : false;
 isset($_GET["param"]) ? $param = $_GET["param"] : false;
 isset($_GET["user"]) ? $user = $_GET["user"] : false;
 
@@ -25,7 +26,7 @@ isset($_POST["id"]) ? $id = $_POST["id"] : false;
 isset($_POST["appointment"]) ? $appointment = $_POST["appointment"] : false;
 
 $logic = new SimpleLogic();
-$result = $logic->handleRequest($method, $user, $param);
+$result = $logic->handleRequest($getmethod, $user, $param);
 
 if(isset($_GET["method"])){
     if ($result == null) {

@@ -50,7 +50,9 @@ class SimpleLogic
             case "queryKommentare":
                 $res = $this->dh->queryKommentare();
                 break;
-
+            case "getUserComments":
+                $res = $this->dh->getUserComments();
+                break;
             default:
                 $res = null;
                 break;

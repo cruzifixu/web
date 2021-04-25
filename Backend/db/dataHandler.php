@@ -101,12 +101,19 @@ class DataHandler
 
 
     public function addUserSelect($kommentar, $user, $id, $appointment) {
+        $sql = "DELETE FROM users WHERE username = ?;";
+        $connection = $this->connect();
+        $stmt = $connection->prepare($sql);
+        $stmt->bind_param("s", $user);
+        $stmt->execute();
+        $stmt->close();
+
         $sql = "INSERT INTO users (username, kommentar, appointment, Datum) VALUES (?, ?, ?, ?);";
         $connection = $this->connect();
         $stmt = $connection->prepare($sql);
         $stmt->bind_param("ssss", $user, $kommentar, $id, $appointment);
         $stmt->execute();
-        //var_dump($stmt);
+        $stmt->close();
     }
 
     public function getOneAppointment($id) {
@@ -178,5 +185,23 @@ class DataHandler
         $stmt->execute();
 
         $stmt->close();
+    }  
+
+    public function getUserComments() {
+        $sql = "SELECT * FROM users;";
+        $connection = $this->connect();
+        $stmt = $connection->prepare($sql);
+        $stmt->execute();
+        $row = $stmt->get_result();
+        while ($result = $row->fetch_assoc()) {
+            $data[] = $result; //speichere die resultate in einem array
+        }
+        if (!empty($data)) {
+            return $data;
+        }
+        else {
+            return null;
+        }
     }
 }
+

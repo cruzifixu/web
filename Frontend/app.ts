@@ -35,7 +35,6 @@ $.getJSON(restServer,
           
                 //let node = document.getElementById('mainpart');
                 //alert("Hallo");
-                const ul = document.getElementById("mainpart");
                 //get the content from the mainpart and put it in there 
                 let text = $('#mainpart').text();
                 $('#mainpart').text(" ");
@@ -50,6 +49,9 @@ $.getJSON(restServer,
                 plusButton.setAttribute("class", "plusButton");
                 plusButton.appendChild(span);
                 body?.appendChild(plusButton);
+
+               //<input type="text" placeholder="Search.." name="search">
+               //<button type="submit">Submit</button>
           
                 //make appointment ist verbunden mit dem oben gebildeteten Button
                 let div = document.createElement("div");
@@ -90,44 +92,44 @@ $.getJSON(restServer,
                 //split the text
                 let res = text.split("}"); //nur um zu schauen wie viele objekte da sind
                 for(let i = 0; i < res.length-1; i++){
-                   const id = i.toString(); //nur daweil
-          
+                  const id = i.toString(); //nur daweil
           
                    //------------------LI OBJEKT ERSTELLEN------------------
                    //für jedes Element aus i wird ein li objekt erstellt
-                   let item = document.createElement("li") as HTMLElement;
-                   item.setAttribute("id", id);
-                   item.setAttribute("class", "appointmentListe col-md-12 col-lg-12 col-sm-12 "+data[i].title); //Klasse für weitere Css anpassungen
-                   
-                   //span zum title
-                   let spanTitle = document.createElement("span");
-                   let title = document.createElement("h1");
-                   let titleInhalt = document.createTextNode(data[i].title);
-                   title.setAttribute("class", "appointmentTitle");
-                   title.appendChild(titleInhalt);
-                   title.addEventListener("click", 
-                   function(){ //anonyme Funktion 
-                      viewDetails(id)
-                   });
+                  const ul = document.getElementById("mainpart");
+                  let item = document.createElement("li") as HTMLElement;
+                  item.setAttribute("id", id);
+                  item.setAttribute("class", "appointmentListe col-md-12 col-lg-12 col-sm-12 "+data[i].title); //Klasse für weitere Css anpassungen
+                           
+                  //span zum title
+                  let spanTitle = document.createElement("span");
+                  let title = document.createElement("h1");
+                  let titleInhalt = document.createTextNode(data[i].title);
+                  title.setAttribute("class", "appointmentTitle");
+                  title.appendChild(titleInhalt);
+                  title.addEventListener("click", 
+                  function(){ //anonyme Funktion 
+                     viewDetails(id)
+                  });
 
-                   //delete Button
-                   let deleteButton = document.createElement("button");
-                   deleteButton.setAttribute("class", "deleteButton");
-                   deleteButton.addEventListener("click", 
-                   function(){
-                      deleteAppointment(data[i].title);
-                   });
-                   deleteButton.addEventListener("click", 
-                   function(){
-                      deleteChild(id);
-                   });
-                   let icon = document.createElement("i");
-                   icon.setAttribute("class", "fa fa-trash");
-                   deleteButton.appendChild(icon);
+                  //delete Button
+                  let deleteButton = document.createElement("button");
+                  deleteButton.setAttribute("class", "deleteButton");
+                  deleteButton.addEventListener("click", 
+                  function(){
+                     deleteAppointment(data[i].title);
+                  });
+                  deleteButton.addEventListener("click", 
+                  function(){
+                     deleteChild(id);
+                  });
+                  let icon = document.createElement("i");
+                  icon.setAttribute("class", "fa fa-trash");
+                  deleteButton.appendChild(icon);
 
-                   spanTitle.appendChild(deleteButton);
-                   spanTitle.appendChild(title);
-                   item.appendChild(spanTitle);
+                  spanTitle.appendChild(deleteButton);
+                  spanTitle.appendChild(title);
+                  item.appendChild(spanTitle);
 
                   //Check if Appointment ist abgelaufen
                   let d = new Date();
@@ -147,53 +149,52 @@ $.getJSON(restServer,
                      item.classList.add("abgelaufenerTermin");
                   }
 
-                   //-----------------------HIDDEN DIV------------------------
-                   //create hidden element where the details are shown
-                   let inhalt = document.createElement("div") as HTMLElement;
-                   //drinnen stehen alle termine und es ist nicht 
-                   inhalt.setAttribute("class", "hiddenInhalt col-md-12 col-lg-12 col-sm-12 " + id); //hidden => not displayed
-                   inhalt.setAttribute("id", data[i].title); //später für die Termine
+                  //-----------------------HIDDEN DIV------------------------
+                  //create hidden element where the details are shown
+                  let inhalt = document.createElement("div") as HTMLElement;
+                  //drinnen stehen alle termine und es ist nicht 
+                  inhalt.setAttribute("class", "hiddenInhalt col-md-12 col-lg-12 col-sm-12 " + id); //hidden => not displayed
+                  inhalt.setAttribute("id", data[i].title); //später für die Termine
 
-                   let spanText = document.createElement("span") as HTMLElement;
-                   spanText.setAttribute("class", "spanText");
+                  let spanText = document.createElement("span") as HTMLElement;
+                  spanText.setAttribute("class", "spanText");
 
-                   var Erstelldatum = document.createTextNode(" Erstelldatum: "+data[i].Erstelldatum);
-                   var Ablaufdatum = document.createTextNode(" Ablaufdatum: "+data[i].Ablaufdatum);
-                   var Ort = document.createTextNode("Ort: "+data[i].Ort);
+                  var Erstelldatum = document.createTextNode(" Erstelldatum: "+data[i].Erstelldatum);
+                  var Ablaufdatum = document.createTextNode(" Ablaufdatum: "+data[i].Ablaufdatum);
+                  var Ort = document.createTextNode("Ort: "+data[i].Ort);
 
-                   spanText.appendChild(Ort);
-                   spanText.appendChild(Erstelldatum);
-                   spanText.appendChild(Ablaufdatum);
-          
-                   //was brauchen wir in dem div ??
-                   //-------------------------FORMULAR------------------------
-                   //Input => für den Namen
-                   const formular = document.createElement("form") as HTMLElement;
-                   formular.setAttribute("class", "formTermine");
-                  //für das submit der Daten
-          
-                   //Options => get the Termine
-                   //Termine in einem Div zum scrollen eingelegt 
-                   const formDiv = document.createElement("div");
-                   formDiv.setAttribute("class", "container formDiv col-md-12 col-lg-12 col-sm-12");
-                   formDiv.addEventListener("click", openAppointmentDetails);
+                  spanText.appendChild(Ort);
+                  spanText.appendChild(Erstelldatum);
+                  spanText.appendChild(Ablaufdatum);
 
-                   formular.appendChild(formDiv);
-          
-                   /*let input = document.createElement("input") as HTMLElement;
-                   input.setAttribute("class", "namensFeld");
-                   input.setAttribute("placeholder", "Name...");
-          
-                   formular.appendChild(input);*/
-                   inhalt.appendChild(spanText);
-                   inhalt.appendChild(formular);
-                   //-----------------------FUNCTIONALITY---------------------
-                   //onlick event für die Detailansicht
-                   item.appendChild(inhalt); //add the div
-                   ul?.appendChild(item);
+                  //was brauchen wir in dem div ??
+                  //-------------------------FORMULAR------------------------
+                  //Input => für den Namen
+                  const formular = document.createElement("form") as HTMLElement;
+                  formular.setAttribute("class", "formTermine");
+               //für das submit der Daten
+
+                  //Options => get the Termine
+                  //Termine in einem Div zum scrollen eingelegt 
+                  const formDiv = document.createElement("div");
+                  formDiv.setAttribute("class", "container formDiv col-md-12 col-lg-12 col-sm-12");
+                  formDiv.addEventListener("click", showForm);
+
+                  formular.appendChild(formDiv);
+
+                  /*let input = document.createElement("input") as HTMLElement;
+                  input.setAttribute("class", "namensFeld");
+                  input.setAttribute("placeholder", "Name...");
+
+                  formular.appendChild(input);*/
+                  inhalt.appendChild(spanText);
+                  inhalt.appendChild(formular);
+                  //-----------------------FUNCTIONALITY---------------------
+                  //onlick event für die Detailansicht
+                  item.appendChild(inhalt); //add the div
+                  ul?.appendChild(item);
                 }
     });
-
 //--------------------------------DISPLAY THE HIDDEN DETAILS----------------------------------
 interface data {
    user: string;
@@ -226,10 +227,17 @@ $.getJSON(restServer,
          }
    });
 
+   interface dat {
+      username: string;
+      kommentar: string;
+      appointment: string;
+      Datum: string;
+   }
+
 //-------------------------------------COMPLETED FORM-----------------------------------------
 $.getJSON(restServer,
-   {'method':'queryTermine'},
-   function( data:Array<data> ) {
+   {'method':'getUserComments'},
+   function( data:Array<dat> ) {
          //create new div in body
          $('#body').append("<div id='termine'></div>"); //nur zwischen div für den text
 
@@ -240,23 +248,25 @@ $.getJSON(restServer,
          //Jquery statt dom verwenden => weniger arbeit 
          const res = text.split("}");
          //appointments hinzufügen
-         for(let i = 0; i < res.length; i++){
-            //jeder termin bekommt ein pop up
-            $("body").append('<div class="popup-overlay '+data[i]?.uhrzeit+' col-md-12 col-lg-12 col-sm-12"><div class="col-md-12 col-lg-12 col-sm-12 popup-content '+data[i]?.uhrzeit+'"><h2>Termin Information</h2><div class="terminUser col-md-12 col-lg-12 col-sm-12"><h3>User:</h3></div><div class="terminKommis col-md-12 col-lg-12 col-sm-12"><h3>Kommentar(e):</h3><p class="userK">:</p><p class="kommentare"></p></div><button value="'+data[i]?.uhrzeit+'" class="close">Close</button></div></div>');
-            $(".open").on("click", function(event){
-               var id = $(this).val();
-               $(".popup, .popup-content ,."+id).show();
-               event.preventDefault();
-               //neu
-               $("#"+data[i]?.appointment).hide();
-            });
-            $(".close, .popup").on("click", function(event){
-               var id = $(this).val();
-               $(".popup, .popup-content ,."+id).hide();
-               //event.preventDefault();
-               //neu
-               $("#"+data[i]?.appointment).show();
-            });
+         if(data != null) {
+            for(let i = 0; i < res.length; i++){
+               //jeder termin bekommt ein pop up
+               $("body").append('<div class="popup-overlay '+data[i]?.Datum+' col-md-12 col-lg-12 col-sm-12"><div class="col-md-12 col-lg-12 col-sm-12 popup-content '+data[i]?.Datum+'"><h2>Termin Information</h2><div class="terminUser col-md-12 col-lg-12 col-sm-12"><h3>User: '+data[i]?.username+'</h3></div><div class="terminKommis col-md-12 col-lg-12 col-sm-12"><h3>Kommentar(e): '+data[i]?.kommentar+'</h3><p class="userK"></p><p class="kommentare"></p></div><button value="'+data[i]?.Datum+'" class="close">Close</button></div></div>');
+               $(".open").on("click", function(event){
+                  var id = $(this).val();
+                  $(".popup, .popup-content ,."+id).show();
+                  event.preventDefault();
+                  //neu
+                  $("#"+data[i]?.appointment).hide();
+               });
+               $(".close, .popup").on("click", function(event){
+                  var id = $(this).val();
+                  $(".popup, .popup-content ,."+id).hide();
+                  //event.preventDefault();
+                  //neu
+                  $("#"+data[i]?.appointment).show();
+               });
+            }
          }
    });
 
@@ -336,36 +346,35 @@ function UserSelect(id: any) {
    $('.terminDiv').children('input').each(function(){
       if($(this).is(':checked')){
          appointment = ""+$(this).val()+"";
+         var data = {
+            //Methode
+            method : "addUserSelect",
+      
+            //Argumente
+            kommentar: kommi,
+            user : username,
+            id: id, //Title des Appointments
+            appointment: appointment
+         }
+      
+         $.ajax({
+            url: restServer,
+            method: "POST",
+            dataType: 'json',
+            data: data,
+            success: function () {
+              //alert("success"); //schöne success msg machen
+              $("#divform").html('<div class="alert alert-success" role="alert"> Appointment was created </div>');
+            },
+            error: function () {
+               //alert("error"); //schöne error message
+               $("#divform").html('<div class="alert alert-danger" role="alert"> There was a problem. Please try again </div>');
+            }
+         });
       }
    });
    alert(username);
    alert(kommi);
-
-   var data = {
-      //Methode
-      method : "addUserSelect",
-
-      //Argumente
-      kommentar: kommi,
-      user : username,
-      id: $("#sendButton").val(), //Title des Appointments
-      appointment: appointment
-   }
-
-   $.ajax({
-      url: restServer,
-      method: "POST",
-      dataType: 'json',
-      data: data,
-      success: function () {
-        //alert("success"); //schöne success msg machen
-        $("#divform").html('<div class="alert alert-success" role="alert"> Appointment was created </div>');
-      },
-      error: function () {
-         //alert("error"); //schöne error message
-         $("#divform").html('<div class="alert alert-danger" role="alert"> There was a problem. Please try again </div>');
-      }
-   });
 }
 
 
@@ -476,14 +485,15 @@ function UserSelect(id: any) {
                   //$("#hiddenForm").html('<div class="alert alert-success" role="alert"> Appointment was created </div>');
                },
                error: function (xhr, ajaxOptions, thrownError) {
-                  console.warn(xhr.responseText);
+                  console.warn(xhr);
                   console.log(daten);
                   console.log(thrownError);
                   //$("#hiddenForm").html('<div class="alert alert-danger" role="alert"> There was a Problem! Please try again </div>');
                }
             });
+            let inputdata = {};
                $('#hiddenForm').children('.addOne').each(function(){
-                  let inputdata = {
+                  inputdata = {
                      datetime: $(this).val(),
                      title: oneTitle,
                      method: "saveOneTime",
@@ -501,10 +511,42 @@ function UserSelect(id: any) {
                      }
                   })
                });
-
+               
+         interface alldata {
+            title: string;
+            Datum: string;
+            Ablaufdatum: string;
+            Erstelldatum: string;
+            Ort: string;
+         }
+         //schließen und clear  
+         showForm();
+         $("#titel").val("");
+         $("#ort").val("");
+         $("#ablaufdatum").val("");
+         $('#hiddenForm').children('.addOne').each(function(){
+            $(this).val("");
+         });
       }
 
-      function openAppointmentDetails()
-      {
-
+      function searchApp() {
+         let searched = $("#searchfield").val();
+         searched = searched?.toString();
+         let searchTerm = {
+            method: "toAddOneApp",
+            param: searched
+         }
+         $.ajax ({
+            url: restServer,
+            method: "GET",
+            dataType: 'json',
+            data: searchTerm,
+            success: function (res) {
+               console.log(res);
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+               console.warn(xhr);
+            }
+         });
+         console.log(searchTerm);
       }
