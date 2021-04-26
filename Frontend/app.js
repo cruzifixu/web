@@ -159,7 +159,7 @@ $.getJSON(restServer, { 'method': 'queryPersons' }, function (data) {
     }
 });
 $.getJSON(restServer, { 'method': 'queryTermine' }, function (data) {
-    var _a, _b, _c, _d, _e, _f, _g;
+    var _a;
     //create new div in body
     $('#body').append("<div id='termine'></div>"); //nur zwischen div für den text
     $('#termine').text(JSON.stringify(data));
@@ -168,14 +168,19 @@ $.getJSON(restServer, { 'method': 'queryTermine' }, function (data) {
     //Termine werden als select dargestellte
     //Jquery statt dom verwenden => weniger arbeit 
     var res = text.split("}");
-    //appointments hinzufügen
-    for (var i = 0; i < (res === null || res === void 0 ? void 0 : res.length); i++) {
+    var _loop_2 = function (i) {
         //get the div with the fitting appointment
         //check if there is a user set or not => if yes => make it unclickable
         //split datum 
         var date = (_a = data[i]) === null || _a === void 0 ? void 0 : _a.Datum.split(" ");
-        //alle user können sich anmelden
-        $('#' + ((_b = data[i]) === null || _b === void 0 ? void 0 : _b.appointment) + " > .formTermine > .formDiv").append("<div class='terminDiv'><label for='" + ((_c = data[i]) === null || _c === void 0 ? void 0 : _c.Datum) + "'>" + date[0] + "</label><br><p>" + date[1] + "</p><input type='radio' id='" + ((_d = data[i]) === null || _d === void 0 ? void 0 : _d.Datum) + "' class='checkbox' name='" + ((_e = data[i]) === null || _e === void 0 ? void 0 : _e.Datum) + "' value='" + ((_f = data[i]) === null || _f === void 0 ? void 0 : _f.Datum) + "'><br><button value='" + ((_g = data[i]) === null || _g === void 0 ? void 0 : _g.uhrzeit) + "' class='open'><i class='fa fa-info-circle' aria-hidden='true'></i></button><br></div>");
+        $.getJSON(restServer, { "method": "CountVotes", "param": data[i].title }, function (votes) {
+            var _a, _b, _c, _d, _e, _f;
+            $('#' + ((_a = data[i]) === null || _a === void 0 ? void 0 : _a.appointment) + " > .formTermine > .formDiv").append("<div class='terminDiv'><label for='" + ((_b = data[i]) === null || _b === void 0 ? void 0 : _b.Datum) + "'>" + date[0] + "</label><br><p>" + date[1] + "</p><br><p>" + votes + "</p><input type='radio' id='" + ((_c = data[i]) === null || _c === void 0 ? void 0 : _c.Datum) + "' class='checkbox' name='" + ((_d = data[i]) === null || _d === void 0 ? void 0 : _d.Datum) + "' value='" + ((_e = data[i]) === null || _e === void 0 ? void 0 : _e.Datum) + "'><br><button value='" + ((_f = data[i]) === null || _f === void 0 ? void 0 : _f.Datum) + "' class='open'><i class='fa fa-info-circle' aria-hidden='true'></i></button><br></div>");
+        });
+    };
+    //appointments hinzufügen
+    for (var i = 0; i < (res === null || res === void 0 ? void 0 : res.length); i++) {
+        _loop_2(i);
     }
 });
 //-------------------------------------COMPLETED FORM-----------------------------------------
@@ -191,7 +196,7 @@ $.getJSON(restServer, { 'method': 'getUserComments' }, function (data) {
     var res = text.split("}");
     //appointments hinzufügen
     if (data != null) {
-        var _loop_2 = function (i) {
+        var _loop_3 = function (i) {
             //jeder termin bekommt ein pop up
             $("body").append('<div class="popup-overlay ' + ((_a = data[i]) === null || _a === void 0 ? void 0 : _a.Datum) + ' col-md-12 col-lg-12 col-sm-12"><div class="col-md-12 col-lg-12 col-sm-12 popup-content ' + ((_b = data[i]) === null || _b === void 0 ? void 0 : _b.Datum) + '"><h2>Termin Information</h2><div class="terminUser col-md-12 col-lg-12 col-sm-12"><h3>User: ' + ((_c = data[i]) === null || _c === void 0 ? void 0 : _c.username) + '</h3></div><div class="terminKommis col-md-12 col-lg-12 col-sm-12"><h3>Kommentar(e): ' + ((_d = data[i]) === null || _d === void 0 ? void 0 : _d.kommentar) + '</h3><p class="userK"></p><p class="kommentare"></p></div><button value="' + ((_e = data[i]) === null || _e === void 0 ? void 0 : _e.Datum) + '" class="close">Close</button></div></div>');
             $(".open").on("click", function (event) {
@@ -212,7 +217,7 @@ $.getJSON(restServer, { 'method': 'getUserComments' }, function (data) {
             });
         };
         for (var i = 0; i < res.length; i++) {
-            _loop_2(i);
+            _loop_3(i);
         }
     }
 });

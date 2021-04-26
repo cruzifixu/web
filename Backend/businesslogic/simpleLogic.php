@@ -53,6 +53,9 @@ class SimpleLogic
             case "getUserComments":
                 $res = $this->dh->getUserComments();
                 break;
+            case "CountVotes":
+                $res = $this->dh->CountVotes($param);
+                break;
             default:
                 $res = null;
                 break;

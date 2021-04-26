@@ -204,6 +204,14 @@ interface data {
    kommentar: string;
 }
 
+interface users {
+   id: string;
+   username: string;
+   kommentar: string;
+   appointment: string;
+   Datum: string;
+}
+
 $.getJSON(restServer,
    {'method':'queryTermine'},
    function( data:Array<data> ) {
@@ -222,8 +230,12 @@ $.getJSON(restServer,
             //check if there is a user set or not => if yes => make it unclickable
             //split datum 
             let date = data[i]?.Datum.split(" ");
+            $.getJSON(restServer,
+               {"method":"CountVotes", "param":data[i].title},
+               function(votes) {
+                  $('#'+data[i]?.appointment+" > .formTermine > .formDiv").append("<div class='terminDiv'><label for='"+data[i]?.Datum+"'>"+date[0]+"</label><br><p>"+date[1]+"</p><br><p>"+votes+"</p><input type='radio' id='"+data[i]?.Datum+"' class='checkbox' name='"+data[i]?.Datum+"' value='"+data[i]?.Datum+"'><br><button value='"+data[i]?.Datum+"' class='open'><i class='fa fa-info-circle' aria-hidden='true'></i></button><br></div>");
+               });
             //alle user können sich anmelden
-            $('#'+data[i]?.appointment+" > .formTermine > .formDiv").append("<div class='terminDiv'><label for='"+data[i]?.Datum+"'>"+date[0]+"</label><br><p>"+date[1]+"</p><input type='radio' id='"+data[i]?.Datum+"' class='checkbox' name='"+data[i]?.Datum+"' value='"+data[i]?.Datum+"'><br><button value='"+data[i]?.uhrzeit+"' class='open'><i class='fa fa-info-circle' aria-hidden='true'></i></button><br></div>");
          }
    });
 

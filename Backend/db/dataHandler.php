@@ -203,5 +203,17 @@ class DataHandler
             return null;
         }
     }
+
+    public function CountVotes($title) {
+        $sql = "SELECT COUNT(appointment) FROM users WHERE appointment = ?;";
+        $connection = $this->connect();
+        $stmt = $connection->prepare($sql);
+        $stmt->bind_param("s", $title);
+        $stmt->execute();
+        $stmt->store_result();
+        $stmt->bind_result($res);
+        $stmt->fetch();
+        return $res;
+    }
 }
 
