@@ -1,3 +1,4 @@
+"use strict";
 /*
    Achtung - wichtige Hinweise:
    -----------------------------------------------------------------------------
@@ -251,9 +252,9 @@ $.getJSON(restServer, { 'method': 'getAppointmentTitle' }, function (data) {
     for (var i = 0; i < res.length; i++) {
         //let funcc = "UserSelect(" + data[i]?.title + ")";
         //einfügen von namensfeldern
-        $('#' + ((_a = data[i]) === null || _a === void 0 ? void 0 : _a.title) + " > .formTermine").append("<input type='text' id='entereduser' class='namensFeld' placeholder='Name...'><br>");
+        $('#' + ((_a = data[i]) === null || _a === void 0 ? void 0 : _a.title) + " > .formTermine").append("<input type='text' class='namensFeld enetereduser' placeholder='Name...'><br>");
         //einfügen von Kommentar Feld
-        $('#' + ((_b = data[i]) === null || _b === void 0 ? void 0 : _b.title) + " > .formTermine").append("<input type='text' id='kommentar' class='namensFeld' placeholder='Kommentar...'>");
+        $('#' + ((_b = data[i]) === null || _b === void 0 ? void 0 : _b.title) + " > .formTermine").append("<input type='text'  class='namensFeld kommentar' placeholder='Kommentar...'>");
         //einfügen von Submit Button
         $('#' + ((_c = data[i]) === null || _c === void 0 ? void 0 : _c.title) + " > .formTermine").append("<button type='submit' id='sendButton' onclick='UserSelect(this.value)' value='" + ((_d = data[i]) === null || _d === void 0 ? void 0 : _d.title) + "' class='btn btn-dark submit'>send</button>");
     }
@@ -261,13 +262,25 @@ $.getJSON(restServer, { 'method': 'getAppointmentTitle' }, function (data) {
 //----------KOMMENTARE SCHÖN DARSTELLEN-------------
 //----------FORM GETS SUBMITTED-----------------
 var appointment = "";
+var username = "";
+var kommi = "";
 //------BUTTON FUNCTION--------
 function UserSelect(id) {
     //daten in die db speicherns
-    var username = $("#entereduser").val();
-    var kommi = $("#kommentar").val();
     var button = document.getElementById("sendButton");
     button === null || button === void 0 ? void 0 : button.addEventListener("click", function (event) { event.preventDefault(); });
+    $('.enetereduser').each(function () {
+        if ($(this).val() != null) {
+            username = "" + $(this).val() + "";
+        }
+    });
+    $('.kommentar').each(function () {
+        if ($(this).val() != null) {
+            kommi = "" + $(this).val() + "";
+        }
+    });
+    alert(username);
+    alert(kommi);
     $('.terminDiv').children('input').each(function () {
         if ($(this).is(':checked')) {
             appointment = "" + $(this).val() + "";
@@ -296,8 +309,6 @@ function UserSelect(id) {
             });
         }
     });
-    alert(username);
-    alert(kommi);
 }
 //---------------------------------------FUNKTIONEN--------------------------------------------
 var form = document.createElement("form");
@@ -372,7 +383,7 @@ function send() {
         title: oneTitle,
         ort: $("#ort").val(),
         //Ablaufdatum
-        ablaufdatum: $("#ablaufdatum").val()
+        ablaufdatum: $("#ablaufdatum").val(),
     };
     $.ajax({
         url: restServer,
@@ -395,7 +406,7 @@ function send() {
         inputdata = {
             datetime: $(this).val(),
             title: oneTitle,
-            method: "saveOneTime"
+            method: "saveOneTime",
         };
         $.ajax({
             url: restServer,

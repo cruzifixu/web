@@ -329,9 +329,9 @@ $.getJSON(restServer,
       for(let i = 0; i < res.length; i++){
          //let funcc = "UserSelect(" + data[i]?.title + ")";
          //einfügen von namensfeldern
-         $('#'+data[i]?.title+" > .formTermine").append("<input type='text' id='entereduser' class='namensFeld' placeholder='Name...'><br>");
+         $('#'+data[i]?.title+" > .formTermine").append("<input type='text' class='namensFeld enetereduser' placeholder='Name...'><br>");
          //einfügen von Kommentar Feld
-         $('#'+data[i]?.title+" > .formTermine").append("<input type='text' id='kommentar' class='namensFeld' placeholder='Kommentar...'>");
+         $('#'+data[i]?.title+" > .formTermine").append("<input type='text'  class='namensFeld kommentar' placeholder='Kommentar...'>");
          //einfügen von Submit Button
          $('#'+data[i]?.title+" > .formTermine").append("<button type='submit' id='sendButton' onclick='UserSelect(this.value)' value='"+data[i]?.title+"' class='btn btn-dark submit'>send</button>");
       }
@@ -344,16 +344,36 @@ $.getJSON(restServer,
 //----------FORM GETS SUBMITTED-----------------
 
 let appointment : string = "";
-
+let username : string = "";
+let kommi :string = "";
 
 
 //------BUTTON FUNCTION--------
 function UserSelect(id: any) {
    //daten in die db speicherns
-   let username = $("#entereduser").val();
-   let kommi = $("#kommentar").val();
    let button = document.getElementById("sendButton");
    button?.addEventListener("click", function(event){event.preventDefault()});
+
+   $('.enetereduser').each(
+      function()
+      {
+         if($(this).val() != null){
+            username = ""+$(this).val()+"";
+         }
+      }
+   );
+
+   $('.kommentar').each(
+      function()
+      {
+         if($(this).val() != null){
+            kommi = ""+$(this).val()+"";
+         }
+      }
+   );
+
+   alert(username);
+   alert(kommi);
 
    $('.terminDiv').children('input').each(function(){
       if($(this).is(':checked')){
@@ -385,8 +405,6 @@ function UserSelect(id: any) {
          });
       }
    });
-   alert(username);
-   alert(kommi);
 }
 
 
