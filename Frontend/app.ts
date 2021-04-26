@@ -231,9 +231,9 @@ $.getJSON(restServer,
             //split datum 
             let date = data[i]?.Datum.split(" ");
             $.getJSON(restServer,
-               {"method":"CountVotes", "param":data[i].title},
+               {"method":"GetVotes", "param":data[i]?.appointment, "param2":data[i]?.Datum},
                function(votes) {
-                  $('#'+data[i]?.appointment+" > .formTermine > .formDiv").append("<div class='terminDiv'><label for='"+data[i]?.Datum+"'>"+date[0]+"</label><br><p>"+date[1]+"</p><br><p>"+votes+"</p><input type='radio' id='"+data[i]?.Datum+"' class='checkbox' name='"+data[i]?.Datum+"' value='"+data[i]?.Datum+"'><br><button value='"+data[i]?.Datum+"' class='open'><i class='fa fa-info-circle' aria-hidden='true'></i></button><br></div>");
+                  $('#'+data[i]?.appointment+" > .formTermine > .formDiv").append("<div class='terminDiv'><label for='"+data[i]?.Datum+"'>"+date[0]+"</label><br><p>"+date[1]+"</p><p>Votes: "+votes+"</p><input type='radio' id='"+data[i]?.Datum+"' class='checkbox' name='"+data[i]?.Datum+"' value='"+data[i]?.Datum+"'><br><button value='"+data[i]?.Datum+"' class='open'><i class='fa fa-info-circle' aria-hidden='true'></i></button><br></div>");
                });
             //alle user können sich anmelden
          }

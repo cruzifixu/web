@@ -19,6 +19,7 @@ class SimpleLogic
                 break;
             case "addUserSelect":
                 $this->dh->addUserSelect($kommentar, $user, $id, $appointment);
+                $this->dh->CountVotes($id, $appointment);
                 break;
             case "saveOneTime":
                 $this->dh->saveOneTime($datetime, $title);
@@ -30,7 +31,7 @@ class SimpleLogic
     }
 
     //------------------------FÜR GET REQUESTS------------------------------ 
-    function handleRequest($method, $user, $param)
+    function handleRequest($method, $user, $param, $param2)
     {
 
         switch ($method) {
@@ -53,8 +54,9 @@ class SimpleLogic
             case "getUserComments":
                 $res = $this->dh->getUserComments();
                 break;
-            case "CountVotes":
-                $res = $this->dh->CountVotes($param);
+            case "GetVotes":
+                $this->dh->CountVotes($param, $param2);
+                $res = $this->dh->GetVotes($param, $param2);
                 break;
             default:
                 $res = null;

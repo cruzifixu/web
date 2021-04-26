@@ -43,14 +43,12 @@ body {
     margin-top: 1em;
     margin-bottom: 1em;
     width: 100%;
-
     border: 0;
     border-bottom: 2px solid gray;
     outline: 0;
     font-size: 1rem;
     background: transparent;
     text-transform: uppercase;
-
     background-color: white;
 }
 
@@ -143,6 +141,7 @@ body {
     background-image: url(https://images.pngnice.com/download/2007/My-Neighbor-Totoro-PNG-File.png);
     border: 5px solid rgb(79, 117, 171, 0.4);
     opacity: 0.6;
+    width: 50%;
     border-radius: 15px;
 }
 
@@ -200,7 +199,7 @@ label {
     width: 7em;
     /*Alles zum Border*/
     border-radius: 15px;
-    border: 2px solid rgb(48, 89, 164); 
+    border: 2px solid rgb(48, 89, 164);
 }
 
 .appointmentTitle {
@@ -236,8 +235,8 @@ label {
     opacity: 0.4;
 }
 
-.abgelaufenerTermin{
-    background-color: rgb(167, 103, 103);   
+.abgelaufenerTermin {
+    background-color: rgb(167, 103, 103);
     border: 5px solid rgb(238, 0, 0);
 }
 
@@ -255,14 +254,14 @@ i {
 }
 
 .popup-overlay {
-    display:none;
-    }
-    
+    display: none;
+}
+
 .popup-content {
     display: none;
-    }
+}
 
-.popup-content{
+.popup-content {
     background-color: white;
     border: 5px solid rgb(79, 117, 171);
     border-radius: 15px;
@@ -286,14 +285,14 @@ i {
     padding: 40px;
 }
 
-.popup-content > h2 {
+.popup-content>h2 {
     font-weight: bold;
     text-align: center;
     text-transform: uppercase;
     text-decoration: overline;
 }
 
-.popup-content > h3 {
+.popup-content>h3 {
     font-weight: bold;
     text-transform: uppercase;
     text-decoration: overline;
@@ -304,7 +303,7 @@ i {
 }
 
 .userK {
-    text-decoration: underline;   
+    text-decoration: underline;
 }
 
 .open {

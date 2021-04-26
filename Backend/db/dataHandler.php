@@ -204,15 +204,56 @@ class DataHandler
         }
     }
 
-    public function CountVotes($title) {
-        $sql = "SELECT COUNT(appointment) FROM users WHERE appointment = ?;";
+    public function CountVotes($title, $datum) {
+        $res = 0;
+        $sql = "SELECT * FROM users WHERE appointment = ? AND Datum = ?;";
         $connection = $this->connect();
         $stmt = $connection->prepare($sql);
-        $stmt->bind_param("s", $title);
+        $stmt->bind_param("ss", $title, $datum);
+        $stmt->execute();
+        $row = $stmt->get_result();
+        while ($result = $row->fetch_assoc()) {
+            $data[] = $result;
+        }
+        if (!empty($data)) {
+            $empty = 0;
+        }
+        else {
+            $empty = 1;
+        }
+        $stmt->close();
+
+        if($empty == 0) {
+            $sql = "SELECT COUNT(appointment) FROM users WHERE appointment = ? AND Datum = ?;";
+            $connection = $this->connect();
+            $stmt = $connection->prepare($sql);
+            $stmt->bind_param("ss", $title, $datum);
+            $stmt->execute();
+            $stmt->store_result();
+            $stmt->bind_result($res);
+            $stmt->fetch();
+
+            $stmt->close();
+        }
+        $sql = "UPDATE oneappointment SET votes = ? WHERE appointment = ? and Datum = ?;";
+        $connection = $this->connect();
+        $stmt = $connection->prepare($sql);
+        $stmt->bind_param("sss", $res, $title, $datum);
+        $stmt->execute();
+
+        $stmt->close();
+    }
+
+    public function GetVotes($title, $datum) {
+        $sql = "SELECT votes FROM oneappointment WHERE appointment = ? AND Datum = ?;";
+        $connection = $this->connect();
+        $stmt = $connection->prepare($sql);
+        $stmt->bind_param("ss", $title, $datum);
         $stmt->execute();
         $stmt->store_result();
         $stmt->bind_result($res);
         $stmt->fetch();
+
         return $res;
     }
 }

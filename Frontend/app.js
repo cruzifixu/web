@@ -1,4 +1,3 @@
-"use strict";
 /*
    Achtung - wichtige Hinweise:
    -----------------------------------------------------------------------------
@@ -160,7 +159,7 @@ $.getJSON(restServer, { 'method': 'queryPersons' }, function (data) {
     }
 });
 $.getJSON(restServer, { 'method': 'queryTermine' }, function (data) {
-    var _a;
+    var _a, _b, _c;
     //create new div in body
     $('#body').append("<div id='termine'></div>"); //nur zwischen div für den text
     $('#termine').text(JSON.stringify(data));
@@ -174,9 +173,9 @@ $.getJSON(restServer, { 'method': 'queryTermine' }, function (data) {
         //check if there is a user set or not => if yes => make it unclickable
         //split datum 
         var date = (_a = data[i]) === null || _a === void 0 ? void 0 : _a.Datum.split(" ");
-        $.getJSON(restServer, { "method": "CountVotes", "param": data[i].title }, function (votes) {
+        $.getJSON(restServer, { "method": "GetVotes", "param": (_b = data[i]) === null || _b === void 0 ? void 0 : _b.appointment, "param2": (_c = data[i]) === null || _c === void 0 ? void 0 : _c.Datum }, function (votes) {
             var _a, _b, _c, _d, _e, _f;
-            $('#' + ((_a = data[i]) === null || _a === void 0 ? void 0 : _a.appointment) + " > .formTermine > .formDiv").append("<div class='terminDiv'><label for='" + ((_b = data[i]) === null || _b === void 0 ? void 0 : _b.Datum) + "'>" + date[0] + "</label><br><p>" + date[1] + "</p><br><p>" + votes + "</p><input type='radio' id='" + ((_c = data[i]) === null || _c === void 0 ? void 0 : _c.Datum) + "' class='checkbox' name='" + ((_d = data[i]) === null || _d === void 0 ? void 0 : _d.Datum) + "' value='" + ((_e = data[i]) === null || _e === void 0 ? void 0 : _e.Datum) + "'><br><button value='" + ((_f = data[i]) === null || _f === void 0 ? void 0 : _f.Datum) + "' class='open'><i class='fa fa-info-circle' aria-hidden='true'></i></button><br></div>");
+            $('#' + ((_a = data[i]) === null || _a === void 0 ? void 0 : _a.appointment) + " > .formTermine > .formDiv").append("<div class='terminDiv'><label for='" + ((_b = data[i]) === null || _b === void 0 ? void 0 : _b.Datum) + "'>" + date[0] + "</label><br><p>" + date[1] + "</p><p>Votes: " + votes + "</p><input type='radio' id='" + ((_c = data[i]) === null || _c === void 0 ? void 0 : _c.Datum) + "' class='checkbox' name='" + ((_d = data[i]) === null || _d === void 0 ? void 0 : _d.Datum) + "' value='" + ((_e = data[i]) === null || _e === void 0 ? void 0 : _e.Datum) + "'><br><button value='" + ((_f = data[i]) === null || _f === void 0 ? void 0 : _f.Datum) + "' class='open'><i class='fa fa-info-circle' aria-hidden='true'></i></button><br></div>");
         });
     };
     //appointments hinzufügen
@@ -383,7 +382,7 @@ function send() {
         title: oneTitle,
         ort: $("#ort").val(),
         //Ablaufdatum
-        ablaufdatum: $("#ablaufdatum").val(),
+        ablaufdatum: $("#ablaufdatum").val()
     };
     $.ajax({
         url: restServer,
@@ -406,7 +405,7 @@ function send() {
         inputdata = {
             datetime: $(this).val(),
             title: oneTitle,
-            method: "saveOneTime",
+            method: "saveOneTime"
         };
         $.ajax({
             url: restServer,
