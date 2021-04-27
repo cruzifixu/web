@@ -196,15 +196,15 @@ $.getJSON(restServer, { 'method': 'getUserComments' }, function (data) {
             $("body").append('<div class="popup-overlay ' + ((_a = data[i]) === null || _a === void 0 ? void 0 : _a.Datum) + ' col-md-12 col-lg-12 col-sm-12"><div class="col-md-12 col-lg-12 col-sm-12 popup-content ' + ((_b = data[i]) === null || _b === void 0 ? void 0 : _b.Datum) + '"><h2>Termin Information</h2><div class="terminUser col-md-12 col-lg-12 col-sm-12"><h3>User: ' + ((_c = data[i]) === null || _c === void 0 ? void 0 : _c.username) + '</h3></div><div class="terminKommis col-md-12 col-lg-12 col-sm-12"><h3>Kommentar(e): ' + ((_d = data[i]) === null || _d === void 0 ? void 0 : _d.kommentar) + '</h3><p class="userK"></p><p class="kommentare"></p></div><button value="' + ((_e = data[i]) === null || _e === void 0 ? void 0 : _e.Datum) + '" class="close">Close</button></div></div>');
             $(".open").on("click", function (e) {
                 var _a;
-                var id = $(this).val();
-                $(".popup, .popup-content ,." + id).show();
+                var id = "" + $(this).val() + "";
+                $(".popup, .popup-content, ." + id).show();
                 e.preventDefault();
                 //neu
                 $("#" + ((_a = data[i]) === null || _a === void 0 ? void 0 : _a.appointment)).hide();
             });
             $(".close, .popup").on("click", function (event) {
                 var _a;
-                var id = $(this).val();
+                var id = "" + $(this).val() + "";
                 $(".popup, .popup-content ,." + id).hide();
                 event.preventDefault();
                 //neu
