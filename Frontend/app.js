@@ -180,7 +180,7 @@ $.getJSON(restServer, { 'method': 'queryTermine' }, function (data) {
 });
 //-------------------------------------COMPLETED FORM-----------------------------------------
 $.getJSON(restServer, { 'method': 'getUserComments' }, function (data) {
-    var _a, _b, _c, _d, _e, _f;
+    var _a, _b, _c, _d;
     //create new div in body
     $('#body').append("<div id='termine'></div>"); //nur zwischen div für den text
     $('#termine').text(JSON.stringify(data));
@@ -194,7 +194,7 @@ $.getJSON(restServer, { 'method': 'getUserComments' }, function (data) {
         var _loop_2 = function (i) {
             //jeder termin bekommt ein pop up
             datum = (_a = data[i]) === null || _a === void 0 ? void 0 : _a.Datum.split(" ");
-            $("li." + ((_b = data[i]) === null || _b === void 0 ? void 0 : _b.appointment)).append('<div class="popup-overlay ' + datum[0] + ' ' + datum[1] + ' col-md-12 col-lg-12 col-sm-12"><div class="col-md-12 col-lg-12 col-sm-12 popup-content"><h2>Termin Information</h2><div class="terminUser col-md-12 col-lg-12 col-sm-12"><h3>User: ' + ((_c = data[i]) === null || _c === void 0 ? void 0 : _c.username) + '</h3></div><div class="terminKommis col-md-12 col-lg-12 col-sm-12"><h3>Kommentar(e): ' + ((_d = data[i]) === null || _d === void 0 ? void 0 : _d.kommentar) + '</h3><p class="userK"></p><p class="kommentare"></p></div><button  value="' + ((_e = data[i]) === null || _e === void 0 ? void 0 : _e.Datum) + '" class="close ' + ((_f = data[i]) === null || _f === void 0 ? void 0 : _f.appointment) + '">Close</button></div></div>');
+            $("li." + ((_b = data[i]) === null || _b === void 0 ? void 0 : _b.appointment)).append('<div class="popup-overlay ' + datum[0] + ' ' + datum[1] + ' col-md-12 col-lg-12 col-sm-12"><div class="col-md-12 col-lg-12 col-sm-12 popup-content"><h2>Termin Information</h2><div class="terminUser col-md-12 col-lg-12 col-sm-12"><h3>User: </h3></div><div class="terminKommis col-md-12 col-lg-12 col-sm-12"><h3>Kommentar(e): </h3><p class="userK"></p><p class="kommentare"></p></div><button  value="' + ((_c = data[i]) === null || _c === void 0 ? void 0 : _c.Datum) + '" class="close ' + ((_d = data[i]) === null || _d === void 0 ? void 0 : _d.appointment) + '">Close</button></div></div>');
             $(".open").on("click", function (e) {
                 var _a;
                 e.preventDefault();
@@ -221,25 +221,21 @@ $.getJSON(restServer, { 'method': 'getUserComments' }, function (data) {
     }
 });
 //fill the pop up
-$.getJSON(restServer, { 'method': 'queryTermine' }, function (data) {
-    var _a;
+$.getJSON(restServer, { 'method': 'getUserComments' }, function (data) {
+    var _a, _b, _c, _d, _e;
     $('#body').append("<div id='termine'></div>"); //nur zwischen div für den text
     $('#termine').text(JSON.stringify(data));
     var text = $('#termine').text();
     $('#termine').text(" ");
-    //Termine werden als select dargestellte
-    //Jquery statt dom verwenden => weniger arbeit 
     var res = text.split("}");
-    //appointments hinzufügen
     for (var i = 0; i < res.length; i++) {
-        if (((_a = data[i]) === null || _a === void 0 ? void 0 : _a.kommentar) == null) {
-            //es gibt keine Kommentare
-        }
+        var val = (_a = data[i]) === null || _a === void 0 ? void 0 : _a.Datum;
+        var vall = val.split(" ");
         //only append the div with the right Date
         //USERS:
-        $(".popup-overlay > ." + data[i].Datum + " > .terminUser").append("<p>" + data[i].username + "</p>");
+        $("li." + ((_b = data[i]) === null || _b === void 0 ? void 0 : _b.appointment) + " > .terminUser").append("<br><p>" + ((_c = data[i]) === null || _c === void 0 ? void 0 : _c.username) + "</p>");
         //KOMMENTARE:
-        $("." + data[i].Datum + " > .terminKommis").append(data[i].username + ": <p>" + data[i].kommentar + "</p>");
+        $("." + data[i].Datum + " > .terminKommis").append(((_d = data[i]) === null || _d === void 0 ? void 0 : _d.username) + ": <p>" + ((_e = data[i]) === null || _e === void 0 ? void 0 : _e.kommentar) + "</p>");
     }
 });
 $.getJSON(restServer, { 'method': 'getAppointmentTitle' }, function (data) {

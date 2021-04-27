@@ -17,7 +17,6 @@ body {
     font-weight: bold;
     text-align: center;
     text-transform: uppercase;
-    text-decoration: overline;
     /*Put in the Middle*/
     margin: auto;
     margin-top: 2em;
@@ -259,6 +258,18 @@ i {
 
 .popup-content {
     background-color: white;
+    font-weight: lighter;
+    text-align: left;
+    text-transform: lowercase;
+    text-decoration: none;
+}
+
+
+.popup-content>h2 {
+    background-color: white;
+    font-weight: bold;
+    text-align: center;
+    text-transform: capitalize;
 }
 
 .popup-content>p {

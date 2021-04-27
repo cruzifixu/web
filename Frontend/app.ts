@@ -251,7 +251,7 @@ $.getJSON(restServer,
             for(let i = 0; i < res.length; i++){
                //jeder termin bekommt ein pop up
                var datum = data[i]?.Datum.split(" ");
-               $("li."+data[i]?.appointment).append('<div class="popup-overlay '+datum[0]+' '+datum[1]+' col-md-12 col-lg-12 col-sm-12"><div class="col-md-12 col-lg-12 col-sm-12 popup-content"><h2>Termin Information</h2><div class="terminUser col-md-12 col-lg-12 col-sm-12"><h3>User: '+data[i]?.username+'</h3></div><div class="terminKommis col-md-12 col-lg-12 col-sm-12"><h3>Kommentar(e): '+data[i]?.kommentar+'</h3><p class="userK"></p><p class="kommentare"></p></div><button  value="'+data[i]?.Datum+'" class="close '+data[i]?.appointment+'">Close</button></div></div>');
+               $("li."+data[i]?.appointment).append('<div class="popup-overlay '+datum[0]+' '+datum[1]+' col-md-12 col-lg-12 col-sm-12"><div class="col-md-12 col-lg-12 col-sm-12 popup-content"><h2>Termin Information</h2><div class="terminUser col-md-12 col-lg-12 col-sm-12"><h3>User: </h3></div><div class="terminKommis col-md-12 col-lg-12 col-sm-12"><h3>Kommentar(e): </h3><p class="userK"></p><p class="kommentare"></p></div><button  value="'+data[i]?.Datum+'" class="close '+data[i]?.appointment+'">Close</button></div></div>');
                $(".open").on("click", function(e){
                   e.preventDefault();
                   var id = ""+$(this).val()+"";
@@ -274,7 +274,7 @@ $.getJSON(restServer,
 
 //fill the pop up
 $.getJSON(restServer,
-   {'method':'queryTermine'},
+   {'method':'getUserComments'},
    function( data:any ) 
    {
       $('#body').append("<div id='termine'></div>"); //nur zwischen div für den text
@@ -282,22 +282,10 @@ $.getJSON(restServer,
       $('#termine').text(JSON.stringify(data));
       let text = $('#termine').text();
       $('#termine').text(" ");
-      //Termine werden als select dargestellte
-      //Jquery statt dom verwenden => weniger arbeit 
       const res = text.split("}");
-      //appointments hinzufügen
       for(let i = 0; i < res.length; i++)
       {
-         if(data[i]?.kommentar == null){
-            //es gibt keine Kommentare
-            
-         }
-         //only append the div with the right Date
-         //USERS:
-         $(".popup-overlay > ."+data[i].Datum+" > .terminUser").append("<p>"+data[i].username+"</p>");
-
-         //KOMMENTARE:
-         $("."+data[i].Datum+" > .terminKommis").append(data[i].username+": <p>"+data[i].kommentar+"</p>");
+         //Füllen der Pop Ups
       }
    }
 );
