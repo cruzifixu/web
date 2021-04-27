@@ -213,6 +213,7 @@ class DataHandler
         $stmt->execute();
         $row = $stmt->get_result();
         while ($result = $row->fetch_assoc()) {
+            if($result == null) break;
             $data[] = $result;
         }
         if (!empty($data)) {
@@ -242,19 +243,6 @@ class DataHandler
         $stmt->execute();
 
         $stmt->close();
-    }
-
-    public function GetVotes($title, $datum) {
-        $sql = "SELECT votes FROM oneappointment WHERE appointment = ? AND Datum = ?;";
-        $connection = $this->connect();
-        $stmt = $connection->prepare($sql);
-        $stmt->bind_param("ss", $title, $datum);
-        $stmt->execute();
-        $stmt->store_result();
-        $stmt->bind_result($res);
-        $stmt->fetch();
-
-        return $res;
     }
 }
 

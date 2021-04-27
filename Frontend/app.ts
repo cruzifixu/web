@@ -197,19 +197,10 @@ $.getJSON(restServer,
     });
 //--------------------------------DISPLAY THE HIDDEN DETAILS----------------------------------
 interface data {
-   user: string;
-   appointment: string;
-   Datum: string;
-   uhrzeit: string;
-   kommentar: string;
-}
-
-interface users {
    id: string;
-   username: string;
-   kommentar: string;
    appointment: string;
    Datum: string;
+   votes: string;
 }
 
 $.getJSON(restServer,
@@ -230,16 +221,12 @@ $.getJSON(restServer,
             //check if there is a user set or not => if yes => make it unclickable
             //split datum 
             let date = data[i]?.Datum.split(" ");
-            $.getJSON(restServer,
-               {"method":"GetVotes", "param":data[i]?.appointment, "param2":data[i]?.Datum},
-               function(votes) {
-                  $('#'+data[i]?.appointment+" > .formTermine > .formDiv").append("<div class='terminDiv'><label for='"+data[i]?.Datum+"'>"+date[0]+"</label><br><p>"+date[1]+"</p><p>Votes: "+votes+"</p><input type='radio' id='"+data[i]?.Datum+"' class='checkbox' name='"+data[i]?.Datum+"' value='"+data[i]?.Datum+"'><br><button value='"+data[i]?.Datum+"' class='open'><i class='fa fa-info-circle' aria-hidden='true'></i></button><br></div>");
-               });
+            $('#'+data[i]?.appointment+" > .formTermine > .formDiv").append("<div class='terminDiv'><label for='"+data[i]?.Datum+"'>"+date[0]+"</label><br><p>"+date[1]+"</p><p>Votes: "+data[i]?.votes+"</p><input type='radio' id='"+data[i]?.Datum+"' class='checkbox' name='"+data[i]?.Datum+"' value='"+data[i]?.Datum+"'><br><button value='"+data[i]?.Datum+"' class='open'><i class='fa fa-info-circle' aria-hidden='true'></i></button><br></div>");
             //alle user können sich anmelden
          }
    });
 
-   interface dat {
+   interface oneApp {
       username: string;
       kommentar: string;
       appointment: string;
@@ -249,7 +236,7 @@ $.getJSON(restServer,
 //-------------------------------------COMPLETED FORM-----------------------------------------
 $.getJSON(restServer,
    {'method':'getUserComments'},
-   function( data:Array<dat> ) {
+   function( data:Array<oneApp> ) {
          //create new div in body
          $('#body').append("<div id='termine'></div>"); //nur zwischen div für den text
 
@@ -264,17 +251,17 @@ $.getJSON(restServer,
             for(let i = 0; i < res.length; i++){
                //jeder termin bekommt ein pop up
                $("body").append('<div class="popup-overlay '+data[i]?.Datum+' col-md-12 col-lg-12 col-sm-12"><div class="col-md-12 col-lg-12 col-sm-12 popup-content '+data[i]?.Datum+'"><h2>Termin Information</h2><div class="terminUser col-md-12 col-lg-12 col-sm-12"><h3>User: '+data[i]?.username+'</h3></div><div class="terminKommis col-md-12 col-lg-12 col-sm-12"><h3>Kommentar(e): '+data[i]?.kommentar+'</h3><p class="userK"></p><p class="kommentare"></p></div><button value="'+data[i]?.Datum+'" class="close">Close</button></div></div>');
-               $(".open").on("click", function(event){
+               $(".open").on("click", function(e){
                   var id = $(this).val();
                   $(".popup, .popup-content ,."+id).show();
-                  event.preventDefault();
+                  e.preventDefault();
                   //neu
                   $("#"+data[i]?.appointment).hide();
                });
                $(".close, .popup").on("click", function(event){
                   var id = $(this).val();
                   $(".popup, .popup-content ,."+id).hide();
-                  //event.preventDefault();
+                  event.preventDefault();
                   //neu
                   $("#"+data[i]?.appointment).show();
                });
@@ -307,12 +294,6 @@ $.getJSON(restServer,
       }
    }
 );
-
-interface data {
-   title: string;
-   id: string;
-}
-
 
 $.getJSON(restServer, 
    {'method':'getAppointmentTitle'}, 
@@ -557,26 +538,4 @@ function UserSelect(id: any) {
          $('#hiddenForm').children('.addOne').each(function(){
             $(this).val("");
          });
-      }
-
-      function searchApp() {
-         let searched = $("#searchfield").val();
-         searched = searched?.toString();
-         let searchTerm = {
-            method: "toAddOneApp",
-            param: searched
-         }
-         $.ajax ({
-            url: restServer,
-            method: "GET",
-            dataType: 'json',
-            data: searchTerm,
-            success: function (res) {
-               console.log(res);
-            },
-            error: function (xhr, ajaxOptions, thrownError) {
-               console.warn(xhr);
-            }
-         });
-         console.log(searchTerm);
       }

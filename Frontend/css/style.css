@@ -188,7 +188,7 @@ label {
 
 .terminDiv {
     background-color: rgb(79, 117, 171);
-    height: 10em;
+    height: 12em;
     margin-top: 2em;
     margin-bottom: 4em;
     margin-right: 2em;
@@ -220,7 +220,7 @@ label {
 
 .formDiv {
     width: 1000px;
-    height: 15em;
+    height: 17em;
     overflow: auto;
     overflow-y: hidden;
     margin: 0 auto;
