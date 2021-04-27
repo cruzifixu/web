@@ -178,7 +178,6 @@ $.getJSON(restServer,
                   //Termine in einem Div zum scrollen eingelegt 
                   const formDiv = document.createElement("div");
                   formDiv.setAttribute("class", "container formDiv col-md-12 col-lg-12 col-sm-12");
-                  formDiv.addEventListener("click", showForm);
 
                   formular.appendChild(formDiv);
 
