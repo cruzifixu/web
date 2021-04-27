@@ -256,14 +256,30 @@ i {
     display: none;
 }
 
+.usersym {
+    height: 50px;
+    width: 50px;
+}
+
+.terminUser,
+.terminKommis {
+    font-size: 180%;
+}
+
 .popup-content {
     background-color: white;
     font-weight: lighter;
     text-align: left;
     text-transform: lowercase;
     text-decoration: none;
+    padding-top: 10px;
+    padding-bottom: 35px;
+    margin-top: 20px;
+    margin-right: 35px;
+    margin-bottom: 30px;
+    border: 5px solid rgb(79, 117, 171);
+    border-radius: 15px;
 }
-
 
 .popup-content>h2 {
     background-color: white;

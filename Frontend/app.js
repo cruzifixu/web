@@ -1,4 +1,3 @@
-"use strict";
 /*
    Achtung - wichtige Hinweise:
    -----------------------------------------------------------------------------
@@ -21,7 +20,6 @@ var restServer = "http://localhost:80/SS2021/Abschlussprojekt/Pr2/web/Backend/se
 $.getJSON(restServer, { 'method': 'queryPersons' }, function (data) {
     $('#mainpart').text(JSON.stringify(data));
     //let node = document.getElementById('mainpart');
-    //alert("Hallo");
     //get the content from the mainpart and put it in there 
     var text = $('#mainpart').text();
     $('#mainpart').text(" ");
@@ -180,7 +178,7 @@ $.getJSON(restServer, { 'method': 'queryTermine' }, function (data) {
 });
 //-------------------------------------COMPLETED FORM-----------------------------------------
 $.getJSON(restServer, { 'method': 'getUserComments' }, function (data) {
-    var _a, _b, _c, _d;
+    var _a, _b, _c, _d, _e, _f;
     //create new div in body
     $('#body').append("<div id='termine'></div>"); //nur zwischen div für den text
     $('#termine').text(JSON.stringify(data));
@@ -194,7 +192,7 @@ $.getJSON(restServer, { 'method': 'getUserComments' }, function (data) {
         var _loop_2 = function (i) {
             //jeder termin bekommt ein pop up
             datum = (_a = data[i]) === null || _a === void 0 ? void 0 : _a.Datum.split(" ");
-            $("li." + ((_b = data[i]) === null || _b === void 0 ? void 0 : _b.appointment)).append('<div class="popup-overlay ' + datum[0] + ' ' + datum[1] + ' col-md-12 col-lg-12 col-sm-12"><div class="col-md-12 col-lg-12 col-sm-12 popup-content"><h2>Termin Information</h2><div class="terminUser col-md-12 col-lg-12 col-sm-12"><h3>User: </h3></div><div class="terminKommis col-md-12 col-lg-12 col-sm-12"><h3>Kommentar(e): </h3><p class="userK"></p><p class="kommentare"></p></div><button  value="' + ((_c = data[i]) === null || _c === void 0 ? void 0 : _c.Datum) + '" class="close ' + ((_d = data[i]) === null || _d === void 0 ? void 0 : _d.appointment) + '">Close</button></div></div>');
+            $("li." + ((_b = data[i]) === null || _b === void 0 ? void 0 : _b.appointment)).append('<div class="popup-overlay ' + datum[0] + ' ' + datum[1] + ' col-md-12 col-lg-12 col-sm-12"><div class="col-md-12 col-lg-12 col-sm-12 popup-content"><h2>Termin Information</h2><div class="terminUser col-md-12 col-lg-12 col-sm-12"><img src="/img/catbus.png" class"usersym" style="width:80px"></img>' + ((_c = data[i]) === null || _c === void 0 ? void 0 : _c.username) + ' commented: </div><div class="terminKommis col-md-12 col-lg-12 col-sm-12">' + ((_d = data[i]) === null || _d === void 0 ? void 0 : _d.kommentar) + '<img src="/img/jumptot.gif" class"usersym" style="width:80px"><p class="userK"></p><p class="kommentare"></p><button  value="' + ((_e = data[i]) === null || _e === void 0 ? void 0 : _e.Datum) + '" class="close ' + ((_f = data[i]) === null || _f === void 0 ? void 0 : _f.appointment) + '">Close</button></div></div></div>');
             $(".open").on("click", function (e) {
                 var _a;
                 e.preventDefault();
@@ -222,20 +220,13 @@ $.getJSON(restServer, { 'method': 'getUserComments' }, function (data) {
 });
 //fill the pop up
 $.getJSON(restServer, { 'method': 'getUserComments' }, function (data) {
-    var _a, _b, _c, _d, _e;
     $('#body').append("<div id='termine'></div>"); //nur zwischen div für den text
     $('#termine').text(JSON.stringify(data));
     var text = $('#termine').text();
     $('#termine').text(" ");
     var res = text.split("}");
     for (var i = 0; i < res.length; i++) {
-        var val = (_a = data[i]) === null || _a === void 0 ? void 0 : _a.Datum;
-        var vall = val.split(" ");
-        //only append the div with the right Date
-        //USERS:
-        $("li." + ((_b = data[i]) === null || _b === void 0 ? void 0 : _b.appointment) + " > .terminUser").append("<br><p>" + ((_c = data[i]) === null || _c === void 0 ? void 0 : _c.username) + "</p>");
-        //KOMMENTARE:
-        $("." + data[i].Datum + " > .terminKommis").append(((_d = data[i]) === null || _d === void 0 ? void 0 : _d.username) + ": <p>" + ((_e = data[i]) === null || _e === void 0 ? void 0 : _e.kommentar) + "</p>");
+        //Füllen der Pop Ups
     }
 });
 $.getJSON(restServer, { 'method': 'getAppointmentTitle' }, function (data) {
@@ -277,8 +268,6 @@ function UserSelect(id) {
             kommi = "" + $(this).val() + "";
         }
     });
-    alert(username);
-    alert(kommi);
     $('.terminDiv').children('input').each(function () {
         if ($(this).is(':checked')) {
             appointment = "" + $(this).val() + "";
@@ -329,7 +318,6 @@ function addOneAppo() {
     form === null || form === void 0 ? void 0 : form.appendChild(inputDatetime);
 }
 function deleteAppointment(id) {
-    //alert(id);
     var daten = {
         method: "deleteAppointment",
         title: id
@@ -381,7 +369,7 @@ function send() {
         title: oneTitle,
         ort: $("#ort").val(),
         //Ablaufdatum
-        ablaufdatum: $("#ablaufdatum").val(),
+        ablaufdatum: $("#ablaufdatum").val()
     };
     $.ajax({
         url: restServer,
@@ -404,7 +392,7 @@ function send() {
         inputdata = {
             datetime: $(this).val(),
             title: oneTitle,
-            method: "saveOneTime",
+            method: "saveOneTime"
         };
         $.ajax({
             url: restServer,

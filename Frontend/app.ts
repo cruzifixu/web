@@ -34,7 +34,6 @@ $.getJSON(restServer,
                 $('#mainpart').text(JSON.stringify(data));
           
                 //let node = document.getElementById('mainpart');
-                //alert("Hallo");
                 //get the content from the mainpart and put it in there 
                 let text = $('#mainpart').text();
                 $('#mainpart').text(" ");
@@ -251,7 +250,7 @@ $.getJSON(restServer,
             for(let i = 0; i < res.length; i++){
                //jeder termin bekommt ein pop up
                var datum = data[i]?.Datum.split(" ");
-               $("li."+data[i]?.appointment).append('<div class="popup-overlay '+datum[0]+' '+datum[1]+' col-md-12 col-lg-12 col-sm-12"><div class="col-md-12 col-lg-12 col-sm-12 popup-content"><h2>Termin Information</h2><div class="terminUser col-md-12 col-lg-12 col-sm-12"><h3>User: </h3></div><div class="terminKommis col-md-12 col-lg-12 col-sm-12"><h3>Kommentar(e): </h3><p class="userK"></p><p class="kommentare"></p></div><button  value="'+data[i]?.Datum+'" class="close '+data[i]?.appointment+'">Close</button></div></div>');
+               $("li."+data[i]?.appointment).append('<div class="popup-overlay '+datum[0]+' '+datum[1]+' col-md-12 col-lg-12 col-sm-12"><div class="col-md-12 col-lg-12 col-sm-12 popup-content"><h2>Termin Information</h2><div class="terminUser col-md-12 col-lg-12 col-sm-12"><img src="/img/catbus.png" class"usersym" style="width:80px"></img>'+data[i]?.username+' commented: </div><div class="terminKommis col-md-12 col-lg-12 col-sm-12">'+data[i]?.kommentar+'<img src="/img/jumptot.gif" class"usersym" style="width:80px"><p class="userK"></p><p class="kommentare"></p><button  value="'+data[i]?.Datum+'" class="close '+data[i]?.appointment+'">Close</button></div></div></div>');
                $(".open").on("click", function(e){
                   e.preventDefault();
                   var id = ""+$(this).val()+"";
@@ -347,10 +346,6 @@ function UserSelect(id: any) {
          }
       }
    );
-
-   alert(username);
-   alert(kommi);
-
    $('.terminDiv').children('input').each(function(){
       if($(this).is(':checked')){
          appointment = ""+$(this).val()+"";
@@ -417,7 +412,6 @@ function UserSelect(id: any) {
 
       function deleteAppointment(id : string)
       {
-         //alert(id);
          let daten = {
             method: "deleteAppointment",
             title: id
