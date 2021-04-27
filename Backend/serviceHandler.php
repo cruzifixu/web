@@ -52,10 +52,6 @@ function response($method, $httpStatus, $data)
             http_response_code($httpStatus);
             echo (json_encode($data));
             break;
-        case "PUT":
-            http_response_code($httpStatus);
-            echo $httpStatus;
-            break;
         default:
             http_response_code(405);
             echo ("Method not supported yet!");
