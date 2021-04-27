@@ -407,7 +407,6 @@ function UserSelect(id: any) {
 
          form?.appendChild(br);
          form?.appendChild(inputDatetime);
-         
       }
 
       function deleteAppointment(id : string)
@@ -527,4 +526,5 @@ function UserSelect(id: any) {
          $('#hiddenForm').children('.addOne').each(function(){
             $(this).val("");
          });
+         window.location.reload();
       }

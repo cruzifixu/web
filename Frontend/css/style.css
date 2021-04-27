@@ -6,6 +6,7 @@ body {
 }
 
 .appointmentListe {
+    overflow: auto;
     opacity: 0.8;
     list-style-type: none;
     /*Remove Bullets*/
@@ -220,7 +221,6 @@ label {
 .formDiv {
     width: 1000px;
     height: 17em;
-    overflow: auto;
     overflow-y: hidden;
     margin: 0 auto;
     white-space: nowrap

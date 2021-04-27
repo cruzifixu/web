@@ -415,4 +415,5 @@ function send() {
     $('#hiddenForm').children('.addOne').each(function () {
         $(this).val("");
     });
+    window.location.reload();
 }
