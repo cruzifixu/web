@@ -179,6 +179,7 @@ $.getJSON(restServer,
                   const formDiv = document.createElement("div");
                   formDiv.setAttribute("class", "container formDiv col-md-12 col-lg-12 col-sm-12");
 
+
                   formular.appendChild(formDiv);
 
                   /*let input = document.createElement("input") as HTMLElement;
@@ -220,7 +221,7 @@ $.getJSON(restServer,
             //check if there is a user set or not => if yes => make it unclickable
             //split datum 
             let date = data[i]?.Datum.split(" ");
-            $('#'+data[i]?.appointment+" > .formTermine > .formDiv").append("<div class='terminDiv'><label for='"+data[i]?.Datum+"'>"+date[0]+"</label><br><p>"+date[1]+"</p><p>Votes: "+data[i]?.votes+"</p><input type='radio' id='"+data[i]?.Datum+"' class='checkbox' name='"+data[i]?.Datum+"' value='"+data[i]?.Datum+"'><br><button value='"+data[i]?.Datum+"' class='open'><i class='fa fa-info-circle' aria-hidden='true'></i></button><br></div>");
+            $('#'+data[i]?.appointment+" > .formTermine > .formDiv").append("<div class='terminDiv'><label for='"+data[i]?.Datum+"'>"+date[0]+"</label><br><p>"+date[1]+"</p><p>Votes: "+data[i]?.votes+"</p><input type='radio' id='"+data[i]?.Datum+"' class='checkbox' name='"+data[i]?.Datum+"' value='"+data[i]?.Datum+"'><br><button value='"+data[i]?.Datum+"' onclick='present()' class='open'><i class='fa fa-info-circle' aria-hidden='true'></i></button><br></div>");
             //alle user können sich anmelden
          }
    });
@@ -249,18 +250,21 @@ $.getJSON(restServer,
          if(data != null) {
             for(let i = 0; i < res.length; i++){
                //jeder termin bekommt ein pop up
-               $("body").append('<div class="popup-overlay '+data[i]?.Datum+' col-md-12 col-lg-12 col-sm-12"><div class="col-md-12 col-lg-12 col-sm-12 popup-content '+data[i]?.Datum+'"><h2>Termin Information</h2><div class="terminUser col-md-12 col-lg-12 col-sm-12"><h3>User: '+data[i]?.username+'</h3></div><div class="terminKommis col-md-12 col-lg-12 col-sm-12"><h3>Kommentar(e): '+data[i]?.kommentar+'</h3><p class="userK"></p><p class="kommentare"></p></div><button value="'+data[i]?.Datum+'" class="close">Close</button></div></div>');
+               var datum = data[i]?.Datum.split(" ");
+               $("li."+data[i]?.appointment).append('<div class="popup-overlay '+datum[0]+' '+datum[1]+' col-md-12 col-lg-12 col-sm-12"><div class="col-md-12 col-lg-12 col-sm-12 popup-content"><h2>Termin Information</h2><div class="terminUser col-md-12 col-lg-12 col-sm-12"><h3>User: '+data[i]?.username+'</h3></div><div class="terminKommis col-md-12 col-lg-12 col-sm-12"><h3>Kommentar(e): '+data[i]?.kommentar+'</h3><p class="userK"></p><p class="kommentare"></p></div><button  value="'+data[i]?.Datum+'" class="close '+data[i]?.appointment+'">Close</button></div></div>');
                $(".open").on("click", function(e){
-                  var id = ""+$(this).val()+"";
-                  $(".popup, .popup-content, ."+id).show();
                   e.preventDefault();
+                  var id = ""+$(this).val()+"";
+                  var idd = id.split(" ");
                   //neu
                   $("#"+data[i]?.appointment).hide();
+                  $(".popup-overlay."+idd[0]).show();
                });
                $(".close, .popup").on("click", function(event){
-                  var id = ""+$(this).val()+"";
-                  $(".popup, .popup-content ,."+id).hide();
                   event.preventDefault();
+                  var id = ""+$(this).val()+"";
+                  var idd = id.split(" ");
+                  $(".popup-overlay."+idd[0]).hide();
                   //neu
                   $("#"+data[i]?.appointment).show();
                });
@@ -284,12 +288,16 @@ $.getJSON(restServer,
       //appointments hinzufügen
       for(let i = 0; i < res.length; i++)
       {
+         if(data[i]?.kommentar == null){
+            //es gibt keine Kommentare
+            
+         }
          //only append the div with the right Date
          //USERS:
          $(".popup-overlay > ."+data[i].Datum+" > .terminUser").append("<p>"+data[i].username+"</p>");
 
          //KOMMENTARE:
-         $("."+data[i].Datum+" > .terminKommis").append("<p>"+data[i].kommentar+"</p>");
+         $("."+data[i].Datum+" > .terminKommis").append(data[i].username+": <p>"+data[i].kommentar+"</p>");
       }
    }
 );
