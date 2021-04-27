@@ -177,11 +177,6 @@ $.getJSON(restServer, { 'method': 'queryTermine' }, function (data) {
         $('#' + ((_b = data[i]) === null || _b === void 0 ? void 0 : _b.appointment) + " > .formTermine > .formDiv").append("<div class='terminDiv'><label for='" + ((_c = data[i]) === null || _c === void 0 ? void 0 : _c.Datum) + "'>" + date[0] + "</label><br><p>" + date[1] + "</p><p>Votes: " + ((_d = data[i]) === null || _d === void 0 ? void 0 : _d.votes) + "</p><input type='radio' id='" + ((_e = data[i]) === null || _e === void 0 ? void 0 : _e.Datum) + "' class='checkbox' name='" + ((_f = data[i]) === null || _f === void 0 ? void 0 : _f.Datum) + "' value='" + ((_g = data[i]) === null || _g === void 0 ? void 0 : _g.Datum) + "'><br><button value='" + ((_h = data[i]) === null || _h === void 0 ? void 0 : _h.Datum) + "' class='open'><i class='fa fa-info-circle' aria-hidden='true'></i></button><br></div>");
         //alle user können sich anmelden
     }
-    var els = document.getElementsByClassName("open");
-    Array.prototype.forEach.call(els, function (el) {
-        // Do stuff here
-        el === null || el === void 0 ? void 0 : el.addEventListener("click", function (event) { event.preventDefault(); });
-    });
 });
 //-------------------------------------COMPLETED FORM-----------------------------------------
 $.getJSON(restServer, { 'method': 'getUserComments' }, function (data) {
@@ -201,15 +196,15 @@ $.getJSON(restServer, { 'method': 'getUserComments' }, function (data) {
             $("body").append('<div class="popup-overlay ' + ((_a = data[i]) === null || _a === void 0 ? void 0 : _a.Datum) + ' col-md-12 col-lg-12 col-sm-12"><div class="col-md-12 col-lg-12 col-sm-12 popup-content ' + ((_b = data[i]) === null || _b === void 0 ? void 0 : _b.Datum) + '"><h2>Termin Information</h2><div class="terminUser col-md-12 col-lg-12 col-sm-12"><h3>User: ' + ((_c = data[i]) === null || _c === void 0 ? void 0 : _c.username) + '</h3></div><div class="terminKommis col-md-12 col-lg-12 col-sm-12"><h3>Kommentar(e): ' + ((_d = data[i]) === null || _d === void 0 ? void 0 : _d.kommentar) + '</h3><p class="userK"></p><p class="kommentare"></p></div><button value="' + ((_e = data[i]) === null || _e === void 0 ? void 0 : _e.Datum) + '" class="close">Close</button></div></div>');
             $(".open").on("click", function (e) {
                 var _a;
-                var id = $(this).val();
-                $(".popup, .popup-content ,." + id).show();
+                var id = "" + $(this).val() + "";
+                $(".popup, .popup-content, ." + id).show();
                 e.preventDefault();
                 //neu
                 $("#" + ((_a = data[i]) === null || _a === void 0 ? void 0 : _a.appointment)).hide();
             });
             $(".close, .popup").on("click", function (event) {
                 var _a;
-                var id = $(this).val();
+                var id = "" + $(this).val() + "";
                 $(".popup, .popup-content ,." + id).hide();
                 event.preventDefault();
                 //neu

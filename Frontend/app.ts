@@ -252,14 +252,14 @@ $.getJSON(restServer,
                //jeder termin bekommt ein pop up
                $("body").append('<div class="popup-overlay '+data[i]?.Datum+' col-md-12 col-lg-12 col-sm-12"><div class="col-md-12 col-lg-12 col-sm-12 popup-content '+data[i]?.Datum+'"><h2>Termin Information</h2><div class="terminUser col-md-12 col-lg-12 col-sm-12"><h3>User: '+data[i]?.username+'</h3></div><div class="terminKommis col-md-12 col-lg-12 col-sm-12"><h3>Kommentar(e): '+data[i]?.kommentar+'</h3><p class="userK"></p><p class="kommentare"></p></div><button value="'+data[i]?.Datum+'" class="close">Close</button></div></div>');
                $(".open").on("click", function(e){
-                  var id = $(this).val();
-                  $(".popup, .popup-content ,."+id).show();
+                  var id = ""+$(this).val()+"";
+                  $(".popup, .popup-content, ."+id).show();
                   e.preventDefault();
                   //neu
                   $("#"+data[i]?.appointment).hide();
                });
                $(".close, .popup").on("click", function(event){
-                  var id = $(this).val();
+                  var id = ""+$(this).val()+"";
                   $(".popup, .popup-content ,."+id).hide();
                   event.preventDefault();
                   //neu
