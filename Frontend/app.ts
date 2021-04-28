@@ -19,8 +19,7 @@
 //hier muss jeder seinen eigenen path angeben
 let restServer: string = "http://localhost:80/SS2021/Abschlussprojekt/Pr2/web/Backend/serviceHandler.php";
 //----------------------------------DISPLAY THE APPOINTMENTS---------------------------------
-$(function(){
-   
+document.addEventListener('DOMContentLoaded', (event) => {
    interface data {
       title: string;
       Datum: string;
@@ -61,10 +60,6 @@ $(function(){
             //function to make the fields
             createInputs("text", "Titel: ", "titel");
             createInputs("text", "Ort: ", "ort");
-            //let p = document.createElement("p");
-            //const pInhalt = document.createTextNode("Ablaufdatum: ");
-            //p?.appendChild(pInhalt);
-            //form?.appendChild(p);
             createInputs("date", "Ablaufdatum: ", "ablaufdatum");
             createInputs("submit", "Submit", "submit");
 
@@ -80,7 +75,6 @@ $(function(){
            
 
            div?.appendChild(addApp);
-
            div?.appendChild(form);
            body?.appendChild(div);
       
@@ -121,7 +115,6 @@ $(function(){
               let icon = document.createElement("i")!;
               icon.setAttribute("class", "fa fa-trash");
               deleteButton.appendChild(icon);
-
               spanTitle.appendChild(deleteButton);
               spanTitle.appendChild(title);
               item.appendChild(spanTitle);
@@ -512,4 +505,4 @@ $('.terminDiv').children('input').each(function(){
      });
      window.location.reload();
   }
-});
+ })

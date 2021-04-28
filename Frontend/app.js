@@ -17,7 +17,7 @@
 //hier muss jeder seinen eigenen path angeben
 var restServer = "http://localhost:80/SS2021/Abschlussprojekt/Pr2/web/Backend/serviceHandler.php";
 //----------------------------------DISPLAY THE APPOINTMENTS---------------------------------
-$(function () {
+document.addEventListener('DOMContentLoaded', function (event) {
     $.getJSON(restServer, { 'method': 'queryPersons' }, function (data) {
         $('#mainpart').text(JSON.stringify(data));
         //get the content from the mainpart and put it in there 
@@ -44,10 +44,6 @@ $(function () {
         //function to make the fields
         createInputs("text", "Titel: ", "titel");
         createInputs("text", "Ort: ", "ort");
-        //let p = document.createElement("p");
-        //const pInhalt = document.createTextNode("Ablaufdatum: ");
-        //p?.appendChild(pInhalt);
-        //form?.appendChild(p);
         createInputs("date", "Ablaufdatum: ", "ablaufdatum");
         createInputs("submit", "Submit", "submit");
         div === null || div === void 0 ? void 0 : div.appendChild(title);
