@@ -1,5 +1,5 @@
 <?php
-include("./models/person.php");
+include("./models/appointment.php");
 
 class DataHandler
 {
@@ -29,7 +29,7 @@ class DataHandler
     }
 
     //get all Appointment
-    public function queryPersons()
+    public function queryApp()
     {
         $sql = "SELECT * FROM appointments";
         $stmt = $this->connect()->query($sql);
@@ -74,29 +74,6 @@ class DataHandler
             }
             return $data;
         }
-    }
-
-
-    public function queryPersonById($id)
-    {
-        $result = array();
-        foreach ($this->queryPersons() as $val) {
-            if ($val[0]->id == $id) {
-                array_push($result, $val);
-            }
-        }
-        return $result;
-    }
-
-    public function queryPersonByName($name)
-    {
-        $result = array();
-        foreach ($this->queryPersons() as $val) {
-            if ($val[0]->title == $name) {
-                array_push($result, $val);
-            }
-        }
-        return $result;
     }
 
 
@@ -179,6 +156,14 @@ class DataHandler
 
 
         $sql = "DELETE FROM appointments WHERE title = ?";
+        $connection = $this->connect();
+        $stmt = $connection->prepare($sql);
+        $stmt->bind_param("s", $title);
+        $stmt->execute();
+
+        $stmt->close();
+
+        $sql = "DELETE FROM users WHERE appointment = ?";
         $connection = $this->connect();
         $stmt = $connection->prepare($sql);
         $stmt->bind_param("s", $title);

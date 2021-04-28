@@ -36,8 +36,8 @@ class SimpleLogic
 
         switch ($method) {
 
-            case "queryPersons":
-                $res = $this->dh->queryPersons();
+            case "queryApp":
+                $res = $this->dh->queryApp();
                 break;
 
             case "getAppointmentTitle":

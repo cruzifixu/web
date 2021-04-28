@@ -19,7 +19,6 @@
 //hier muss jeder seinen eigenen path angeben
 let restServer: string = "http://localhost:80/SS2021/Abschlussprojekt/Pr2/web/Backend/serviceHandler.php";
 //----------------------------------DISPLAY THE APPOINTMENTS---------------------------------
-$(function(){
    
    interface data {
       title: string;
@@ -29,7 +28,7 @@ $(function(){
       Ort: string;
    }
    $.getJSON(restServer,
-      {'method':'queryPersons'},
+      {'method':'queryApp'},
       function( data: Array<data> ) {
 
             $('#mainpart').text(JSON.stringify(data));
@@ -139,8 +138,8 @@ $(function(){
               let year = datum[0];
               //is current date == data[i].Ablaufdatum?
               if(parseFloat(month) <= curMonth && curDay >= parseFloat(day) && curYear >= parseFloat(year)){
-                 title.removeEventListener("click", function(){viewDetails(id)});
-                 title.classList.add("abgelaufen");
+                 //title.removeEventListener("click", function(){viewDetails(id)});
+                 //title.classList.add("abgelaufen"); // check ob li diese klasse hat
                  item.classList.add("abgelaufenerTermin");
               }
 
@@ -209,8 +208,12 @@ function( data:Array<data> ) {
         //check if there is a user set or not => if yes => make it unclickable
         //split datum 
         let date = data[i]?.Datum.split(" ");
-        $('#'+data[i]?.appointment+" > .formTermine > .formDiv").append("<div class='terminDiv'><label for='"+data[i]?.Datum+"'>"+date[0]+"</label><br><p>"+date[1]+"</p><p>Votes: "+data[i]?.votes+"</p><input type='radio' id='"+data[i]?.Datum+"' class='checkbox' name='"+data[i]?.Datum+"' value='"+data[i]?.Datum+"'><br><button value='"+data[i]?.Datum+"' onclick='present()' class='open'><i class='fa fa-info-circle' aria-hidden='true'></i></button><br></div>");
-        //alle user können sich anmelden
+        if($("li."+data[i]?.appointment).hasClass("abgelaufenerTermin")){
+         $('#'+data[i]?.appointment+" > .formTermine > .formDiv").append("<div class='abgelaufen terminDiv'><label for='"+data[i]?.Datum+"'>"+date[0]+"</label><p>"+date[1]+"</p><p>Votes: "+data[i]?.votes+"</p><button value='"+data[i]?.Datum+"' onclick='present()' class='open'><i class='fa fa-info-circle' aria-hidden='true'></i></button><br></div>");
+        } else {
+         $('#'+data[i]?.appointment+" > .formTermine > .formDiv").append("<div class='terminDiv'><label for='"+data[i]?.Datum+"'>"+date[0]+"</label><br><p>"+date[1]+"</p><p>Votes: "+data[i]?.votes+"</p><input type='radio' id='"+data[i]?.Datum+"' class='checkbox' name='"+data[i]?.Datum+"' value='"+data[i]?.Datum+"'><br><button value='"+data[i]?.Datum+"' onclick='present()' class='open'><i class='fa fa-info-circle' aria-hidden='true'></i></button><br></div>");
+        }
+      
      }
 });
 
@@ -293,11 +296,13 @@ function( data:Array<data> )
   for(let i = 0; i < res.length; i++){
      //let funcc = "UserSelect(" + data[i]?.title + ")";
      //einfügen von namensfeldern
-     $('#'+data[i]?.title+" > .formTermine").append("<input type='text' class='namensFeld enetereduser' placeholder='Name...'><br>");
-     //einfügen von Kommentar Feld
-     $('#'+data[i]?.title+" > .formTermine").append("<input type='text'  class='namensFeld kommentar' placeholder='Kommentar...'>");
-     //einfügen von Submit Button
-     $('#'+data[i]?.title+" > .formTermine").append("<button type='submit' id='sendButton' onclick='UserSelect(this.value)' value='"+data[i]?.title+"' class='btn btn-dark submit'>send</button>");
+     if(!($('li.'+data[i]?.title).hasClass("abgelaufenerTermin"))){
+      $('#'+data[i]?.title+" > .formTermine").append("<input type='text' class='namensFeld enetereduser' placeholder='Name...'><br>");
+      //einfügen von Kommentar Feld
+      $('#'+data[i]?.title+" > .formTermine").append("<input type='text'  class='namensFeld kommentar' placeholder='Kommentar...'>");
+      //einfügen von Submit Button
+      $('#'+data[i]?.title+" > .formTermine").append("<button type='submit' id='sendButton' onclick='UserSelect(this.value)' value='"+data[i]?.title+"' class='btn btn-dark submit'>send</button>");
+     }
   }
 }
 );
@@ -323,6 +328,7 @@ $('.enetereduser').each(
   {
      if($(this).val() != null){
         username = ""+$(this).val()+"";
+        return false;
      }
   }
 );
@@ -332,9 +338,11 @@ $('.kommentar').each(
   {
      if($(this).val() != null){
         kommi = ""+$(this).val()+"";
+        return false;
      }
   }
 );
+
 $('.terminDiv').children('input').each(function(){
   if($(this).is(':checked')){
      appointment = ""+$(this).val()+"";
@@ -512,4 +520,3 @@ $('.terminDiv').children('input').each(function(){
      });
      window.location.reload();
   }
-});
